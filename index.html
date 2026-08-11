@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GameZone | Gaming Platform</title>
+  <title>GameZone | Official Gaming Website</title>
 
   <style>
     * {
@@ -20,7 +19,7 @@
     }
 
     body {
-      background: #070b12;
+      background: #060912;
       color: white;
     }
 
@@ -28,29 +27,37 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 1000;
-      background: #111827;
+      z-index: 999;
+      background: rgba(8, 13, 25, 0.96);
+      backdrop-filter: blur(10px);
       padding: 18px 7%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #263244;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
     }
 
     .logo {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: bold;
+      color: white;
     }
 
     .logo span {
       color: #38bdf8;
     }
 
+    nav {
+      display: flex;
+      gap: 22px;
+    }
+
     nav a {
-      color: white;
+      color: #e2e8f0;
       text-decoration: none;
-      margin-left: 20px;
       font-size: 15px;
+      font-weight: 600;
+      transition: 0.3s;
     }
 
     nav a:hover {
@@ -59,15 +66,18 @@
 
     /* HERO */
     .hero {
-      min-height: 85vh;
+      min-height: 88vh;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
       padding: 40px 20px;
 
       background:
-        linear-gradient(rgba(3, 7, 18, 0.75), rgba(3, 7, 18, 0.95)),
+        linear-gradient(
+          rgba(2, 6, 23, 0.70),
+          rgba(2, 6, 23, 0.96)
+        ),
         url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=80");
 
       background-size: cover;
@@ -75,12 +85,13 @@
     }
 
     .hero-content {
-      max-width: 800px;
+      max-width: 850px;
     }
 
     .hero h1 {
-      font-size: 60px;
+      font-size: 65px;
       margin-bottom: 20px;
+      line-height: 1.1;
     }
 
     .hero h1 span {
@@ -89,28 +100,32 @@
 
     .hero p {
       color: #cbd5e1;
-      font-size: 18px;
+      font-size: 19px;
       line-height: 1.7;
+      max-width: 700px;
+      margin: auto;
     }
 
     /* BUTTONS */
     .buttons {
-      margin-top: 30px;
+      margin-top: 35px;
     }
 
     .btn {
       display: inline-block;
-      padding: 15px 28px;
-      margin: 7px;
-      border-radius: 9px;
+      padding: 15px 30px;
+      margin: 6px;
+      border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
-      background: #2563eb;
       color: white;
+      background: #2563eb;
+      transition: 0.3s;
     }
 
     .btn:hover {
       background: #1d4ed8;
+      transform: translateY(-2px);
     }
 
     .btn-dark {
@@ -121,103 +136,132 @@
       background: #334155;
     }
 
-    /* GAMES */
+    /* SECTIONS */
     section {
-      padding: 70px 7%;
+      padding: 80px 7%;
+    }
+
+    .section-title {
       text-align: center;
+      font-size: 38px;
+      margin-bottom: 45px;
     }
 
-    section h2 {
-      font-size: 36px;
-      margin-bottom: 35px;
-    }
-
+    /* GAMES */
     .games {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 22px;
-      max-width: 1100px;
+      max-width: 1150px;
       margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
     }
 
     .game-card {
-      background: #111827;
-      border: 1px solid #263244;
-      border-radius: 15px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 18px;
       overflow: hidden;
-      text-align: left;
+      transition: 0.3s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-7px);
+      border-color: #2563eb;
     }
 
     .game-image {
-      height: 180px;
+      height: 190px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      font-size: 65px;
-      background: #172554;
+      justify-content: center;
+      font-size: 70px;
+      background: linear-gradient(135deg, #172554, #0f172a);
     }
 
     .game-content {
-      padding: 22px;
+      padding: 25px;
     }
 
     .game-content h3 {
-      margin-bottom: 10px;
+      font-size: 22px;
+      margin-bottom: 12px;
     }
 
     .game-content p {
       color: #94a3b8;
       line-height: 1.6;
-    }
-
-    /* NEWS */
-    .news {
-      background: #0d1422;
-    }
-
-    .news-card {
-      background: #111827;
-      padding: 25px;
-      border-radius: 12px;
-      text-align: left;
-    }
-
-    .news-card h3 {
       margin-bottom: 10px;
     }
 
-    .news-card p {
+    /* ABOUT */
+    .about {
+      background: #0b1220;
+      text-align: center;
+    }
+
+    .about-content {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .about p {
       color: #94a3b8;
-      line-height: 1.6;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    /* DOWNLOAD */
+    .download {
+      text-align: center;
+      background: linear-gradient(135deg, #111827, #172554);
+    }
+
+    .download p {
+      color: #cbd5e1;
+      margin-bottom: 20px;
     }
 
     /* FOOTER */
     footer {
-      background: #05070c;
+      background: #030712;
       text-align: center;
-      padding: 30px;
-      color: #94a3b8;
+      padding: 30px 20px;
+      color: #64748b;
+      border-top: 1px solid #1e293b;
     }
 
     /* MOBILE */
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
 
       header {
         flex-direction: column;
         gap: 15px;
       }
 
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
       nav a {
-        margin: 0 7px;
         font-size: 13px;
       }
 
       .hero h1 {
-        font-size: 42px;
+        font-size: 43px;
       }
 
       .hero p {
         font-size: 16px;
+      }
+
+      section {
+        padding: 60px 20px;
+      }
+
+      .section-title {
+        font-size: 30px;
       }
     }
   </style>
@@ -226,7 +270,7 @@
 
 <body>
 
-  <!-- ONE HEADER ONLY -->
+  <!-- NAVIGATION -->
   <header>
 
     <div class="logo">
@@ -247,7 +291,7 @@
   </header>
 
 
-  <!-- HOME -->
+  <!-- HERO -->
   <section class="hero" id="home">
 
     <div class="hero-content">
@@ -257,8 +301,9 @@
       </h1>
 
       <p>
-        Discover amazing adventures, exciting missions,
-        multiplayer experiences and a world built for gamers.
+        Enter a new world of gaming, adventure,
+        missions and competition. Discover games,
+        complete challenges and become the best player.
       </p>
 
       <div class="buttons">
@@ -278,10 +323,12 @@
   </section>
 
 
-  <!-- GAMES -->
+  <!-- FEATURED GAMES -->
   <section id="games">
 
-    <h2>🔥 Featured Games</h2>
+    <h2 class="section-title">
+      🔥 Featured Games
+    </h2>
 
     <div class="games">
 
@@ -296,8 +343,8 @@
           <h3>GameZone Adventure</h3>
 
           <p>
-            Explore a huge world, discover new places
-            and complete exciting missions.
+            Explore a huge world, discover new
+            locations and complete exciting missions.
           </p>
 
           <a href="game.html" class="btn">
@@ -320,12 +367,12 @@
           <h3>Street Racing</h3>
 
           <p>
-            Drive cars, compete with players
-            and become the best racer.
+            Drive fast cars, compete with other
+            players and become the best racer.
           </p>
 
           <a href="game.html" class="btn">
-            VIEW GAME
+            PLAY NOW
           </a>
 
         </div>
@@ -344,8 +391,8 @@
           <h3>Battle World</h3>
 
           <p>
-            Complete challenging missions
-            and experience exciting gameplay.
+            Complete challenging missions and
+            experience exciting gameplay.
           </p>
 
           <a href="game.html" class="btn">
@@ -361,47 +408,31 @@
   </section>
 
 
-  <!-- NEWS -->
-  <section class="news">
+  <!-- ABOUT -->
+  <section class="about" id="about">
 
-    <h2>📰 Latest News</h2>
+    <div class="about-content">
 
-    <div class="games">
+      <h2 class="section-title">
+        🌍 About GameZone
+      </h2>
 
-      <div class="news-card">
+      <p>
+        GameZone is a gaming platform created for
+        players who love adventure, competition
+        and exciting gaming experiences.
+      </p>
 
-        <h3>🚀 New Game Update</h3>
+      <br>
 
-        <p>
-          New features and gameplay improvements
-          are coming soon.
-        </p>
+      <p>
+        Explore games, complete missions, follow
+        updates and compete on the leaderboard.
+      </p>
 
-      </div>
-
-
-      <div class="news-card">
-
-        <h3>🏆 Community Event</h3>
-
-        <p>
-          Stay connected with the GameZone
-          community and upcoming events.
-        </p>
-
-      </div>
-
-
-      <div class="news-card">
-
-        <h3>📱 Mobile Version</h3>
-
-        <p>
-          A mobile version of GameZone is planned
-          for future development.
-        </p>
-
-      </div>
+      <a href="about.html" class="btn">
+        LEARN MORE
+      </a>
 
     </div>
 
@@ -409,16 +440,19 @@
 
 
   <!-- DOWNLOAD -->
-  <section>
+  <section class="download" id="download">
 
-    <h2>🎮 Ready to Play?</h2>
+    <h2 class="section-title">
+      📱 Download GameZone
+    </h2>
 
-    <p style="color:#94a3b8;">
-      Start your GameZone adventure today.
+    <p>
+      Ready to start your adventure?
+      Download GameZone and start playing.
     </p>
 
     <a href="download.html" class="btn">
-      📱 DOWNLOAD GAME
+      📥 DOWNLOAD GAME
     </a>
 
   </section>
@@ -427,10 +461,11 @@
   <!-- FOOTER -->
   <footer>
 
-    © 2026 GameZone — All Rights Reserved.
+    <p>
+      © 2026 GameZone — All Rights Reserved.
+    </p>
 
   </footer>
-
 
 </body>
 </html>
