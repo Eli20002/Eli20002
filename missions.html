@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missions & Leaderboard | GameZone</title>
+
+  <title>Missions | GameZone</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -38,129 +41,137 @@
     nav a {
       color: white;
       text-decoration: none;
-      margin-left: 18px;
+      margin-left: 15px;
     }
 
     nav a:hover {
       color: #38bdf8;
     }
 
-    .hero {
-      text-align: center;
-      padding: 65px 20px;
-      background: linear-gradient(135deg, #111827, #172554);
-    }
-
-    .hero h1 {
-      font-size: 45px;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      color: #cbd5e1;
-    }
-
-    section {
-      padding: 55px 7%;
+    .container {
       max-width: 1100px;
       margin: auto;
+      padding: 50px 7%;
     }
 
-    h2 {
+    h1 {
       text-align: center;
-      margin-bottom: 30px;
-      font-size: 32px;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
     }
 
     .missions {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
     }
 
     .mission {
       background: #111827;
-      padding: 25px;
-      border-radius: 14px;
       border: 1px solid #1e293b;
+      border-radius: 15px;
+      padding: 25px;
     }
 
-    .mission h3 {
-      margin-bottom: 12px;
+    .mission h2 {
+      margin-bottom: 10px;
     }
 
     .mission p {
       color: #94a3b8;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    .progress {
-      margin-top: 18px;
-      height: 9px;
-      background: #1e293b;
-      border-radius: 10px;
-      overflow: hidden;
+    .points {
+      color: #38bdf8;
+      font-weight: bold;
+      margin-top: 15px;
     }
 
-    .progress-bar {
-      height: 100%;
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 13px;
+      border: 0;
+      border-radius: 8px;
       background: #2563eb;
-      width: 70%;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
     }
 
     .leaderboard {
-      width: 100%;
-      border-collapse: collapse;
+      margin-top: 60px;
       background: #111827;
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: 15px;
+      padding: 25px;
+      overflow-x: auto;
     }
 
-    .leaderboard th,
-    .leaderboard td {
-      padding: 17px;
+    .leaderboard h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 14px;
       text-align: left;
       border-bottom: 1px solid #1e293b;
     }
 
-    .leaderboard th {
-      background: #172554;
+    th {
+      color: #38bdf8;
     }
 
-    .leaderboard tr:hover {
-      background: #182235;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 13px 25px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
+    #message {
+      text-align: center;
+      margin-top: 20px;
+      color: #38bdf8;
     }
 
     footer {
-      background: #05070c;
+      margin-top: 50px;
       padding: 25px;
       text-align: center;
+      background: #05070c;
       color: #94a3b8;
     }
 
     @media (max-width: 650px) {
+
       header {
         flex-direction: column;
         gap: 15px;
       }
 
-      nav a {
-        margin: 0 6px;
-        font-size: 13px;
+      nav {
+        text-align: center;
       }
 
-      .leaderboard {
+      nav a {
+        margin: 0 5px;
         font-size: 13px;
       }
     }
@@ -169,147 +180,314 @@
 
 <body>
 
-  <header>
+<header>
 
-    <div class="logo">
-      🎮 Game<span>Zone</span>
-    </div>
-
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="game.html">Game</a>
-      <a href="news.html">News</a>
-      <a href="missions.html">Missions</a>
-      <a href="about.html">About</a>
-    </nav>
-
-  </header>
-
-
-  <div class="hero">
-
-    <h1>🏆 Missions & Leaderboard</h1>
-
-    <p>
-      Complete missions and become one of the top players.
-    </p>
-
+  <div class="logo">
+    🎮 Game<span>Zone</span>
   </div>
 
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="game.html">Game</a>
+    <a href="news.html">News</a>
+    <a href="missions.html">Missions</a>
+    <a href="download.html">Download</a>
+    <a href="profile.html">Profile</a>
+  </nav>
 
-  <section>
+</header>
 
-    <h2>🎯 Missions</h2>
 
-    <div class="missions">
+<main class="container">
 
-      <div class="mission">
+  <h1>🏆 Missions</h1>
 
-        <h3>🚗 First Drive</h3>
+  <p class="intro">
+    Complete missions and earn points.
+  </p>
 
-        <p>
-          Complete your first driving mission.
-        </p>
 
-        <div class="progress">
-          <div class="progress-bar" style="width: 70%;"></div>
-        </div>
+  <section class="missions">
 
-        <p>Progress: 70%</p>
+    <div class="mission">
 
+      <h2>🎮 First Login</h2>
+
+      <p>
+        Log in to your GameZone account.
+      </p>
+
+      <div class="points">
+        +100 Points
       </div>
 
+      <button onclick="completeMission(100, this)">
+        Complete
+      </button>
 
-      <div class="mission">
+    </div>
 
-        <h3>🌍 Explorer</h3>
 
-        <p>
-          Explore 5 different locations.
-        </p>
+    <div class="mission">
 
-        <div class="progress">
-          <div class="progress-bar" style="width: 45%;"></div>
-        </div>
+      <h2>🌍 Explore GameZone</h2>
 
-        <p>Progress: 45%</p>
+      <p>
+        Explore the GameZone world.
+      </p>
 
+      <div class="points">
+        +250 Points
       </div>
 
+      <button onclick="completeMission(250, this)">
+        Complete
+      </button>
 
-      <div class="mission">
+    </div>
 
-        <h3>🏆 Champion</h3>
 
-        <p>
-          Complete 10 successful missions.
-        </p>
+    <div class="mission">
 
-        <div class="progress">
-          <div class="progress-bar" style="width: 30%;"></div>
-        </div>
+      <h2>🏆 Champion</h2>
 
-        <p>Progress: 30%</p>
+      <p>
+        Complete your first challenge.
+      </p>
 
+      <div class="points">
+        +500 Points
       </div>
+
+      <button onclick="completeMission(500, this)">
+        Complete
+      </button>
 
     </div>
 
   </section>
 
 
-  <section>
+  <div id="message"></div>
 
-    <h2>🥇 Leaderboard</h2>
 
-    <table class="leaderboard">
+  <section class="leaderboard">
 
-      <tr>
-        <th>Rank</th>
-        <th>Player</th>
-        <th>Points</th>
-      </tr>
+    <h2>🏆 Leaderboard</h2>
 
-      <tr>
-        <td>🥇 1</td>
-        <td>PlayerOne</td>
-        <td>15,420</td>
-      </tr>
+    <table>
 
-      <tr>
-        <td>🥈 2</td>
-        <td>GamerPro</td>
-        <td>13,850</td>
-      </tr>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th>Points</th>
+        </tr>
+      </thead>
 
-      <tr>
-        <td>🥉 3</td>
-        <td>GameMaster</td>
-        <td>12,600</td>
-      </tr>
-
-      <tr>
-        <td>4</td>
-        <td>Shadow</td>
-        <td>10,950</td>
-      </tr>
+      <tbody id="leaderboard">
+        <tr>
+          <td colspan="3">
+            Loading...
+          </td>
+        </tr>
+      </tbody>
 
     </table>
 
-    <div style="text-align:center;">
-
-      <a href="index.html" class="btn">
-        🏠 Back Home
-      </a>
-
-    </div>
-
   </section>
 
+</main>
 
-  <footer>
-    © 2026 GameZone — All Rights Reserved.
-  </footer>
+
+<footer>
+  © 2026 GameZone — All Rights Reserved.
+</footer>
+
+
+<script>
+
+  const SUPABASE_URL = "YOUR_PROJECT_URL";
+
+  const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  async function checkUser() {
+
+    const {
+      data: {
+        user
+      }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+      document.getElementById("message")
+        .textContent =
+        "🔐 Please login first.";
+
+      return null;
+    }
+
+    return user;
+  }
+
+
+  async function completeMission(points, button) {
+
+    const user = await checkUser();
+
+    if (!user) {
+      return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent = "Completed ✓";
+
+
+    const {
+      data: profile,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("points")
+      .eq("id", user.id)
+      .single();
+
+
+    if (error) {
+
+      document.getElementById("message")
+        .textContent =
+        "❌ " + error.message;
+
+      return;
+    }
+
+
+    const currentPoints =
+      profile.points || 0;
+
+
+    const newPoints =
+      currentPoints + points;
+
+
+    const { error: updateError } =
+      await supabaseClient
+        .from("profiles")
+        .update({
+          points: newPoints
+        })
+        .eq("id", user.id);
+
+
+    if (updateError) {
+
+      document.getElementById("message")
+        .textContent =
+        "❌ " + updateError.message;
+
+      button.disabled = false;
+
+      button.textContent = "Complete";
+
+      return;
+    }
+
+
+    document.getElementById("message")
+      .textContent =
+      "🎉 Mission completed! +" +
+      points +
+      " points";
+
+
+    loadLeaderboard();
+
+  }
+
+
+  async function loadLeaderboard() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("username, points")
+      .order("points", {
+        ascending: false
+      })
+      .limit(20);
+
+
+    const table =
+      document.getElementById("leaderboard");
+
+
+    if (error) {
+
+      table.innerHTML =
+        `<tr>
+          <td colspan="3">
+            Unable to load leaderboard
+          </td>
+        </tr>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      table.innerHTML =
+        `<tr>
+          <td colspan="3">
+            No players yet.
+          </td>
+        </tr>`;
+
+      return;
+    }
+
+
+    table.innerHTML = "";
+
+
+    data.forEach(function(player, index) {
+
+      const row =
+        document.createElement("tr");
+
+
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${player.username}</td>
+        <td>${player.points || 0}</td>
+      `;
+
+
+      table.appendChild(row);
+
+    });
+
+  }
+
+
+  loadLeaderboard();
+
+</script>
 
 </body>
 </html>
