@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missions & Leaderboard | GameZone</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #070b12;
+      color: white;
+    }
+
+    header {
+      background: #111827;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 18px;
+    }
+
+    nav a:hover {
+      color: #38bdf8;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 65px 20px;
+      background: linear-gradient(135deg, #111827, #172554);
+    }
+
+    .hero h1 {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+    }
+
+    section {
+      padding: 55px 7%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+
+    .missions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .mission {
+      background: #111827;
+      padding: 25px;
+      border-radius: 14px;
+      border: 1px solid #1e293b;
+    }
+
+    .mission h3 {
+      margin-bottom: 12px;
+    }
+
+    .mission p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .progress {
+      margin-top: 18px;
+      height: 9px;
+      background: #1e293b;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #2563eb;
+      width: 70%;
+    }
+
+    .leaderboard {
+      width: 100%;
+      border-collapse: collapse;
+      background: #111827;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .leaderboard th,
+    .leaderboard td {
+      padding: 17px;
+      text-align: left;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .leaderboard th {
+      background: #172554;
+    }
+
+    .leaderboard tr:hover {
+      background: #182235;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 13px 25px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #05070c;
+      padding: 25px;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 650px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav a {
+        margin: 0 6px;
+        font-size: 13px;
+      }
+
+      .leaderboard {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      🎮 Game<span>Zone</span>
+    </div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="game.html">Game</a>
+      <a href="news.html">News</a>
+      <a href="missions.html">Missions</a>
+      <a href="about.html">About</a>
+    </nav>
+
+  </header>
+
+
+  <div class="hero">
+
+    <h1>🏆 Missions & Leaderboard</h1>
+
+    <p>
+      Complete missions and become one of the top players.
+    </p>
+
+  </div>
+
+
+  <section>
+
+    <h2>🎯 Missions</h2>
+
+    <div class="missions">
+
+      <div class="mission">
+
+        <h3>🚗 First Drive</h3>
+
+        <p>
+          Complete your first driving mission.
+        </p>
+
+        <div class="progress">
+          <div class="progress-bar" style="width: 70%;"></div>
+        </div>
+
+        <p>Progress: 70%</p>
+
+      </div>
+
+
+      <div class="mission">
+
+        <h3>🌍 Explorer</h3>
+
+        <p>
+          Explore 5 different locations.
+        </p>
+
+        <div class="progress">
+          <div class="progress-bar" style="width: 45%;"></div>
+        </div>
+
+        <p>Progress: 45%</p>
+
+      </div>
+
+
+      <div class="mission">
+
+        <h3>🏆 Champion</h3>
+
+        <p>
+          Complete 10 successful missions.
+        </p>
+
+        <div class="progress">
+          <div class="progress-bar" style="width: 30%;"></div>
+        </div>
+
+        <p>Progress: 30%</p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section>
+
+    <h2>🥇 Leaderboard</h2>
+
+    <table class="leaderboard">
+
+      <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Points</th>
+      </tr>
+
+      <tr>
+        <td>🥇 1</td>
+        <td>PlayerOne</td>
+        <td>15,420</td>
+      </tr>
+
+      <tr>
+        <td>🥈 2</td>
+        <td>GamerPro</td>
+        <td>13,850</td>
+      </tr>
+
+      <tr>
+        <td>🥉 3</td>
+        <td>GameMaster</td>
+        <td>12,600</td>
+      </tr>
+
+      <tr>
+        <td>4</td>
+        <td>Shadow</td>
+        <td>10,950</td>
+      </tr>
+
+    </table>
+
+    <div style="text-align:center;">
+
+      <a href="index.html" class="btn">
+        🏠 Back Home
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+    © 2026 GameZone — All Rights Reserved.
+  </footer>
+
+</body>
+</html>
