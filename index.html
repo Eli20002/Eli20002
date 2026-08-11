@@ -240,3 +240,419 @@
 </n
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GameZone | Gaming Platform</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #070b12;
+      color: white;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #0d1422;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 22px;
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      color: #38bdf8;
+    }
+
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+
+      background:
+        linear-gradient(rgba(3,7,18,.72), rgba(3,7,18,.95)),
+        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=80");
+
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #38bdf8;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 28px;
+      margin: 7px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: bold;
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-dark {
+      background: #1e293b;
+    }
+
+    .btn-dark:hover {
+      background: #334155;
+    }
+
+    section {
+      padding: 75px 7%;
+      text-align: center;
+    }
+
+    section h2 {
+      font-size: 36px;
+      margin-bottom: 35px;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .game-card {
+      background: #111827;
+      border: 1px solid #1e293b;
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .game-image {
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 65px;
+      background: #172554;
+    }
+
+    .game-content {
+      padding: 22px;
+    }
+
+    .game-content h3 {
+      margin-bottom: 10px;
+    }
+
+    .game-content p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .news {
+      background: #0d1422;
+    }
+
+    .news-card {
+      background: #111827;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .news-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .news-card p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: #05070c;
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav a {
+        margin: 0 6px;
+        font-size: 13px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+
+    <div class="logo">🎮 GameZone</div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="game.html">Game</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h1>Welcome to <span>GameZone</span></h1>
+
+      <p>
+        Discover amazing adventures, exciting missions,
+        multiplayer experiences and a world built for gamers.
+      </p>
+
+      <div class="buttons">
+
+        <a href="game.html" class="btn">
+          🎮 PLAY GAME
+        </a>
+
+        <a href="#games" class="btn btn-dark">
+          🔥 EXPLORE
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FEATURED GAMES -->
+  <section id="games">
+
+    <h2>🔥 Featured Games</h2>
+
+    <div class="games">
+
+      <div class="game-card">
+
+        <div class="game-image">
+          🌍
+        </div>
+
+        <div class="game-content">
+
+          <h3>GameZone Adventure</h3>
+
+          <p>
+            Explore a huge world, discover new places
+            and complete exciting missions.
+          </p>
+
+          <a href="game.html" class="btn">
+            PLAY NOW
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="game-image">
+          🚗
+        </div>
+
+        <div class="game-content">
+
+          <h3>Street Racing</h3>
+
+          <p>
+            Drive fast cars, compete with players
+            and become the best racer.
+          </p>
+
+          <a href="game.html" class="btn">
+            VIEW GAME
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="game-card">
+
+        <div class="game-image">
+          ⚔️
+        </div>
+
+        <div class="game-content">
+
+          <h3>Battle World</h3>
+
+          <p>
+            Complete challenging missions and
+            experience exciting gameplay.
+          </p>
+
+          <a href="game.html" class="btn">
+            PLAY NOW
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- NEWS -->
+  <section class="news">
+
+    <h2>📰 Latest News</h2>
+
+    <div class="games">
+
+      <div class="news-card">
+
+        <h3>🚀 New Game Update</h3>
+
+        <p>
+          New features and exciting gameplay
+          improvements are coming soon.
+        </p>
+
+      </div>
+
+
+      <div class="news-card">
+
+        <h3>🏆 Community Event</h3>
+
+        <p>
+          Stay connected with the GameZone
+          community and upcoming events.
+        </p>
+
+      </div>
+
+
+      <div class="news-card">
+
+        <h3>📱 Mobile Version</h3>
+
+        <p>
+          A mobile version of GameZone is
+          planned for future development.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DOWNLOAD -->
+  <section>
+
+    <h2>🎮 Ready to Play?</h2>
+
+    <p style="color:#94a3b8;">
+      Start your GameZone adventure today.
+    </p>
+
+    <a href="game.html" class="btn">
+      START GAME 🚀
+    </a>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <p>
+      © 2026 GameZone — All Rights Reserved.
+    </p>
+
+  </footer>
+
+</body>
+</html>
