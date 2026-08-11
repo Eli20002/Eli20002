@@ -3,38 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>GameZone</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
       background: #080b12;
       color: white;
+      text-align: center;
     }
 
     header {
       background: #111827;
-      padding: 18px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 20px;
     }
 
     .logo {
-      font-size: 25px;
+      font-size: 28px;
       font-weight: bold;
     }
 
-    nav a {
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: linear-gradient(135deg, #111827, #1e3a8a);
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 55px;
+    }
+
+    p {
+      color: #cbd5e1;
+      font-size: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 15px 35px;
+      background: #2563eb;
       color: white;
       text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    #games {
+      padding: 70px 20px;
+      background: #0f172a;
+    }
+
+    .game {
+      max-width: 350px;
+      margin: 20px auto;
+      padding: 30px;
+      background: #111827;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🎮 GameZone</div>
+  </header>
+
+  <section class="hero">
+    <h1>GameZone</h1>
+
+    <p>Welcome to the world of gaming.</p>
+
+    <a href="#games" class="btn">START GAME 🎮</a>
+  </section>
+
+  <section id="games">
+
+    <h2>🎮 Games</h2>
+
+    <div class="game">
+      <h3>GameZone Adventure</h3>
+      <p>Explore the world and start your adventure.</p>
+
+      <a href="#" class="btn">PLAY NOW</a>
+    </div>
+
+  </section>
+
+</body>
+</html>      text-decoration: none;
       margin-left: 20px;
     }
 
