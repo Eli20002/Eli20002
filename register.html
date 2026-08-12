@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Create Account | GameZone</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -112,7 +111,7 @@
   <div class="box">
 
     <div class="logo">
-      🎮 Game<span>Zone</span>
+      Game<span>Zone</span>
     </div>
 
     <p class="subtitle">
@@ -121,7 +120,7 @@
 
     <form id="registerForm">
 
-      <label>Username</label>
+      <label for="username">Username</label>
 
       <input
         id="username"
@@ -132,7 +131,7 @@
         required
       >
 
-      <label>Email</label>
+      <label for="email">Email</label>
 
       <input
         id="email"
@@ -141,7 +140,7 @@
         required
       >
 
-      <label>Password</label>
+      <label for="password">Password</label>
 
       <input
         id="password"
@@ -152,7 +151,7 @@
       >
 
       <button id="registerButton" type="submit">
-        🚀 CREATE ACCOUNT
+        CREATE ACCOUNT
       </button>
 
     </form>
@@ -160,32 +159,28 @@
     <div id="message"></div>
 
     <div class="links">
-
       <p>
         Already have an account?
         <a href="login.html">Login</a>
       </p>
 
-      <a href="index.html">🏠 Back Home</a>
-
+      <a href="index.html">Back Home</a>
     </div>
 
   </div>
 
-
   <script>
+    const SUPABASE_URL =
+      "https://alkqucmjfzzdseqegcmg.supabase.co";
 
-    const SUPABASE_URL = "YOUR_PROJECT_URL";
-
-    const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
-
+    const SUPABASE_KEY =
+      "YOUR_REAL_SUPABASE_PUBLISHABLE_KEY";
 
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
-
 
     const form =
       document.getElementById("registerForm");
@@ -196,52 +191,37 @@
     const message =
       document.getElementById("message");
 
+    form.addEventListener("submit", async function(event) {
 
-    form.addEventListener(
-      "submit",
-      async function(event) {
+      event.preventDefault();
 
-        event.preventDefault();
+      const username =
+        document.getElementById("username").value.trim();
 
+      const email =
+        document.getElementById("email").value.trim();
 
-        const username =
-          document
-            .getElementById("username")
-            .value
-            .trim();
+      const password =
+        document.getElementById("password").value;
 
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
+      message.textContent = "";
 
-        const password =
-          document
-            .getElementById("password")
-            .value;
+      if (username.length < 3) {
+        message.textContent =
+          "Username must be at least 3 characters.";
+        return;
+      }
 
+      if (password.length < 6) {
+        message.textContent =
+          "Password must be at least 6 characters.";
+        return;
+      }
 
-        if (username.length < 3) {
+      button.disabled = true;
+      button.textContent = "Creating account...";
 
-          message.textContent =
-            "❌ Username must be at least 3 characters.";
-
-          return;
-        }
-
-
-        button.disabled = true;
-
-        button.textContent =
-          "Creating account...";
-
-        message.textContent = "";
-
-
-        /*
-          Check whether username already exists.
-        */
+      try {
 
         const {
           data: existingUser,
@@ -252,38 +232,18 @@
           .eq("username", username)
           .maybeSingle();
 
-
         if (usernameError) {
-
-          message.textContent =
-            "❌ " + usernameError.message;
-
-          button.disabled = false;
-
-          button.textContent =
-            "🚀 CREATE ACCOUNT";
-
-          return;
+          throw usernameError;
         }
-
 
         if (existingUser) {
-
           message.textContent =
-            "❌ Username already exists.";
+            "Username already exists.";
 
           button.disabled = false;
-
-          button.textContent =
-            "🚀 CREATE ACCOUNT";
-
+          button.textContent = "CREATE ACCOUNT";
           return;
         }
-
-
-        /*
-          Create Supabase Auth account.
-        */
 
         const {
           data,
@@ -293,38 +253,15 @@
           password: password
         });
 
-
         if (error) {
-
-          message.textContent =
-            "❌ " + error.message;
-
-          button.disabled = false;
-
-          button.textContent =
-            "🚀 CREATE ACCOUNT";
-
-          return;
+          throw error;
         }
-
 
         if (!data.user) {
-
-          message.textContent =
-            "❌ Account could not be created.";
-
-          button.disabled = false;
-
-          button.textContent =
-            "🚀 CREATE ACCOUNT";
-
-          return;
+          throw new Error(
+            "Account could not be created."
+          );
         }
-
-
-        /*
-          Create player profile.
-        */
 
         const {
           error: profileError
@@ -337,56 +274,42 @@
             points: 0
           });
 
-
         if (profileError) {
-
-          message.textContent =
-            "❌ Profile error: "
-            + profileError.message;
-
-          button.disabled = false;
-
-          button.textContent =
-            "🚀 CREATE ACCOUNT";
-
-          return;
+          throw profileError;
         }
-
-
-        /*
-          Account successfully created.
-        */
 
         if (data.session) {
 
           message.textContent =
-            "✅ Account created successfully!";
+            "Account created successfully!";
 
-          setTimeout(function() {
-
+          setTimeout(() => {
             window.location.href =
               "profile.html";
-
           }, 1000);
 
         } else {
 
           message.textContent =
-            "✅ Account created! Check your email to confirm your account.";
+            "Account created. Check your email to confirm your account.";
 
           button.disabled = false;
-
-          button.textContent =
-            "🚀 CREATE ACCOUNT";
+          button.textContent = "CREATE ACCOUNT";
         }
 
-      }
-    );
+      } catch (error) {
 
+        console.error(error);
+
+        message.textContent =
+          error.message || "Something went wrong.";
+
+        button.disabled = false;
+        button.textContent = "CREATE ACCOUNT";
+      }
+
+    });
   </script>
 
 </body>
 </html>
-const SUPABASE_URL = "https://alkqucmjfzzdseqegcmg.supabase.co";
-
-const SUPABASE_KEY = "sb_publishable_YourFullKeyHere";
