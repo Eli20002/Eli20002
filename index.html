@@ -267,9 +267,9 @@
 
   <script>
 
-    /* ===============================
-       SUPABASE
-    =============================== */
+    // =====================================
+    // SUPABASE CONNECTION
+    // =====================================
 
     const SUPABASE_URL =
       "https://ayaaiycdzuzxcouybknc.supabase.co";
@@ -284,9 +284,9 @@
       );
 
 
-    /* ===============================
-       LOAD GAMES
-    =============================== */
+    // =====================================
+    // LOAD GAMES
+    // =====================================
 
     async function loadGames() {
 
@@ -299,85 +299,165 @@
         </div>
       `;
 
-      const { data, error } =
-        await supabaseClient
-          .from("game")
-          .select("id, created_at, games")
-          .order("created_at", {
-            ascending: false
-          });
 
-      console.log("GAME DATA:", data);
-      console.log("GAME ERROR:", error);
+      try {
+
+        const { data, error } =
+          await supabaseClient
+            .from("game")
+            .select("*")
+            .order("created_at", {
+              ascending: false
+            });
 
 
-      if (error) {
+        console.log("GAME DATA:", data);
+        console.log("GAME ERROR:", error);
+
+
+        // ERROR
+
+        if (error) {
+
+          list.innerHTML = `
+            <div class="error">
+              ❌ ${error.message}
+            </div>
+          `;
+
+          return;
+        }
+
+
+        // EMPTY
+
+        if (!data || data.length === 0) {
+
+          list.innerHTML = `
+            <div class="empty">
+              No games available yet.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        // CLEAR
+
+        list.innerHTML = "";
+
+
+        // DISPLAY GAMES
+
+        data.forEach(game => {
+
+          const card =
+            document.createElement("div");
+
+          card.className = "card";
+
+
+          const icon =
+            document.createElement("div");
+
+          icon.className = "game-icon";
+
+          icon.innerText = "🎮";
+
+
+          const title =
+            document.createElement("h3");
+
+
+          /*
+             Different possible column names
+          */
+
+          const gameName =
+            game.name ||
+            game.title ||
+            game.game_name ||
+            game.game ||
+            "SomCity Game";
+
+
+          title.innerText =
+            gameName;
+
+
+          const description =
+            document.createElement("p");
+
+
+          description.innerText =
+            game.description ||
+            "Play and discover this game on SomCity.";
+
+
+          card.appendChild(icon);
+          card.appendChild(title);
+          card.appendChild(description);
+
+
+          // GAME LINK
+
+          if (game.game_url || game.url) {
+
+            const link =
+              document.createElement("a");
+
+            link.href =
+              game.game_url || game.url;
+
+            link.target = "_blank";
+
+            link.rel = "noopener noreferrer";
+
+            link.innerText =
+              "▶ Play Game";
+
+            link.style.display = "inline-block";
+            link.style.marginTop = "15px";
+            link.style.color = "#2f8cff";
+            link.style.textDecoration = "none";
+            link.style.fontWeight = "bold";
+
+            card.appendChild(link);
+
+          }
+
+
+          list.appendChild(card);
+
+        });
+
+      }
+
+      catch (error) {
+
+        console.error(error);
 
         list.innerHTML = `
           <div class="error">
-            ${error.message}
+            ❌ Failed to load games.
           </div>
         `;
 
-        return;
       }
-
-
-      if (!data || data.length === 0) {
-
-        list.innerHTML = `
-          <div class="empty">
-            No games available yet.
-          </div>
-        `;
-
-        return;
-      }
-
-
-      list.innerHTML = "";
-
-
-      data.forEach(game => {
-
-        const card =
-          document.createElement("div");
-
-        card.className = "card";
-
-
-        const name =
-          document.createElement("h3");
-
-        name.innerText =
-          "🎮 " + (game.games || "Unnamed Game");
-
-
-        const description =
-          document.createElement("p");
-
-        description.innerText =
-          "Play and discover this game on SomCity.";
-
-
-        card.appendChild(name);
-        card.appendChild(description);
-
-        list.appendChild(card);
-
-      });
 
     }
 
 
-    /* ===============================
-       LOAD NEWS
-    =============================== */
+    // =====================================
+    // LOAD NEWS
+    // =====================================
 
     async function loadNews() {
 
       const list =
         document.getElementById("newsList");
+
 
       list.innerHTML = `
         <div class="loading">
@@ -386,101 +466,131 @@
       `;
 
 
-      const { data, error } =
-        await supabaseClient
-          .from("news")
-          .select("*")
-          .order("created_at", {
-            ascending: false
-          });
+      try {
+
+        const { data, error } =
+          await supabaseClient
+            .from("news")
+            .select("*")
+            .order("created_at", {
+              ascending: false
+            });
 
 
-      console.log("NEWS DATA:", data);
-      console.log("NEWS ERROR:", error);
+        console.log("NEWS DATA:", data);
+        console.log("NEWS ERROR:", error);
 
 
-      if (error) {
+        // ERROR
 
-        list.innerHTML = `
-          <div class="error">
-            ${error.message}
-          </div>
-        `;
+        if (error) {
 
-        return;
-      }
+          list.innerHTML = `
+            <div class="error">
+              ❌ ${error.message}
+            </div>
+          `;
 
-
-      if (!data || data.length === 0) {
-
-        list.innerHTML = `
-          <div class="empty">
-            No news available yet.
-          </div>
-        `;
-
-        return;
-      }
-
-
-      list.innerHTML = "";
-
-
-      data.forEach(news => {
-
-        const card =
-          document.createElement("div");
-
-        card.className = "card";
-
-        card.style.marginBottom = "12px";
-
-
-        const title =
-          document.createElement("h3");
-
-        title.innerText =
-          "📰 " + (news.title || "News");
-
-
-        const content =
-          document.createElement("p");
-
-        content.innerText =
-          news.content || "";
-
-
-        const date =
-          document.createElement("div");
-
-        date.className = "date";
-
-
-        if (news.created_at) {
-
-          date.innerText =
-            new Date(news.created_at)
-              .toLocaleString();
-
+          return;
         }
 
 
-        card.appendChild(title);
-        card.appendChild(content);
-        card.appendChild(date);
+        // EMPTY
 
-        list.appendChild(card);
+        if (!data || data.length === 0) {
 
-      });
+          list.innerHTML = `
+            <div class="empty">
+              No news available yet.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        // CLEAR
+
+        list.innerHTML = "";
+
+
+        // DISPLAY NEWS
+
+        data.forEach(news => {
+
+          const card =
+            document.createElement("div");
+
+          card.className = "card";
+
+          card.style.marginBottom = "12px";
+
+
+          const title =
+            document.createElement("h3");
+
+          title.innerText =
+            "📰 " +
+            (news.title || "News");
+
+
+          const content =
+            document.createElement("p");
+
+          content.innerText =
+            news.content ||
+            news.description ||
+            "";
+
+
+          const date =
+            document.createElement("div");
+
+          date.className = "date";
+
+
+          if (news.created_at) {
+
+            date.innerText =
+              new Date(
+                news.created_at
+              ).toLocaleString();
+
+          }
+
+
+          card.appendChild(title);
+          card.appendChild(content);
+          card.appendChild(date);
+
+
+          list.appendChild(card);
+
+        });
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        list.innerHTML = `
+          <div class="error">
+            ❌ Failed to load news.
+          </div>
+        `;
+
+      }
 
     }
 
 
-    /* ===============================
-       START
-    =============================== */
+    // =====================================
+    // START WEBSITE
+    // =====================================
 
     loadGames();
+
     loadNews();
 
   </script>
