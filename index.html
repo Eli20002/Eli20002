@@ -1,599 +1,1105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>SomCity</title>
+<title>SomCity Games</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+body{
+  background:#07111f;
+  color:white;
+}
 
-    body {
-      background: #07111f;
-      color: white;
-      min-height: 100vh;
-    }
+/* HEADER */
 
-    header {
-      height: 70px;
-      background: #101b2d;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 25px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+header{
+  height:70px;
+  background:#101b2d;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid #203452;
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: bold;
-    }
+.logo{
+  font-size:25px;
+  font-weight:bold;
+}
 
-    .logo span {
-      color: #2f8cff;
-    }
+.logo span{
+  color:#2f8cff;
+}
 
-    nav {
-      display: flex;
-      gap: 10px;
-    }
+nav{
+  display:flex;
+  gap:6px;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 9px 14px;
-      border-radius: 8px;
-    }
+nav a{
+  color:white;
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:14px;
+}
 
-    nav a:hover {
-      background: #1d3150;
-    }
+nav a:hover{
+  background:#1d3150;
+}
 
-    .hero {
-      max-width: 1100px;
-      margin: auto;
-      padding: 70px 20px;
-    }
+/* HERO */
 
-    .hero-box {
-      background: linear-gradient(135deg, #132d4b, #102033);
-      padding: 45px 30px;
-      border-radius: 18px;
-      text-align: center;
-    }
+.hero{
+  max-width:1150px;
+  margin:auto;
+  padding:40px 20px 25px;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
+.heroBox{
+  padding:45px 25px;
+  border-radius:20px;
+  text-align:center;
+  background:
+    linear-gradient(135deg,#153b63,#101d30);
+}
 
-    .hero h1 span {
-      color: #2f8cff;
-    }
+.hero h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
 
-    .hero p {
-      color: #9caabd;
-      font-size: 17px;
-      line-height: 1.6;
-    }
+.hero h1 span{
+  color:#2f8cff;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 0 20px 40px;
-    }
+.hero p{
+  color:#aebbd0;
+  margin-bottom:25px;
+}
 
-    .section {
-      margin-top: 25px;
-    }
+/* SEARCH */
 
-    .section h2 {
-      margin-bottom: 15px;
-    }
+.search{
+  width:100%;
+  max-width:600px;
+  margin:auto;
+  display:flex;
+  gap:8px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
+.search input{
+  flex:1;
+  padding:15px;
+  border:1px solid #38506d;
+  border-radius:10px;
+  background:#07111f;
+  color:white;
+  outline:none;
+  font-size:15px;
+}
 
-    .card {
-      background: #142033;
-      padding: 22px;
-      border-radius: 14px;
-    }
+.search input:focus{
+  border-color:#2f8cff;
+}
 
-    .card h3 {
-      margin-bottom: 8px;
-    }
+.search button{
+  padding:0 20px;
+  border:none;
+  border-radius:10px;
+  background:#2f8cff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .card p {
-      color: #9caabd;
-      line-height: 1.5;
-    }
+/* CONTAINER */
 
-    .game-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:5px 20px 50px;
+}
 
-    .date {
-      color: #6f829c;
-      font-size: 13px;
-      margin-top: 12px;
-    }
+.section{
+  margin-top:30px;
+}
 
-    .loading,
-    .empty,
-    .error {
-      background: #142033;
-      padding: 20px;
-      border-radius: 12px;
-      color: #9caabd;
-    }
+.sectionTitle{
+  margin-bottom:15px;
+}
 
-    .error {
-      color: #ff6b6b;
-    }
+.sectionTitle h2{
+  font-size:24px;
+}
 
-    footer {
-      background: #101b2d;
-      text-align: center;
-      padding: 25px;
-      margin-top: 30px;
-      color: #718198;
-    }
+/* CATEGORIES */
 
-    @media (max-width: 700px) {
+.categories{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding-bottom:5px;
+}
 
-      header {
-        padding: 0 15px;
-      }
+.category{
+  white-space:nowrap;
+  padding:10px 17px;
+  border:1px solid #304862;
+  background:#142033;
+  border-radius:20px;
+  color:white;
+  cursor:pointer;
+}
 
-      nav a {
-        padding: 7px;
-        font-size: 13px;
-      }
+.category:hover,
+.category.active{
+  background:#2f8cff;
+  border-color:#2f8cff;
+}
 
-      .hero {
-        padding: 30px 15px;
-      }
+/* GAME GRID */
 
-      .hero h1 {
-        font-size: 32px;
-      }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
 
-      .container {
-        padding: 0 15px 30px;
-      }
+.card{
+  background:#142033;
+  border:1px solid #203452;
+  border-radius:15px;
+  overflow:hidden;
+  transition:.2s;
+}
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#2f8cff;
+}
+
+.gameImage{
+  height:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+  background:
+    linear-gradient(135deg,#193b60,#0b1728);
+}
+
+.cardBody{
+  padding:15px;
+}
+
+.card h3{
+  margin-bottom:7px;
+}
+
+.card p{
+  color:#91a1b6;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:14px;
+}
+
+.badge{
+  display:inline-block;
+  font-size:11px;
+  padding:4px 7px;
+  border-radius:5px;
+  background:#203b5b;
+  color:#9dcaff;
+  margin-bottom:8px;
+}
+
+.play{
+  display:block;
+  text-align:center;
+  background:#2f8cff;
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.play:hover{
+  background:#2478dc;
+}
+
+/* NO RESULTS */
+
+.noGames{
+  display:none;
+  background:#142033;
+  padding:25px;
+  border-radius:12px;
+  text-align:center;
+  color:#91a1b6;
+}
+
+/* QUICK LINKS */
+
+.quickGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.quick{
+  background:#142033;
+  border:1px solid #203452;
+  border-radius:12px;
+  padding:18px;
+  text-align:center;
+  color:white;
+  text-decoration:none;
+}
+
+.quick:hover{
+  border-color:#2f8cff;
+  background:#182941;
+}
+
+.quickIcon{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#101b2d;
+  text-align:center;
+  padding:25px;
+  color:#718198;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .quickGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+
+  header{
+    padding:0 12px;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  nav{
+    gap:2px;
+  }
+
+  nav a{
+    font-size:11px;
+    padding:7px 6px;
+  }
+
+  .hero{
+    padding:25px 12px 15px;
+  }
+
+  .heroBox{
+    padding:35px 15px;
+  }
+
+  .hero h1{
+    font-size:31px;
+  }
+
+  .container{
+    padding:5px 12px 35px;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .gameImage{
+    height:105px;
+    font-size:42px;
+  }
+
+  .cardBody{
+    padding:11px;
+  }
+
+  .card h3{
+    font-size:15px;
+  }
+
+  .card p{
+    font-size:12px;
+  }
+
+  .play{
+    font-size:13px;
+    padding:9px;
+  }
+
+  .quickGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .search button{
+    padding:0 14px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header>
 
-    <div class="logo">
-      Som<span>City</span>
+<!-- ================= HEADER ================= -->
+
+<header>
+
+  <div class="logo">
+    Som<span>City</span>
+  </div>
+
+  <nav>
+
+    <a href="index.html">
+      🎮 Games
+    </a>
+
+    <a href="news.html">
+      📰 News
+    </a>
+
+    <a href="login.html">
+      🔐 Login
+    </a>
+
+    <a href="register.html">
+      📝 Register
+    </a>
+
+  </nav>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+  <div class="heroBox">
+
+    <h1>
+      Welcome to <span>SomCity</span>
+    </h1>
+
+    <p>
+      Discover fun HTML5 games and play instantly.
+    </p>
+
+
+    <div class="search">
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search games..."
+        autocomplete="off"
+      >
+
+      <button
+        id="searchButton">
+        🔎 Search
+      </button>
+
     </div>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="login.html">Login</a>
-      <a href="register.html">Register</a>
-    </nav>
+  </div>
 
-  </header>
+</section>
 
 
-  <!-- HERO -->
-  <section class="hero">
+<!-- ================= MAIN ================= -->
 
-    <div class="hero-box">
+<main class="container">
 
-      <h1>
-        Welcome to <span>SomCity</span>
-      </h1>
 
-      <p>
-        Discover games, news and updates from SomCity.
-      </p>
+  <!-- CATEGORIES -->
+
+  <section class="section">
+
+    <div class="sectionTitle">
+
+      <h2>
+        🗂️ Categories
+      </h2>
+
+    </div>
+
+
+    <div class="categories">
+
+      <button
+        class="category active"
+        data-category="all">
+
+        All
+
+      </button>
+
+
+      <button
+        class="category"
+        data-category="arcade">
+
+        🕹️ Arcade
+
+      </button>
+
+
+      <button
+        class="category"
+        data-category="puzzle">
+
+        🧩 Puzzle
+
+      </button>
+
+
+      <button
+        class="category"
+        data-category="sports">
+
+        🏀 Sports
+
+      </button>
+
+
+      <button
+        class="category"
+        data-category="adventure">
+
+        🗺️ Adventure
+
+      </button>
 
     </div>
 
   </section>
 
 
-  <!-- MAIN -->
-  <main class="container">
+  <!-- ================= GAMES ================= -->
 
-    <!-- GAMES -->
-    <section class="section">
+  <section class="section">
 
-      <h2>🎮 Games</h2>
+    <div class="sectionTitle">
 
-      <div id="gamesList" class="grid">
+      <h2>
+        🎮 Games
+      </h2>
 
-        <div class="loading">
-          Loading games...
+    </div>
+
+
+    <div
+      id="gamesGrid"
+      class="grid">
+
+
+      <!-- SNAKE -->
+
+      <div
+        class="card game"
+        data-name="snake"
+        data-category="arcade">
+
+
+        <div class="gameImage">
+          🐍
+        </div>
+
+
+        <div class="cardBody">
+
+          <span class="badge">
+            Arcade
+          </span>
+
+
+          <h3>
+            Snake
+          </h3>
+
+
+          <p>
+            Eat the food and grow your snake.
+          </p>
+
+
+          <a
+            class="play"
+            href="snake.html">
+
+            ▶ Play
+
+          </a>
+
         </div>
 
       </div>
 
-    </section>
+
+      <!-- MAIN GAME -->
+
+      <div
+        class="card game"
+        data-name="somcity game"
+        data-category="arcade">
 
 
-    <!-- NEWS -->
-    <section class="section">
+        <div class="gameImage">
+          🎮
+        </div>
 
-      <h2>📰 Latest News</h2>
 
-      <div id="newsList">
+        <div class="cardBody">
 
-        <div class="loading">
-          Loading news...
+          <span class="badge">
+            Arcade
+          </span>
+
+
+          <h3>
+            SomCity Game
+          </h3>
+
+
+          <p>
+            Play the main SomCity HTML5 game.
+          </p>
+
+
+          <a
+            class="play"
+            href="game.html">
+
+            ▶ Play
+
+          </a>
+
         </div>
 
       </div>
 
-    </section>
 
-  </main>
+      <!-- MISSIONS -->
 
-
-  <!-- FOOTER -->
-  <footer>
-
-    © 2026 SomCity. All rights reserved.
-
-  </footer>
+      <div
+        class="card game"
+        data-name="missions"
+        data-category="adventure">
 
 
-  <script>
-
-    // =====================================
-    // SUPABASE CONNECTION
-    // =====================================
-
-    const SUPABASE_URL =
-      "https://ayaaiycdzuzxcouybknc.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-
-    // =====================================
-    // LOAD GAMES
-    // =====================================
-
-    async function loadGames() {
-
-      const list =
-        document.getElementById("gamesList");
-
-      list.innerHTML = `
-        <div class="loading">
-          Loading games...
+        <div class="gameImage">
+          🎯
         </div>
-      `;
 
 
-      try {
+        <div class="cardBody">
 
-        const { data, error } =
-          await supabaseClient
-            .from("game")
-            .select("*")
-            .order("created_at", {
-              ascending: false
-            });
+          <span class="badge">
+            Adventure
+          </span>
 
 
-        console.log("GAME DATA:", data);
-        console.log("GAME ERROR:", error);
+          <h3>
+            Missions
+          </h3>
 
 
-        // ERROR
-
-        if (error) {
-
-          list.innerHTML = `
-            <div class="error">
-              ❌ ${error.message}
-            </div>
-          `;
-
-          return;
-        }
+          <p>
+            Complete missions and challenges.
+          </p>
 
 
-        // EMPTY
+          <a
+            class="play"
+            href="missions.html">
 
-        if (!data || data.length === 0) {
+            ▶ Play
 
-          list.innerHTML = `
-            <div class="empty">
-              No games available yet.
-            </div>
-          `;
+          </a>
 
-          return;
-        }
+        </div>
 
-
-        // CLEAR
-
-        list.innerHTML = "";
+      </div>
 
 
-        // DISPLAY GAMES
+      <!-- SPORTS -->
 
-        data.forEach(game => {
-
-          const card =
-            document.createElement("div");
-
-          card.className = "card";
+      <div
+        class="card game"
+        data-name="basketball"
+        data-category="sports">
 
 
-          const icon =
-            document.createElement("div");
-
-          icon.className = "game-icon";
-
-          icon.innerText = "🎮";
+        <div class="gameImage">
+          🏀
+        </div>
 
 
-          const title =
-            document.createElement("h3");
+        <div class="cardBody">
+
+          <span class="badge">
+            Sports
+          </span>
 
 
-          /*
-             Different possible column names
-          */
-
-          const gameName =
-            game.name ||
-            game.title ||
-            game.game_name ||
-            game.game ||
-            "SomCity Game";
+          <h3>
+            Basketball
+          </h3>
 
 
-          title.innerText =
-            gameName;
+          <p>
+            Score points and beat your record.
+          </p>
 
 
-          const description =
-            document.createElement("p");
+          <a
+            class="play"
+            href="game.html">
+
+            ▶ Play
+
+          </a>
+
+        </div>
+
+      </div>
 
 
-          description.innerText =
-            game.description ||
-            "Play and discover this game on SomCity.";
+      <!-- PUZZLE -->
+
+      <div
+        class="card game"
+        data-name="puzzle"
+        data-category="puzzle">
 
 
-          card.appendChild(icon);
-          card.appendChild(title);
-          card.appendChild(description);
+        <div class="gameImage">
+          🧩
+        </div>
 
 
-          // GAME LINK
+        <div class="cardBody">
 
-          if (game.game_url || game.url) {
-
-            const link =
-              document.createElement("a");
-
-            link.href =
-              game.game_url || game.url;
-
-            link.target = "_blank";
-
-            link.rel = "noopener noreferrer";
-
-            link.innerText =
-              "▶ Play Game";
-
-            link.style.display = "inline-block";
-            link.style.marginTop = "15px";
-            link.style.color = "#2f8cff";
-            link.style.textDecoration = "none";
-            link.style.fontWeight = "bold";
-
-            card.appendChild(link);
-
-          }
+          <span class="badge">
+            Puzzle
+          </span>
 
 
-          list.appendChild(card);
+          <h3>
+            Puzzle
+          </h3>
 
-        });
 
-      }
+          <p>
+            Solve puzzles and improve your score.
+          </p>
 
-      catch (error) {
 
-        console.error(error);
+          <a
+            class="play"
+            href="game.html">
 
-        list.innerHTML = `
-          <div class="error">
-            ❌ Failed to load games.
-          </div>
-        `;
+            ▶ Play
 
-      }
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- ADVENTURE -->
+
+      <div
+        class="card game"
+        data-name="city adventure"
+        data-category="adventure">
+
+
+        <div class="gameImage">
+          🗺️
+        </div>
+
+
+        <div class="cardBody">
+
+          <span class="badge">
+            Adventure
+          </span>
+
+
+          <h3>
+            City Adventure
+          </h3>
+
+
+          <p>
+            Explore the SomCity world.
+          </p>
+
+
+          <a
+            class="play"
+            href="game.html">
+
+            ▶ Play
+
+          </a>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div
+      id="noGames"
+      class="noGames">
+
+      😔 No games found.
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= QUICK LINKS ================= -->
+
+  <section class="section">
+
+    <div class="sectionTitle">
+
+      <h2>
+        ⚡ SomCity
+      </h2>
+
+    </div>
+
+
+    <div class="quickGrid">
+
+
+      <a
+        class="quick"
+        href="profile.html">
+
+        <div class="quickIcon">
+          👤
+        </div>
+
+        Profile
+
+      </a>
+
+
+      <a
+        class="quick"
+        href="missions.html">
+
+        <div class="quickIcon">
+          🎯
+        </div>
+
+        Missions
+
+      </a>
+
+
+      <a
+        class="quick"
+        href="news.html">
+
+        <div class="quickIcon">
+          📰
+        </div>
+
+        News
+
+      </a>
+
+
+      <a
+        class="quick"
+        href="creator.html">
+
+        <div class="quickIcon">
+          🧑‍💻
+        </div>
+
+        Creator
+
+      </a>
+
+
+      <a
+        class="quick"
+        href="download.html">
+
+        <div class="quickIcon">
+          ⬇️
+        </div>
+
+        Download
+
+      </a>
+
+
+      <a
+        class="quick"
+        href="contact.html">
+
+        <div class="quickIcon">
+          📩
+        </div>
+
+        Contact
+
+      </a>
+
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  © 2026 SomCity Games
+
+</footer>
+
+
+<script>
+
+/* ==============================
+   ELEMENTS
+============================== */
+
+const searchInput =
+  document.getElementById(
+    "searchInput"
+  );
+
+const searchButton =
+  document.getElementById(
+    "searchButton"
+  );
+
+const games =
+  document.querySelectorAll(
+    ".game"
+  );
+
+const noGames =
+  document.getElementById(
+    "noGames"
+  );
+
+const categories =
+  document.querySelectorAll(
+    ".category"
+  );
+
+
+/* ==============================
+   SEARCH
+============================== */
+
+function searchGames(){
+
+  const text =
+    searchInput.value
+      .toLowerCase()
+      .trim();
+
+
+  let found = 0;
+
+
+  games.forEach(game => {
+
+    const name =
+      game.dataset.name
+        .toLowerCase();
+
+
+    if(
+      name.includes(text)
+    ){
+
+      game.style.display =
+        "block";
+
+      found++;
+
+    }else{
+
+      game.style.display =
+        "none";
 
     }
 
-
-    // =====================================
-    // LOAD NEWS
-    // =====================================
-
-    async function loadNews() {
-
-      const list =
-        document.getElementById("newsList");
+  });
 
 
-      list.innerHTML = `
-        <div class="loading">
-          Loading news...
-        </div>
-      `;
+  noGames.style.display =
+    found === 0
+      ? "block"
+      : "none";
+}
 
 
-      try {
+/* SEARCH BUTTON */
 
-        const { data, error } =
-          await supabaseClient
-            .from("news")
-            .select("*")
-            .order("created_at", {
-              ascending: false
-            });
+searchButton.addEventListener(
+  "click",
+  searchGames
+);
 
 
-        console.log("NEWS DATA:", data);
-        console.log("NEWS ERROR:", error);
+/* SEARCH WHILE TYPING */
+
+searchInput.addEventListener(
+  "input",
+  searchGames
+);
 
 
-        // ERROR
+/* ENTER KEY */
 
-        if (error) {
+searchInput.addEventListener(
+  "keydown",
+  function(event){
 
-          list.innerHTML = `
-            <div class="error">
-              ❌ ${error.message}
-            </div>
-          `;
+    if(
+      event.key === "Enter"
+    ){
 
-          return;
-        }
-
-
-        // EMPTY
-
-        if (!data || data.length === 0) {
-
-          list.innerHTML = `
-            <div class="empty">
-              No news available yet.
-            </div>
-          `;
-
-          return;
-        }
-
-
-        // CLEAR
-
-        list.innerHTML = "";
-
-
-        // DISPLAY NEWS
-
-        data.forEach(news => {
-
-          const card =
-            document.createElement("div");
-
-          card.className = "card";
-
-          card.style.marginBottom = "12px";
-
-
-          const title =
-            document.createElement("h3");
-
-          title.innerText =
-            "📰 " +
-            (news.title || "News");
-
-
-          const content =
-            document.createElement("p");
-
-          content.innerText =
-            news.content ||
-            news.description ||
-            "";
-
-
-          const date =
-            document.createElement("div");
-
-          date.className = "date";
-
-
-          if (news.created_at) {
-
-            date.innerText =
-              new Date(
-                news.created_at
-              ).toLocaleString();
-
-          }
-
-
-          card.appendChild(title);
-          card.appendChild(content);
-          card.appendChild(date);
-
-
-          list.appendChild(card);
-
-        });
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        list.innerHTML = `
-          <div class="error">
-            ❌ Failed to load news.
-          </div>
-        `;
-
-      }
+      searchGames();
 
     }
 
+  }
+);
 
-    // =====================================
-    // START WEBSITE
-    // =====================================
 
-    loadGames();
+/* ==============================
+   CATEGORY FILTER
+============================== */
 
-    loadNews();
+categories.forEach(
+  categoryButton => {
 
-  </script>
+    categoryButton.addEventListener(
+      "click",
+      function(){
+
+        categories.forEach(
+          button => {
+
+            button.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        this.classList.add(
+          "active"
+        );
+
+
+        const category =
+          this.dataset.category;
+
+
+        let found = 0;
+
+
+        games.forEach(game => {
+
+          const gameCategory =
+            game.dataset.category;
+
+
+          if(
+            category === "all" ||
+            gameCategory === category
+          ){
+
+            game.style.display =
+              "block";
+
+            found++;
+
+          }else{
+
+            game.style.display =
+              "none";
+
+          }
+
+        });
+
+
+        noGames.style.display =
+          found === 0
+            ? "block"
+            : "none";
+
+      }
+    );
+
+  }
+);
+
+</script>
 
 </body>
 </html>
