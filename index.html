@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SomCity Games</title>
+<title>SomCity - Play Games Online</title>
 
 <style>
 *{
@@ -16,7 +16,7 @@
 
 body{
   background:#07111f;
-  color:white;
+  color:#fff;
 }
 
 /* HEADER */
@@ -24,18 +24,21 @@ body{
 header{
   height:70px;
   background:#101b2d;
+  border-bottom:1px solid #203452;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 25px;
+
   position:sticky;
   top:0;
   z-index:100;
-  border-bottom:1px solid #203452;
 }
 
 .logo{
-  font-size:25px;
+  font-size:26px;
   font-weight:bold;
 }
 
@@ -45,11 +48,11 @@ header{
 
 nav{
   display:flex;
-  gap:6px;
+  gap:5px;
 }
 
 nav a{
-  color:white;
+  color:#fff;
   text-decoration:none;
   padding:9px 12px;
   border-radius:8px;
@@ -57,28 +60,33 @@ nav a{
 }
 
 nav a:hover{
-  background:#1d3150;
+  background:#1c3150;
 }
 
 /* HERO */
 
 .hero{
-  max-width:1150px;
+  max-width:1200px;
   margin:auto;
-  padding:40px 20px 25px;
+  padding:35px 20px 20px;
 }
 
 .heroBox{
-  padding:45px 25px;
-  border-radius:20px;
-  text-align:center;
   background:
-    linear-gradient(135deg,#153b63,#101d30);
+    linear-gradient(
+      135deg,
+      #163e68,
+      #0e1d30
+    );
+
+  border-radius:20px;
+  padding:55px 25px;
+  text-align:center;
 }
 
 .hero h1{
-  font-size:42px;
-  margin-bottom:12px;
+  font-size:44px;
+  margin-bottom:10px;
 }
 
 .hero h1 span{
@@ -86,28 +94,34 @@ nav a:hover{
 }
 
 .hero p{
-  color:#aebbd0;
+  color:#aab8cc;
   margin-bottom:25px;
 }
 
 /* SEARCH */
 
 .search{
-  width:100%;
-  max-width:600px;
+  max-width:650px;
   margin:auto;
+
   display:flex;
   gap:8px;
 }
 
 .search input{
   flex:1;
+
   padding:15px;
-  border:1px solid #38506d;
-  border-radius:10px;
+
   background:#07111f;
+  border:1px solid #38506d;
+
   color:white;
+
+  border-radius:10px;
+
   outline:none;
+
   font-size:15px;
 }
 
@@ -116,33 +130,48 @@ nav a:hover{
 }
 
 .search button{
-  padding:0 20px;
-  border:none;
+  border:0;
   border-radius:10px;
+
+  padding:0 20px;
+
   background:#2f8cff;
   color:white;
+
   font-weight:bold;
+
   cursor:pointer;
 }
 
-/* CONTAINER */
+/* MAIN */
 
 .container{
-  max-width:1150px;
+  max-width:1200px;
   margin:auto;
-  padding:5px 20px 50px;
+
+  padding:10px 20px 60px;
 }
 
 .section{
-  margin-top:30px;
+  margin-top:35px;
 }
 
 .sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
   margin-bottom:15px;
 }
 
 .sectionTitle h2{
-  font-size:24px;
+  font-size:25px;
+}
+
+.sectionTitle a{
+  color:#2f8cff;
+  text-decoration:none;
+  font-size:14px;
 }
 
 /* CATEGORIES */
@@ -150,17 +179,25 @@ nav a:hover{
 .categories{
   display:flex;
   gap:10px;
+
   overflow-x:auto;
+
   padding-bottom:5px;
 }
 
 .category{
   white-space:nowrap;
+
   padding:10px 17px;
+
   border:1px solid #304862;
+
   background:#142033;
+
   border-radius:20px;
+
   color:white;
+
   cursor:pointer;
 }
 
@@ -172,137 +209,194 @@ nav a:hover{
 
 /* GAME GRID */
 
-.grid{
+.games{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+
+  grid-template-columns:
+    repeat(5,1fr);
+
+  gap:15px;
 }
 
 .card{
   background:#142033;
+
   border:1px solid #203452;
-  border-radius:15px;
+
+  border-radius:14px;
+
   overflow:hidden;
+
   transition:.2s;
 }
 
 .card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-5px);
+
   border-color:#2f8cff;
 }
 
 .gameImage{
   height:145px;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   font-size:55px;
+
   background:
-    linear-gradient(135deg,#193b60,#0b1728);
+    linear-gradient(
+      135deg,
+      #193b60,
+      #0b1728
+    );
 }
 
 .cardBody{
-  padding:15px;
-}
-
-.card h3{
-  margin-bottom:7px;
-}
-
-.card p{
-  color:#91a1b6;
-  font-size:14px;
-  line-height:1.5;
-  margin-bottom:14px;
+  padding:14px;
 }
 
 .badge{
   display:inline-block;
-  font-size:11px;
+
+  font-size:10px;
+
   padding:4px 7px;
+
   border-radius:5px;
+
   background:#203b5b;
+
   color:#9dcaff;
-  margin-bottom:8px;
+
+  margin-bottom:7px;
+}
+
+.card h3{
+  font-size:17px;
+
+  margin-bottom:6px;
+}
+
+.card p{
+  color:#91a1b6;
+
+  font-size:13px;
+
+  line-height:1.4;
+
+  margin-bottom:13px;
 }
 
 .play{
   display:block;
+
   text-align:center;
+
   background:#2f8cff;
+
   color:white;
-  padding:10px;
-  border-radius:8px;
+
   text-decoration:none;
+
+  padding:9px;
+
+  border-radius:8px;
+
   font-weight:bold;
+
+  font-size:13px;
 }
 
 .play:hover{
   background:#2478dc;
 }
 
-/* NO RESULTS */
-
-.noGames{
-  display:none;
-  background:#142033;
-  padding:25px;
-  border-radius:12px;
-  text-align:center;
-  color:#91a1b6;
-}
-
-/* QUICK LINKS */
+/* QUICK MENU */
 
 .quickGrid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(6,1fr);
+
   gap:12px;
 }
 
 .quick{
   background:#142033;
+
   border:1px solid #203452;
+
   border-radius:12px;
-  padding:18px;
+
+  padding:18px 10px;
+
   text-align:center;
+
   color:white;
+
   text-decoration:none;
 }
 
 .quick:hover{
   border-color:#2f8cff;
+
   background:#182941;
 }
 
 .quickIcon{
-  font-size:30px;
-  margin-bottom:8px;
+  font-size:27px;
+
+  margin-bottom:7px;
+}
+
+/* EMPTY */
+
+.noGames{
+  display:none;
+
+  background:#142033;
+
+  padding:25px;
+
+  border-radius:12px;
+
+  text-align:center;
+
+  color:#91a1b6;
 }
 
 /* FOOTER */
 
 footer{
   background:#101b2d;
+
   text-align:center;
-  padding:25px;
+
+  padding:30px;
+
   color:#718198;
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:1000px){
 
-  .grid{
-    grid-template-columns:repeat(2,1fr);
+  .games{
+    grid-template-columns:
+      repeat(3,1fr);
   }
 
   .quickGrid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+      repeat(3,1fr);
   }
 }
 
-@media(max-width:600px){
+@media(max-width:700px){
 
   header{
     padding:0 12px;
@@ -312,73 +406,64 @@ footer{
     font-size:20px;
   }
 
-  nav{
-    gap:2px;
-  }
-
   nav a{
     font-size:11px;
-    padding:7px 6px;
+    padding:7px 5px;
   }
 
   .hero{
-    padding:25px 12px 15px;
+    padding:20px 12px;
   }
 
   .heroBox{
-    padding:35px 15px;
+    padding:40px 15px;
   }
 
   .hero h1{
-    font-size:31px;
+    font-size:32px;
   }
 
   .container{
-    padding:5px 12px 35px;
+    padding:5px 12px 40px;
   }
 
-  .grid{
-    grid-template-columns:1fr 1fr;
+  .games{
+    grid-template-columns:
+      repeat(2,1fr);
+
     gap:10px;
   }
 
   .gameImage{
-    height:105px;
+    height:110px;
     font-size:42px;
   }
 
   .cardBody{
-    padding:11px;
+    padding:10px;
   }
 
   .card h3{
-    font-size:15px;
+    font-size:14px;
   }
 
   .card p{
-    font-size:12px;
-  }
-
-  .play{
-    font-size:13px;
-    padding:9px;
+    font-size:11px;
   }
 
   .quickGrid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .search button{
-    padding:0 14px;
+    grid-template-columns:
+      repeat(2,1fr);
   }
 }
+
 </style>
 </head>
 
 <body>
 
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 
 <header>
 
@@ -409,18 +494,18 @@ footer{
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 
 <section class="hero">
 
   <div class="heroBox">
 
     <h1>
-      Welcome to <span>SomCity</span>
+      Play <span>SomCity</span>
     </h1>
 
     <p>
-      Discover fun HTML5 games and play instantly.
+      Discover games and play instantly.
     </p>
 
 
@@ -430,12 +515,13 @@ footer{
         id="searchInput"
         type="text"
         placeholder="Search games..."
-        autocomplete="off"
       >
 
       <button
         id="searchButton">
+
         🔎 Search
+
       </button>
 
     </div>
@@ -445,467 +531,549 @@ footer{
 </section>
 
 
-<!-- ================= MAIN ================= -->
+<!-- MAIN -->
 
 <main class="container">
 
 
-  <!-- CATEGORIES -->
+<!-- CATEGORIES -->
 
-  <section class="section">
+<section class="section">
 
-    <div class="sectionTitle">
+  <div class="sectionTitle">
 
-      <h2>
-        🗂️ Categories
-      </h2>
+    <h2>
+      🗂️ Categories
+    </h2>
 
-    </div>
-
-
-    <div class="categories">
-
-      <button
-        class="category active"
-        data-category="all">
-
-        All
-
-      </button>
+  </div>
 
 
-      <button
-        class="category"
-        data-category="arcade">
+  <div class="categories">
 
-        🕹️ Arcade
+    <button
+      class="category active"
+      data-category="all">
 
-      </button>
+      All
+
+    </button>
+
+    <button
+      class="category"
+      data-category="arcade">
+
+      🕹️ Arcade
+
+    </button>
+
+    <button
+      class="category"
+      data-category="racing">
+
+      🏎️ Racing
+
+    </button>
+
+    <button
+      class="category"
+      data-category="puzzle">
+
+      🧩 Puzzle
+
+    </button>
+
+    <button
+      class="category"
+      data-category="sports">
+
+      🏀 Sports
+
+    </button>
+
+    <button
+      class="category"
+      data-category="adventure">
+
+      🗺️ Adventure
+
+    </button>
+
+  </div>
+
+</section>
 
 
-      <button
-        class="category"
-        data-category="puzzle">
+<!-- POPULAR -->
 
-        🧩 Puzzle
+<section class="section">
 
-      </button>
+  <div class="sectionTitle">
 
+    <h2>
+      ⭐ Popular Games
+    </h2>
 
-      <button
-        class="category"
-        data-category="sports">
+    <a href="category.html">
+      View All →
+    </a>
 
-        🏀 Sports
-
-      </button>
-
-
-      <button
-        class="category"
-        data-category="adventure">
-
-        🗺️ Adventure
-
-      </button>
-
-    </div>
-
-  </section>
+  </div>
 
 
-  <!-- ================= GAMES ================= -->
+  <div class="games">
 
-  <section class="section">
 
-    <div class="sectionTitle">
-
-      <h2>
-        🎮 Games
-      </h2>
-
-    </div>
-
+    <!-- SNAKE -->
 
     <div
-      id="gamesGrid"
-      class="grid">
+      class="card game"
+      data-name="snake"
+      data-category="arcade">
 
-
-      <!-- SNAKE -->
-
-      <div
-        class="card game"
-        data-name="snake"
-        data-category="arcade">
-
-
-        <div class="gameImage">
-          🐍
-        </div>
-
-
-        <div class="cardBody">
-
-          <span class="badge">
-            Arcade
-          </span>
-
-
-          <h3>
-            Snake
-          </h3>
-
-
-          <p>
-            Eat the food and grow your snake.
-          </p>
-
-
-          <a
-            class="play"
-            href="snake.html">
-
-            ▶ Play
-
-          </a>
-
-        </div>
-
+      <div class="gameImage">
+        🐍
       </div>
 
+      <div class="cardBody">
 
-      <!-- MAIN GAME -->
+        <span class="badge">
+          Arcade
+        </span>
 
-      <div
-        class="card game"
-        data-name="somcity game"
-        data-category="arcade">
+        <h3>
+          Snake
+        </h3>
 
+        <p>
+          Grow your snake and beat your score.
+        </p>
 
-        <div class="gameImage">
-          🎮
-        </div>
+        <a
+          href="snake.html"
+          class="play">
 
+          ▶ Play
 
-        <div class="cardBody">
-
-          <span class="badge">
-            Arcade
-          </span>
-
-
-          <h3>
-            SomCity Game
-          </h3>
-
-
-          <p>
-            Play the main SomCity HTML5 game.
-          </p>
-
-
-          <a
-            class="play"
-            href="game.html">
-
-            ▶ Play
-
-          </a>
-
-        </div>
+        </a>
 
       </div>
-
-
-      <!-- MISSIONS -->
-
-      <div
-        class="card game"
-        data-name="missions"
-        data-category="adventure">
-
-
-        <div class="gameImage">
-          🎯
-        </div>
-
-
-        <div class="cardBody">
-
-          <span class="badge">
-            Adventure
-          </span>
-
-
-          <h3>
-            Missions
-          </h3>
-
-
-          <p>
-            Complete missions and challenges.
-          </p>
-
-
-          <a
-            class="play"
-            href="missions.html">
-
-            ▶ Play
-
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <!-- SPORTS -->
-
-      <div
-        class="card game"
-        data-name="basketball"
-        data-category="sports">
-
-
-        <div class="gameImage">
-          🏀
-        </div>
-
-
-        <div class="cardBody">
-
-          <span class="badge">
-            Sports
-          </span>
-
-
-          <h3>
-            Basketball
-          </h3>
-
-
-          <p>
-            Score points and beat your record.
-          </p>
-
-
-          <a
-            class="play"
-            href="game.html">
-
-            ▶ Play
-
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <!-- PUZZLE -->
-
-      <div
-        class="card game"
-        data-name="puzzle"
-        data-category="puzzle">
-
-
-        <div class="gameImage">
-          🧩
-        </div>
-
-
-        <div class="cardBody">
-
-          <span class="badge">
-            Puzzle
-          </span>
-
-
-          <h3>
-            Puzzle
-          </h3>
-
-
-          <p>
-            Solve puzzles and improve your score.
-          </p>
-
-
-          <a
-            class="play"
-            href="game.html">
-
-            ▶ Play
-
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <!-- ADVENTURE -->
-
-      <div
-        class="card game"
-        data-name="city adventure"
-        data-category="adventure">
-
-
-        <div class="gameImage">
-          🗺️
-        </div>
-
-
-        <div class="cardBody">
-
-          <span class="badge">
-            Adventure
-          </span>
-
-
-          <h3>
-            City Adventure
-          </h3>
-
-
-          <p>
-            Explore the SomCity world.
-          </p>
-
-
-          <a
-            class="play"
-            href="game.html">
-
-            ▶ Play
-
-          </a>
-
-        </div>
-
-      </div>
-
 
     </div>
 
+
+    <!-- SOMCITY -->
 
     <div
-      id="noGames"
-      class="noGames">
+      class="card game"
+      data-name="somcity game"
+      data-category="arcade">
 
-      😔 No games found.
+      <div class="gameImage">
+        🎮
+      </div>
 
-    </div>
+      <div class="cardBody">
 
-  </section>
+        <span class="badge">
+          Arcade
+        </span>
 
+        <h3>
+          SomCity Game
+        </h3>
 
-  <!-- ================= QUICK LINKS ================= -->
+        <p>
+          Enter the SomCity world.
+        </p>
 
-  <section class="section">
+        <a
+          href="game.html"
+          class="play">
 
-    <div class="sectionTitle">
+          ▶ Play
 
-      <h2>
-        ⚡ SomCity
-      </h2>
+        </a>
 
-    </div>
-
-
-    <div class="quickGrid">
-
-
-      <a
-        class="quick"
-        href="profile.html">
-
-        <div class="quickIcon">
-          👤
-        </div>
-
-        Profile
-
-      </a>
-
-
-      <a
-        class="quick"
-        href="missions.html">
-
-        <div class="quickIcon">
-          🎯
-        </div>
-
-        Missions
-
-      </a>
-
-
-      <a
-        class="quick"
-        href="news.html">
-
-        <div class="quickIcon">
-          📰
-        </div>
-
-        News
-
-      </a>
-
-
-      <a
-        class="quick"
-        href="creator.html">
-
-        <div class="quickIcon">
-          🧑‍💻
-        </div>
-
-        Creator
-
-      </a>
-
-
-      <a
-        class="quick"
-        href="download.html">
-
-        <div class="quickIcon">
-          ⬇️
-        </div>
-
-        Download
-
-      </a>
-
-
-      <a
-        class="quick"
-        href="contact.html">
-
-        <div class="quickIcon">
-          📩
-        </div>
-
-        Contact
-
-      </a>
-
+      </div>
 
     </div>
 
-  </section>
+
+    <!-- RACING -->
+
+    <div
+      class="card game"
+      data-name="speed racer"
+      data-category="racing">
+
+      <div class="gameImage">
+        🏎️
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Racing
+        </span>
+
+        <h3>
+          Speed Racer
+        </h3>
+
+        <p>
+          Race against the clock.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- PUZZLE -->
+
+    <div
+      class="card game"
+      data-name="puzzle master"
+      data-category="puzzle">
+
+      <div class="gameImage">
+        🧩
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Puzzle
+        </span>
+
+        <h3>
+          Puzzle Master
+        </h3>
+
+        <p>
+          Solve challenging puzzles.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- SPORTS -->
+
+    <div
+      class="card game"
+      data-name="basketball"
+      data-category="sports">
+
+      <div class="gameImage">
+        🏀
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Sports
+        </span>
+
+        <h3>
+          Basketball
+        </h3>
+
+        <p>
+          Score points and beat your record.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- NEW GAMES -->
+
+<section class="section">
+
+  <div class="sectionTitle">
+
+    <h2>
+      🆕 New Games
+    </h2>
+
+  </div>
+
+
+  <div class="games">
+
+
+    <div class="card">
+
+      <div class="gameImage">
+        🚀
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Adventure
+        </span>
+
+        <h3>
+          Space Explorer
+        </h3>
+
+        <p>
+          Explore new worlds.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="gameImage">
+        🏃
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Adventure
+        </span>
+
+        <h3>
+          City Runner
+        </h3>
+
+        <p>
+          Run through the city.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="gameImage">
+        🧱
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Adventure
+        </span>
+
+        <h3>
+          Block Adventure
+        </h3>
+
+        <p>
+          Explore the block world.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="gameImage">
+        🏆
+      </div>
+
+      <div class="cardBody">
+
+        <span class="badge">
+          Challenge
+        </span>
+
+        <h3>
+          Score Challenge
+        </h3>
+
+        <p>
+          Try to beat the high score.
+        </p>
+
+        <a
+          href="game.html"
+          class="play">
+
+          ▶ Play
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- QUICK MENU -->
+
+<section class="section">
+
+  <div class="sectionTitle">
+
+    <h2>
+      ⚡ SomCity
+    </h2>
+
+  </div>
+
+
+  <div class="quickGrid">
+
+
+    <a
+      href="profile.html"
+      class="quick">
+
+      <div class="quickIcon">
+        👤
+      </div>
+
+      Profile
+
+    </a>
+
+
+    <a
+      href="missions.html"
+      class="quick">
+
+      <div class="quickIcon">
+        🎯
+      </div>
+
+      Missions
+
+    </a>
+
+
+    <a
+      href="news.html"
+      class="quick">
+
+      <div class="quickIcon">
+        📰
+      </div>
+
+      News
+
+    </a>
+
+
+    <a
+      href="creator.html"
+      class="quick">
+
+      <div class="quickIcon">
+        🧑‍💻
+      </div>
+
+      Creator
+
+    </a>
+
+
+    <a
+      href="download.html"
+      class="quick">
+
+      <div class="quickIcon">
+        📱
+      </div>
+
+      App
+
+    </a>
+
+
+    <a
+      href="contact.html"
+      class="quick">
+
+      <div class="quickIcon">
+        📩
+      </div>
+
+      Contact
+
+    </a>
+
+  </div>
+
+</section>
+
 
 </main>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 
 <footer>
 
@@ -916,11 +1084,9 @@ footer{
 
 <script>
 
-/* ==============================
-   ELEMENTS
-============================== */
+/* SEARCH */
 
-const searchInput =
+const input =
   document.getElementById(
     "searchInput"
   );
@@ -935,31 +1101,13 @@ const games =
     ".game"
   );
 
-const noGames =
-  document.getElementById(
-    "noGames"
-  );
-
-const categories =
-  document.querySelectorAll(
-    ".category"
-  );
-
-
-/* ==============================
-   SEARCH
-============================== */
 
 function searchGames(){
 
   const text =
-    searchInput.value
+    input.value
       .toLowerCase()
       .trim();
-
-
-  let found = 0;
-
 
   games.forEach(game => {
 
@@ -967,15 +1115,12 @@ function searchGames(){
       game.dataset.name
         .toLowerCase();
 
-
     if(
       name.includes(text)
     ){
 
       game.style.display =
         "block";
-
-      found++;
 
     }else{
 
@@ -986,15 +1131,8 @@ function searchGames(){
 
   });
 
-
-  noGames.style.display =
-    found === 0
-      ? "block"
-      : "none";
 }
 
-
-/* SEARCH BUTTON */
 
 searchButton.addEventListener(
   "click",
@@ -1002,104 +1140,69 @@ searchButton.addEventListener(
 );
 
 
-/* SEARCH WHILE TYPING */
-
-searchInput.addEventListener(
+input.addEventListener(
   "input",
   searchGames
 );
 
 
-/* ENTER KEY */
+/* CATEGORY */
 
-searchInput.addEventListener(
-  "keydown",
-  function(event){
-
-    if(
-      event.key === "Enter"
-    ){
-
-      searchGames();
-
-    }
-
-  }
-);
+const categories =
+  document.querySelectorAll(
+    ".category"
+  );
 
 
-/* ==============================
-   CATEGORY FILTER
-============================== */
+categories.forEach(button => {
 
-categories.forEach(
-  categoryButton => {
+  button.addEventListener(
+    "click",
+    function(){
 
-    categoryButton.addEventListener(
-      "click",
-      function(){
+      categories.forEach(btn => {
 
-        categories.forEach(
-          button => {
-
-            button.classList.remove(
-              "active"
-            );
-
-          }
-        );
-
-
-        this.classList.add(
+        btn.classList.remove(
           "active"
         );
 
-
-        const category =
-          this.dataset.category;
+      });
 
 
-        let found = 0;
+      this.classList.add(
+        "active"
+      );
 
 
-        games.forEach(game => {
-
-          const gameCategory =
-            game.dataset.category;
+      const category =
+        this.dataset.category;
 
 
-          if(
-            category === "all" ||
-            gameCategory === category
-          ){
+      games.forEach(game => {
 
-            game.style.display =
-              "block";
+        if(
+          category === "all" ||
+          game.dataset.category === category
+        ){
 
-            found++;
+          game.style.display =
+            "block";
 
-          }else{
+        }else{
 
-            game.style.display =
-              "none";
+          game.style.display =
+            "none";
 
-          }
+        }
 
-        });
+      });
 
+    }
+  );
 
-        noGames.style.display =
-          found === 0
-            ? "block"
-            : "none";
-
-      }
-    );
-
-  }
-);
+});
 
 </script>
 
 </body>
-</html>
+      </html>
