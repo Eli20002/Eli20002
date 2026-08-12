@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GameZone</title>
+  <title>SomCity</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -18,7 +18,7 @@
 
     body {
       min-height: 100vh;
-      background: #0b1220;
+      background: linear-gradient(135deg, #07111f, #102a43);
       color: white;
       display: flex;
       justify-content: center;
@@ -26,48 +26,59 @@
     }
 
     .box {
-      width: 90%;
-      max-width: 400px;
-      background: #151f32;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.4);
+      width: 92%;
+      max-width: 420px;
+      background: rgba(20, 32, 50, 0.96);
+      padding: 32px;
+      border-radius: 18px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.45);
     }
 
-    h1 {
+    .logo {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 25px;
+    }
+
+    .logo h1 {
+      font-size: 34px;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #2f8cff;
     }
 
     .sub {
       text-align: center;
-      color: #9ca8bb;
-      margin-bottom: 25px;
+      color: #9caabd;
+      margin-top: 8px;
     }
 
     input {
       width: 100%;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #334158;
-      border-radius: 8px;
-      background: #0d1627;
+      border: 1px solid #35465d;
+      border-radius: 9px;
+      background: #0b1626;
       color: white;
       outline: none;
+      font-size: 15px;
     }
 
     input:focus {
-      border-color: #4285ff;
+      border-color: #2f8cff;
     }
 
     button {
       width: 100%;
       padding: 14px;
       border: none;
-      border-radius: 8px;
-      background: #4285ff;
+      border-radius: 9px;
+      background: #2f8cff;
       color: white;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
     }
 
@@ -78,11 +89,11 @@
     .switch {
       text-align: center;
       margin-top: 20px;
-      color: #9ca8bb;
+      color: #9caabd;
     }
 
-    .switch span {
-      color: #4285ff;
+    .switch span:last-child {
+      color: #2f8cff;
       cursor: pointer;
       font-weight: bold;
     }
@@ -90,6 +101,7 @@
     #message {
       text-align: center;
       margin-top: 15px;
+      color: #dbe7f5;
       font-size: 14px;
     }
 
@@ -99,16 +111,17 @@
     }
 
     .dashboard h2 {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
-    .user-email {
-      color: #4285ff;
-      margin-bottom: 25px;
+    .email {
+      color: #2f8cff;
+      margin-bottom: 20px;
     }
 
     .logout {
       background: #e53935;
+      margin-top: 25px;
     }
 
     .hidden {
@@ -121,14 +134,15 @@
 
   <div class="box">
 
-    <!-- LOGIN / SIGN UP -->
+    <!-- AUTH -->
     <div id="authBox">
 
-      <h1 id="title">Login</h1>
-
-      <p class="sub" id="subtitle">
-        Login to your GameZone account
-      </p>
+      <div class="logo">
+        <h1>Som<span>City</span></h1>
+        <p class="sub" id="subtitle">
+          Welcome to SomCity
+        </p>
+      </div>
 
       <input
         type="text"
@@ -171,15 +185,17 @@
     <!-- DASHBOARD -->
     <div id="dashboard" class="dashboard">
 
-      <h2>Welcome to GameZone 🎮</h2>
+      <div class="logo">
+        <h1>Som<span>City</span></h1>
+      </div>
 
-      <p class="user-email" id="userEmail"></p>
+      <h2>Welcome to SomCity 🎮</h2>
+
+      <p class="email" id="userEmail"></p>
 
       <p>
         You are successfully logged in.
       </p>
-
-      <br>
 
       <button class="logout" onclick="logout()">
         Logout
@@ -192,9 +208,9 @@
 
 <script>
 
-  // =====================================
+  // ==============================
   // SUPABASE
-  // =====================================
+  // ==============================
 
   const SUPABASE_URL =
     "https://alkqucmjfzzdseqegcmg.supabase.co";
@@ -209,25 +225,22 @@
     );
 
 
-  // =====================================
-  // LOGIN / SIGN UP MODE
-  // =====================================
+  // ==============================
+  // MODE
+  // ==============================
 
   let signupMode = false;
 
 
-  // =====================================
-  // SWITCH
-  // =====================================
+  // ==============================
+  // SWITCH LOGIN / SIGN UP
+  // ==============================
 
   function switchMode() {
 
     signupMode = !signupMode;
 
     const title =
-      document.getElementById("title");
-
-    const subtitle =
       document.getElementById("subtitle");
 
     const name =
@@ -249,14 +262,13 @@
 
     if (signupMode) {
 
-      title.innerText = "Create Account";
-
-      subtitle.innerText =
-        "Create your GameZone account";
+      title.innerText =
+        "Create your SomCity account";
 
       name.classList.remove("hidden");
 
-      button.innerText = "Sign Up";
+      button.innerText =
+        "Sign Up";
 
       switchText.innerText =
         "Already have an account?";
@@ -266,14 +278,13 @@
 
     } else {
 
-      title.innerText = "Login";
-
-      subtitle.innerText =
-        "Login to your GameZone account";
+      title.innerText =
+        "Welcome to SomCity";
 
       name.classList.add("hidden");
 
-      button.innerText = "Login";
+      button.innerText =
+        "Login";
 
       switchText.innerText =
         "Don't have an account?";
@@ -284,25 +295,29 @@
   }
 
 
-  // =====================================
-  // AUTH
-  // =====================================
+  // ==============================
+  // LOGIN / SIGN UP
+  // ==============================
 
   async function authAction() {
 
     const name =
-      document.getElementById("name").value.trim();
+      document.getElementById("name")
+        .value.trim();
 
     const email =
-      document.getElementById("email").value.trim();
+      document.getElementById("email")
+        .value.trim();
 
     const password =
-      document.getElementById("password").value;
+      document.getElementById("password")
+        .value;
 
     const message =
       document.getElementById("message");
 
     message.innerText = "";
+
 
     if (!email || !password) {
 
@@ -313,9 +328,9 @@
     }
 
 
-    // =====================================
+    // ==============================
     // SIGN UP
-    // =====================================
+    // ==============================
 
     if (signupMode) {
 
@@ -335,6 +350,7 @@
         return;
       }
 
+
       const { data, error } =
         await supabaseClient.auth.signUp({
 
@@ -343,11 +359,9 @@
           password: password,
 
           options: {
-
             data: {
               full_name: name
             }
-
           }
 
         });
@@ -362,7 +376,6 @@
       }
 
 
-      // User already logged in
       if (data.session) {
 
         showDashboard(data.user);
@@ -379,18 +392,18 @@
     }
 
 
-    // =====================================
+    // ==============================
     // LOGIN
-    // =====================================
+    // ==============================
 
     const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
+      await supabaseClient.auth
+        .signInWithPassword({
 
-        email: email,
+          email: email,
+          password: password
 
-        password: password
-
-      });
+        });
 
 
     if (error) {
@@ -403,13 +416,12 @@
 
 
     showDashboard(data.user);
-
   }
 
 
-  // =====================================
+  // ==============================
   // DASHBOARD
-  // =====================================
+  // ==============================
 
   function showDashboard(user) {
 
@@ -421,13 +433,12 @@
 
     document.getElementById("userEmail")
       .innerText = user.email;
-
   }
 
 
-  // =====================================
+  // ==============================
   // LOGOUT
-  // =====================================
+  // ==============================
 
   async function logout() {
 
@@ -457,13 +468,12 @@
 
     document.getElementById("name")
       .value = "";
-
   }
 
 
-  // =====================================
+  // ==============================
   // CHECK SESSION
-  // =====================================
+  // ==============================
 
   async function checkUser() {
 
@@ -478,13 +488,12 @@
       );
 
     }
-
   }
 
 
-  // =====================================
-  // AUTH STATE CHANGE
-  // =====================================
+  // ==============================
+  // AUTH STATE
+  // ==============================
 
   supabaseClient.auth.onAuthStateChange(
     (event, session) => {
@@ -499,7 +508,6 @@
   );
 
 
-  // Start
   checkUser();
 
 </script>
