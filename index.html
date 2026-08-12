@@ -282,7 +282,62 @@
        LOAD GAMES
     =============================== */
 
+    a
     async function loadGames() {
+
+  const list = document.getElementById("gamesList");
+
+  const { data, error } = await supabaseClient
+    .from("game")
+    .select("id, created_at, games")
+    .order("created_at", {
+      ascending: false
+    });
+
+  console.log("Games:", data);
+  console.log("Error:", error);
+
+  if (error) {
+    list.innerHTML = `
+      <div class="error">
+        ${error.message}
+      </div>
+    `;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        No games available yet.
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(game => {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    const name = document.createElement("h3");
+
+    name.innerText = "🎮 " + game.games;
+
+    const description = document.createElement("p");
+
+    description.innerText =
+      "Play and discover this game on SomCity.";
+
+    card.appendChild(name);
+    card.appendChild(description);
+
+    list.appendChild(card);
+  });
+    }
 
       const list =
         document.getElementById("gamesList");
