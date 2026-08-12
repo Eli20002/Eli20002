@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Login | GameZone</title>
+  <title>Login | SomCity</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -21,7 +21,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #070b12;
+      background: #07111f;
       color: white;
       padding: 20px;
     }
@@ -29,9 +29,10 @@
     .box {
       width: 100%;
       max-width: 420px;
-      background: #111827;
+      background: #142033;
       padding: 35px;
       border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.35);
     }
 
     .logo {
@@ -42,27 +43,34 @@
     }
 
     .logo span {
-      color: #38bdf8;
+      color: #2f8cff;
     }
 
     .subtitle {
       text-align: center;
-      color: #94a3b8;
+      color: #9caabd;
       margin-bottom: 25px;
     }
 
     label {
       display: block;
       margin: 15px 0 8px;
+      font-weight: bold;
     }
 
     input {
       width: 100%;
       padding: 14px;
-      border: 1px solid #334155;
+      border: 1px solid #35465d;
       border-radius: 9px;
-      background: #0f172a;
+      background: #0b1626;
       color: white;
+      outline: none;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: #2f8cff;
     }
 
     button {
@@ -71,7 +79,7 @@
       padding: 15px;
       border: 0;
       border-radius: 9px;
-      background: #2563eb;
+      background: #2f8cff;
       color: white;
       font-size: 16px;
       font-weight: bold;
@@ -79,24 +87,36 @@
     }
 
     button:hover {
-      background: #1d4ed8;
+      background: #2478dc;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     #message {
       text-align: center;
       margin-top: 18px;
-      color: #38bdf8;
+      min-height: 22px;
+      line-height: 1.5;
     }
 
     .links {
       text-align: center;
       margin-top: 20px;
       line-height: 2;
+      color: #9caabd;
     }
 
     a {
-      color: #38bdf8;
+      color: #2f8cff;
       text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -106,49 +126,67 @@
   <div class="box">
 
     <div class="logo">
-      🎮 Game<span>Zone</span>
+      🎮 Som<span>City</span>
     </div>
 
     <p class="subtitle">
-      Login to your GameZone account
+      Login to your SomCity account
     </p>
+
 
     <form id="loginForm">
 
-      <label>Email</label>
+      <label for="email">
+        Email
+      </label>
 
       <input
         id="email"
         type="email"
         placeholder="Enter your email"
+        autocomplete="email"
         required
       >
 
-      <label>Password</label>
+
+      <label for="password">
+        Password
+      </label>
 
       <input
         id="password"
         type="password"
         placeholder="Enter your password"
+        autocomplete="current-password"
         required
       >
 
-      <button type="submit">
+
+      <button
+        id="loginButton"
+        type="submit"
+      >
         🔐 LOGIN
       </button>
 
     </form>
 
+
     <div id="message"></div>
+
 
     <div class="links">
 
       <p>
         Don't have an account?
-        <a href="register.html">Create Account</a>
+        <a href="register.html">
+          Create Account
+        </a>
       </p>
 
-      <a href="index.html">🏠 Back Home</a>
+      <a href="index.html">
+        🏠 Back Home
+      </a>
 
     </div>
 
@@ -157,9 +195,15 @@
 
   <script>
 
-    const SUPABASE_URL = "YOUR_PROJECT_URL";
+    /* =================================
+       SUPABASE CONNECTION
+    ================================= */
 
-    const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+    const SUPABASE_URL =
+      "https://ayaaiycdzuzxcouybknc.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
 
 
     const supabaseClient =
@@ -169,54 +213,167 @@
       );
 
 
-    document
-      .getElementById("loginForm")
-      .addEventListener("submit", async function(event) {
+    /* =================================
+       ELEMENTS
+    ================================= */
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const emailInput =
+      document.getElementById("email");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const message =
+      document.getElementById("message");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+
+    /* =================================
+       LOGIN
+    ================================= */
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
 
         event.preventDefault();
 
+
         const email =
-          document.getElementById("email").value.trim();
+          emailInput.value.trim();
 
         const password =
-          document.getElementById("password").value;
+          passwordInput.value;
 
-        const message =
-          document.getElementById("message");
 
+        message.style.color = "#9caabd";
 
         message.textContent =
           "Logging in...";
 
 
-        const { data, error } =
-          await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
+        loginButton.disabled = true;
 
 
-        if (error) {
+        if (!email || !password) {
+
+          message.style.color =
+            "#ff6b6b";
 
           message.textContent =
-            "❌ " + error.message;
+            "Please enter email and password.";
+
+          loginButton.disabled = false;
 
           return;
         }
 
 
-        message.textContent =
-          "✅ Login successful!";
+        try {
+
+          const { data, error } =
+            await supabaseClient.auth
+              .signInWithPassword({
+
+                email: email,
+
+                password: password
+
+              });
 
 
-        setTimeout(function() {
+          if (error) {
 
-          window.location.href =
-            "index.html";
+            message.style.color =
+              "#ff6b6b";
 
-        }, 1000);
+            message.textContent =
+              "❌ " + error.message;
 
-      });
+            loginButton.disabled = false;
+
+            return;
+          }
+
+
+          if (!data || !data.user) {
+
+            message.style.color =
+              "#ff6b6b";
+
+            message.textContent =
+              "❌ Login failed.";
+
+            loginButton.disabled = false;
+
+            return;
+          }
+
+
+          message.style.color =
+            "#4ade80";
+
+          message.textContent =
+            "✅ Login successful!";
+
+
+          setTimeout(function() {
+
+            window.location.href =
+              "index.html";
+
+          }, 800);
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          message.style.color =
+            "#ff6b6b";
+
+          message.textContent =
+            "❌ Something went wrong.";
+
+          loginButton.disabled = false;
+
+        }
+
+      }
+    );
+
+
+    /* =================================
+       CHECK EXISTING SESSION
+    ================================= */
+
+    async function checkSession() {
+
+      const { data } =
+        await supabaseClient.auth
+          .getSession();
+
+
+      if (
+        data &&
+        data.session &&
+        data.session.user
+      ) {
+
+        window.location.href =
+          "index.html";
+
+      }
+
+    }
+
+
+    checkSession();
 
   </script>
 
