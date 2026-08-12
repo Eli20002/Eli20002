@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+<title>SomCity</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+body{
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:#07111f;
+}
+
+#game{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  position:relative;
+  background:#65a65a;
+}
+
+/* =========================
+   WORLD
+========================= */
+
+#world{
+  position:absolute;
+  width:2400px;
+  height:1800px;
+}
+
+/* GRASS */
+
+.grass{
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 2px,
+      transparent 2px,
+      transparent 20px
+    );
+}
+
+/* =========================
+   ROADS
+========================= */
+
+.road{
+  position:absolute;
+  background:#444a50;
+}
+
+.h1{
+  width:2400px;
+  height:190px;
+  top:450px;
+}
+
+.h2{
+  width:2400px;
+  height:190px;
+  top:1050px;
+}
+
+.v1{
+  width:190px;
+  height:1800px;
+  left:500px;
+}
+
+.v2{
+  width:190px;
+  height:1800px;
+  left:1550px;
+}
+
+/* ROAD LINES */
+
+.line{
+  position:absolute;
+  background:#f4d35e;
+}
+
+.hl{
+  width:2400px;
+  height:5px;
+}
+
+.vl{
+  width:5px;
+  height:1800px;
+}
+
+.hl1{
+  top:542px;
+}
+
+.hl2{
+  top:1142px;
+}
+
+.vl1{
+  left:592px;
+}
+
+.vl2{
+  left:1642px;
+}
+
+/* =========================
+   BUILDINGS
+========================= */
+
+.building{
+  position:absolute;
+
+  width:210px;
+  height:150px;
+
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:55px;
+
+  border:5px solid rgba(0,0,0,.3);
+
+  box-shadow:
+    0 8px 14px rgba(0,0,0,.25);
+
+  z-index:8;
+}
+
+.house{
+  background:#d59b65;
+}
+
+.shop{
+  background:#d9dde2;
+}
+
+.bank{
+  background:#d8c786;
+}
+
+.police{
+  background:#6689a5;
+}
+
+.hospital{
+  background:#eeeeee;
+}
+
+/* BUILDING POSITIONS */
+
+.b1{
+  left:80px;
+  top:120px;
+}
+
+.b2{
+  left:750px;
+  top:120px;
+}
+
+.b3{
+  left:1750px;
+  top:120px;
+}
+
+.b4{
+  left:80px;
+  top:720px;
+}
+
+.b5{
+  left:750px;
+  top:720px;
+}
+
+.b6{
+  left:1750px;
+  top:720px;
+}
+
+.b7{
+  left:750px;
+  top:1320px;
+}
+
+.b8{
+  left:1750px;
+  top:1320px;
+}
+
+/* =========================
+   NPC
+========================= */
+
+#npcs{
+  position:absolute;
+  inset:0;
+  z-index:30;
+}
+
+.npc{
+  position:absolute;
+
+  width:44px;
+  height:52px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:31px;
+
+  z-index:30;
+
+  transition:
+    left .12s linear,
+    top .12s linear;
+}
+
+.npcName{
+  position:absolute;
+
+  top:-22px;
+
+  background:rgba(0,0,0,.75);
+
+  color:white;
+
+  padding:3px 7px;
+
+  border-radius:5px;
+
+  font-size:10px;
+
+  white-space:nowrap;
+
+  display:none;
+}
+
+.npc:hover .npcName{
+  display:block;
+}
+
+/* =========================
+   PLAYER
+========================= */
+
+#player{
+  position:absolute;
+
+  width:48px;
+  height:54px;
+
+  background:#2f8cff;
+
+  border:3px solid white;
+
+  border-radius:18px 18px 12px 12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:28px;
+
+  z-index:60;
+
+  box-shadow:
+    0 5px 12px rgba(0,0,0,.3);
+}
+
+/* =========================
+   TOP UI
+========================= */
+
+#ui{
+  position:fixed;
+
+  top:12px;
+  left:12px;
+  right:12px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  z-index:100;
+}
+
+.panel{
+  background:rgba(0,0,0,.78);
+
+  color:white;
+
+  padding:10px 14px;
+
+  border-radius:10px;
+
+  font-size:14px;
+
+  box-shadow:
+    0 3px 10px rgba(0,0,0,.2);
+}
+
+/* =========================
+   MISSION
+========================= */
+
+#mission{
+  position:fixed;
+
+  top:60px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  background:rgba(0,0,0,.78);
+
+  color:white;
+
+  padding:11px 18px;
+
+  border-radius:10px;
+
+  z-index:100;
+
+  text-align:center;
+
+  white-space:nowrap;
+}
+
+/* =========================
+   ENTER
+========================= */
+
+#enter{
+  position:fixed;
+
+  left:50%;
+  bottom:170px;
+
+  transform:translateX(-50%);
+
+  display:none;
+
+  background:#2f8cff;
+
+  color:white;
+
+  border:0;
+
+  border-radius:12px;
+
+  padding:14px 30px;
+
+  font-size:17px;
+
+  font-weight:bold;
+
+  z-index:150;
+}
+
+/* =========================
+   TALK
+========================= */
+
+#talk{
+  position:fixed;
+
+  left:50%;
+
+  bottom:230px;
+
+  transform:translateX(-50%);
+
+  display:none;
+
+  background:#16a34a;
+
+  color:white;
+
+  border:0;
+
+  border-radius:12px;
+
+  padding:12px 25px;
+
+  font-size:16px;
+
+  font-weight:bold;
+
+  z-index:150;
+}
+
+/* =========================
+   DIALOG
+========================= */
+
+#dialog{
+  position:fixed;
+
+  left:50%;
+  bottom:290px;
+
+  transform:translateX(-50%);
+
+  width:90%;
+  max-width:420px;
+
+  background:rgba(0,0,0,.9);
+
+  color:white;
+
+  padding:18px;
+
+  border-radius:14px;
+
+  text-align:center;
+
+  display:none;
+
+  z-index:200;
+}
+
+#dialog button{
+  margin-top:12px;
+
+  padding:9px 20px;
+
+  border:0;
+
+  border-radius:8px;
+
+  background:#2f8cff;
+
+  color:white;
+}
+
+/* =========================
+   JOYSTICK
+========================= */
+
+#controls{
+  position:fixed;
+
+  left:0;
+  right:0;
+
+  bottom:20px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  padding:0 25px;
+
+  z-index:100;
+}
+
+#joystick{
+  width:125px;
+  height:125px;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.18);
+
+  border:2px solid rgba(255,255,255,.35);
+
+  position:relative;
+}
+
+#stick{
+  width:55px;
+  height:55px;
+
+  position:absolute;
+
+  left:33px;
+  top:33px;
+
+  border-radius:50%;
+
+  background:#2f8cff;
+
+  border:2px solid white;
+}
+
+.action{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+}
+
+.action button{
+  width:70px;
+  height:55px;
+
+  border:0;
+
+  border-radius:14px;
+
+  background:rgba(0,0,0,.78);
+
+  color:white;
+
+  font-size:23px;
+}
+
+/* =========================
+   INTERIOR
+========================= */
+
+#interior{
+  position:fixed;
+
+  inset:0;
+
+  background:#202b3b;
+
+  z-index:300;
+
+  display:none;
+
+  color:white;
+
+  text-align:center;
+
+  padding-top:70px;
+}
+
+#interior h1{
+  font-size:30px;
+
+  margin-bottom:20px;
+}
+
+.room{
+  width:90%;
+  max-width:500px;
+
+  height:350px;
+
+  margin:auto;
+
+  background:#8b684d;
+
+  border:10px solid #3d2b20;
+
+  border-radius:15px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  font-size:75px;
+}
+
+#exit{
+  margin-top:25px;
+
+  padding:13px 30px;
+
+  border:0;
+
+  border-radius:10px;
+
+  background:#2f8cff;
+
+  color:white;
+
+  font-size:17px;
+}
+
+/* =========================
+   START SCREEN
+========================= */
+
+#start{
+  position:fixed;
+
+  inset:0;
+
+  background:
+    linear-gradient(
+      135deg,
+      #07111f,
+      #16466a
+    );
+
+  z-index:500;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  color:white;
+
+  text-align:center;
+}
+
+#start h1{
+  font-size:46px;
+}
+
+#start h1 span{
+  color:#2f8cff;
+}
+
+#start p{
+  color:#b8c7d8;
+
+  margin-top:8px;
+}
+
+#start button{
+  margin-top:25px;
+
+  padding:15px 40px;
+
+  border:0;
+
+  border-radius:10px;
+
+  background:#2f8cff;
+
+  color:white;
+
+  font-size:18px;
+
+  font-weight:bold;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  #mission{
+    font-size:12px;
+    top:58px;
+  }
+
+  .panel{
+    font-size:12px;
+    padding:8px 10px;
+  }
+
+  #joystick{
+    width:110px;
+    height:110px;
+  }
+
+  #stick{
+    left:27px;
+    top:27px;
+  }
+
+  .building{
+    width:190px;
+    height:140px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+  <div id="world">
+
+    <div class="grass"></div>
+
+    <!-- ROADS -->
+
+    <div class="road h1"></div>
+    <div class="road h2"></div>
+
+    <div class="road v1"></div>
+    <div class="road v2"></div>
+
+    <div class="line hl hl1"></div>
+    <div class="line hl hl2"></div>
+
+    <div class="line vl vl1"></div>
+    <div class="line vl vl2"></div>
+
+
+    <!-- BUILDINGS -->
+
+    <div class="building house b1"
+         data-name="House">
+      🏠
+    </div>
+
+    <div class="building shop b2"
+         data-name="Shop">
+      🏪
+    </div>
+
+    <div class="building bank b3"
+         data-name="Bank">
+      🏦
+    </div>
+
+    <div class="building hospital b4"
+         data-name="Hospital">
+      🏥
+    </div>
+
+    <div class="building police b5"
+         data-name="Police Station">
+      👮
+    </div>
+
+    <div class="building shop b6"
+         data-name="Supermarket">
+      🛒
+    </div>
+
+    <div class="building house b7"
+         data-name="House">
+      🏠
+    </div>
+
+    <div class="building bank b8"
+         data-name="Office">
+      🏢
+    </div>
+
+
+    <!-- NPC CONTAINER -->
+
+    <div id="npcs"></div>
+
+
+    <!-- PLAYER -->
+
+    <div id="player">
+      🧍
+    </div>
+
+  </div>
+
+
+  <!-- TOP UI -->
+
+  <div id="ui">
+
+    <div class="panel">
+      💰 $<span id="money">1000</span>
+    </div>
+
+    <div class="panel">
+      ⭐ Level <span id="level">1</span>
+    </div>
+
+  </div>
+
+
+  <!-- MISSION -->
+
+  <div id="mission">
+    🎯 Explore SomCity
+  </div>
+
+
+  <!-- ENTER -->
+
+  <button id="enter">
+    🚪 ENTER
+  </button>
+
+
+  <!-- TALK -->
+
+  <button id="talk">
+    💬 TALK
+  </button>
+
+
+  <!-- DIALOG -->
+
+  <div id="dialog">
+
+    <div id="dialogText">
+      Hello!
+    </div>
+
+    <button onclick="closeDialog()">
+      OK
+    </button>
+
+  </div>
+
+
+  <!-- CONTROLS -->
+
+  <div id="controls">
+
+    <div id="joystick">
+
+      <div id="stick"></div>
+
+    </div>
+
+
+    <div class="action">
+
+      <button onclick="completeMission()">
+        🎯
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- INTERIOR -->
+
+  <div id="interior">
+
+    <h1 id="interiorTitle">
+      🏠 Building
+    </h1>
+
+    <div class="room">
+      🛋️
+    </div>
+
+    <button id="exit"
+            onclick="exitBuilding()">
+      🚪 EXIT
+    </button>
+
+  </div>
+
+
+  <!-- START -->
+
+  <div id="start">
+
+    <h1>
+      Som<span>City</span>
+    </h1>
+
+    <p>
+      Open City Adventure
+    </p>
+
+    <button onclick="startGame()">
+      ▶ START GAME
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let x = 1050;
+let y = 760;
+
+let money = 1000;
+let level = 1;
+
+let speed = 4;
+
+let targetBuilding = null;
+let targetNPC = null;
+
+let gameStarted = false;
+
+
+/* ELEMENTS */
+
+const world =
+document.getElementById("world");
+
+const player =
+document.getElementById("player");
+
+const enter =
+document.getElementById("enter");
+
+const talk =
+document.getElementById("talk");
+
+const dialog =
+document.getElementById("dialog");
+
+const dialogText =
+document.getElementById("dialogText");
+
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame(){
+
+  document
+    .getElementById("start")
+    .style.display = "none";
+
+  gameStarted = true;
+}
+
+
+/* =========================
+   PLAYER
+========================= */
+
+function move(dx,dy){
+
+  if(!gameStarted)
+    return;
+
+  x += dx * speed;
+  y += dy * speed;
+
+  x = Math.max(
+    20,
+    Math.min(2320,x)
+  );
+
+  y = Math.max(
+    20,
+    Math.min(1720,y)
+  );
+}
+
+
+/* =========================
+   CAMERA
+========================= */
+
+function update(){
+
+  player.style.left =
+    x + "px";
+
+  player.style.top =
+    y + "px";
+
+
+  const cameraX =
+    innerWidth / 2 -
+    x -
+    24;
+
+  const cameraY =
+    innerHeight / 2 -
+    y -
+    26;
+
+
+  world.style.transform =
+    `translate(${cameraX}px,${cameraY}px)`;
+
+
+  checkBuildings();
+  checkNPCs();
+
+
+  requestAnimationFrame(update);
+}
+
+update();
+
+
+/* =========================
+   NPC SYSTEM
+========================= */
+
+const npcContainer =
+document.getElementById("npcs");
+
+
+const npcTypes = [
+
+  {
+    icon:"👨",
+    name:"Ahmed"
+  },
+
+  {
+    icon:"👩",
+    name:"Ayaan"
+  },
+
+  {
+    icon:"🧑",
+    name:"Mohamed"
+  },
+
+  {
+    icon:"👨‍🦱",
+    name:"Hassan"
+  },
+
+  {
+    icon:"👩‍🦱",
+    name:"Hodan"
+  },
+
+  {
+    icon:"👮",
+    name:"Police"
+  },
+
+  {
+    icon:"🧑‍💼",
+    name:"Worker"
+  },
+
+  {
+    icon:"👴",
+    name:"Old Man"
+  }
+
+];
+
+
+const npcs = [];
+
+
+/* CREATE NPCs */
+
+for(let i=0;i<22;i++){
+
+  const type =
+    npcTypes[
+      Math.floor(
+        Math.random() *
+        npcTypes.length
+      )
+    ];
+
+
+  const npc =
+    document.createElement("div");
+
+  npc.className =
+    "npc";
+
+
+  npc.innerHTML = `
+    ${type.icon}
+
+    <span class="npcName">
+      ${type.name}
+    </span>
+  `;
+
+
+  let npcX =
+    100 +
+    Math.random() * 2100;
+
+
+  let npcY =
+    300 +
+    Math.random() * 1200;
+
+
+  npc.style.left =
+    npcX + "px";
+
+  npc.style.top =
+    npcY + "px";
+
+
+  npcContainer.appendChild(npc);
+
+
+  npcs.push({
+
+    element:npc,
+
+    x:npcX,
+
+    y:npcY,
+
+    dx:
+      Math.random() - .5,
+
+    dy:
+      Math.random() - .5,
+
+    speed:
+      .4 +
+      Math.random() * .8,
+
+    name:type.name,
+
+    icon:type.icon
+
+  });
+
+}
+
+
+/* =========================
+   MOVE NPCs
+========================= */
+
+function updateNPCs(){
+
+  npcs.forEach(npc=>{
+
+    npc.x +=
+      npc.dx *
+      npc.speed;
+
+
+    npc.y +=
+      npc.dy *
+      npc.speed;
+
+
+    /* CITY LIMITS */
+
+    if(npc.x < 40){
+
+      npc.x = 40;
+
+      npc.dx =
+        Math.abs(npc.dx);
+    }
+
+
+    if(npc.x > 2280){
+
+      npc.x = 2280;
+
+      npc.dx =
+        -Math.abs(npc.dx);
+    }
+
+
+    if(npc.y < 250){
+
+      npc.y = 250;
+
+      npc.dy =
+        Math.abs(npc.dy);
+    }
+
+
+    if(npc.y > 1550){
+
+      npc.y = 1550;
+
+      npc.dy =
+        -Math.abs(npc.dy);
+    }
+
+
+    /* RANDOM DIRECTION */
+
+    if(
+      Math.random() < .008
+    ){
+
+      npc.dx =
+        Math.random() - .5;
+
+      npc.dy =
+        Math.random() - .5;
+
+    }
+
+
+    /* POSITION */
+
+    npc.element.style.left =
+      npc.x + "px";
+
+    npc.element.style.top =
+      npc.y + "px";
+
+  });
+
+
+  requestAnimationFrame(
+    updateNPCs
+  );
+}
+
+updateNPCs();
+
+
+/* =========================
+   CHECK BUILDINGS
+========================= */
+
+function checkBuildings(){
+
+  const buildings =
+    document.querySelectorAll(
+      ".building"
+    );
+
+
+  targetBuilding = null;
+
+
+  buildings.forEach(
+    building=>{
+
+      const bx =
+        parseFloat(
+          building.style.left ||
+          getComputedStyle(
+            building
+          ).left
+        );
+
+
+      const by =
+        parseFloat(
+          building.style.top ||
+          getComputedStyle(
+            building
+          ).top
+        );
+
+
+      const distance =
+        Math.sqrt(
+
+          Math.pow(
+            x - (bx + 105),
+            2
+          )
+
+          +
+
+          Math.pow(
+            y - (by + 75),
+            2
+          )
+
+        );
+
+
+      if(distance < 180){
+
+        targetBuilding =
+          building;
+
+      }
+
+    }
+  );
+
+
+  if(targetBuilding){
+
+    enter.style.display =
+      "block";
+
+  }else{
+
+    enter.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================
+   ENTER BUILDING
+========================= */
+
+enter.onclick = function(){
+
+  if(!targetBuilding)
+    return;
+
+
+  const name =
+    targetBuilding.dataset.name;
+
+
+  document
+    .getElementById(
+      "interiorTitle"
+    )
+    .textContent =
+    "🏠 " + name;
+
+
+  document
+    .getElementById(
+      "interior"
+    )
+    .style.display =
+    "block";
+
+};
+
+
+/* =========================
+   EXIT BUILDING
+========================= */
+
+function exitBuilding(){
+
+  document
+    .getElementById(
+      "interior"
+    )
+    .style.display =
+    "none";
+
+}
+
+
+/* =========================
+   CHECK NPC
+========================= */
+
+function checkNPCs(){
+
+  targetNPC = null;
+
+  let closest = 9999;
+
+
+  npcs.forEach(npc=>{
+
+    const distance =
+      Math.sqrt(
+
+        Math.pow(
+          x - npc.x,
+          2
+        )
+
+        +
+
+        Math.pow(
+          y - npc.y,
+          2
+        )
+
+      );
+
+
+    if(
+      distance < 120 &&
+      distance < closest
+    ){
+
+      closest = distance;
+
+      targetNPC = npc;
+
+    }
+
+  });
+
+
+  if(targetNPC){
+
+    talk.style.display =
+      "block";
+
+  }else{
+
+    talk.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================
+   TALK
+========================= */
+
+talk.onclick = function(){
+
+  if(!targetNPC)
+    return;
+
+
+  dialogText.textContent =
+    targetNPC.icon +
+    " " +
+    targetNPC.name +
+    ": Hello! Welcome to SomCity!";
+
+
+  dialog.style.display =
+    "block";
+
+};
+
+
+function closeDialog(){
+
+  dialog.style.display =
+    "none";
+
+}
+
+
+/* =========================
+   MISSION
+========================= */
+
+function completeMission(){
+
+  if(!gameStarted)
+    return;
+
+
+  money += 100;
+
+  level++;
+
+
+  document
+    .getElementById("money")
+    .textContent =
+    money;
+
+
+  document
+    .getElementById("level")
+    .textContent =
+    level;
+
+
+  document
+    .getElementById("mission")
+    .textContent =
+    "🎉 Mission Complete! +$100";
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("mission")
+      .textContent =
+      "🎯 Explore SomCity";
+
+  },2500);
+
+}
+
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.key === "ArrowUp" ||
+      e.key.toLowerCase() === "w"
+    ){
+
+      move(0,-1);
+
+    }
+
+
+    if(
+      e.key === "ArrowDown" ||
+      e.key.toLowerCase() === "s"
+    ){
+
+      move(0,1);
+
+    }
+
+
+    if(
+      e.key === "ArrowLeft" ||
+      e.key.toLowerCase() === "a"
+    ){
+
+      move(-1,0);
+
+    }
+
+
+    if(
+      e.key === "ArrowRight" ||
+      e.key.toLowerCase() === "d"
+    ){
+
+      move(1,0);
+
+    }
+
+  }
+);
+
+
+/* =========================
+   MOBILE JOYSTICK
+========================= */
+
+const joystick =
+document.getElementById(
+  "joystick"
+);
+
+const stick =
+document.getElementById(
+  "stick"
+);
+
+
+let active = false;
+
+let centerX = 0;
+let centerY = 0;
+
+
+joystick.addEventListener(
+  "touchstart",
+  function(e){
+
+    active = true;
+
+
+    const rect =
+      joystick.getBoundingClientRect();
+
+
+    centerX =
+      rect.left +
+      rect.width / 2;
+
+
+    centerY =
+      rect.top +
+      rect.height / 2;
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+joystick.addEventListener(
+  "touchmove",
+  function(e){
+
+    if(!active)
+      return;
+
+
+    const touch =
+      e.touches[0];
+
+
+    let dx =
+      touch.clientX -
+      centerX;
+
+
+    let dy =
+      touch.clientY -
+      centerY;
+
+
+    const max = 40;
+
+
+    const distance =
+      Math.sqrt(
+        dx*dx +
+        dy*dy
+      );
+
+
+    if(distance > max){
+
+      dx =
+        dx / distance *
+        max;
+
+      dy =
+        dy / distance *
+        max;
+
+    }
+
+
+    stick.style.transform =
+      `translate(${dx}px,${dy}px)`;
+
+
+    move(
+      dx / max,
+      dy / max
+    );
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+joystick.addEventListener(
+  "touchend",
+  function(){
+
+    active = false;
+
+    stick.style.transform =
+      "translate(0,0)";
+
+  }
+);
+
+</script>
+
+</body>
+  </html>
+  <a href="games/somcity.html" class="play">▶ Play</a>
