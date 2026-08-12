@@ -142,6 +142,10 @@
       color: #9caabd;
     }
 
+    .error {
+      color: #ff6b6b;
+    }
+
     footer {
       background: #101b2d;
       text-align: center;
@@ -151,6 +155,7 @@
     }
 
     @media (max-width: 700px) {
+
       header {
         padding: 0 15px;
       }
@@ -215,6 +220,7 @@
   </section>
 
 
+  <!-- MAIN -->
   <main class="container">
 
     <!-- GAMES -->
@@ -282,84 +288,36 @@
        LOAD GAMES
     =============================== */
 
-    a
     async function loadGames() {
-
-  const list = document.getElementById("gamesList");
-
-  const { data, error } = await supabaseClient
-    .from("game")
-    .select("id, created_at, games")
-    .order("created_at", {
-      ascending: false
-    });
-
-  console.log("Games:", data);
-  console.log("Error:", error);
-
-  if (error) {
-    list.innerHTML = `
-      <div class="error">
-        ${error.message}
-      </div>
-    `;
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    list.innerHTML = `
-      <div class="empty">
-        No games available yet.
-      </div>
-    `;
-    return;
-  }
-
-  list.innerHTML = "";
-
-  data.forEach(game => {
-
-    const card = document.createElement("div");
-
-    card.className = "card";
-
-    const name = document.createElement("h3");
-
-    name.innerText = "🎮 " + game.games;
-
-    const description = document.createElement("p");
-
-    description.innerText =
-      "Play and discover this game on SomCity.";
-
-    card.appendChild(name);
-    card.appendChild(description);
-
-    list.appendChild(card);
-  });
-    }
 
       const list =
         document.getElementById("gamesList");
 
+      list.innerHTML = `
+        <div class="loading">
+          Loading games...
+        </div>
+      `;
+
       const { data, error } =
         await supabaseClient
           .from("game")
-          .select("*")
+          .select("id, created_at, games")
           .order("created_at", {
             ascending: false
           });
+
+      console.log("GAME DATA:", data);
+      console.log("GAME ERROR:", error);
 
 
       if (error) {
 
         list.innerHTML = `
           <div class="error">
-            Could not load games.
+            ${error.message}
           </div>
         `;
-
-        console.error(error);
 
         return;
       }
@@ -388,16 +346,22 @@
         card.className = "card";
 
 
-        card.innerHTML = `
-          <div class="game-icon">🎮</div>
-          <h3></h3>
-          <p>Play and discover this game on SomCity.</p>
-        `;
+        const name =
+          document.createElement("h3");
+
+        name.innerText =
+          "🎮 " + (game.games || "Unnamed Game");
 
 
-        card.querySelector("h3").innerText =
-          game.games || "Unnamed Game";
+        const description =
+          document.createElement("p");
 
+        description.innerText =
+          "Play and discover this game on SomCity.";
+
+
+        card.appendChild(name);
+        card.appendChild(description);
 
         list.appendChild(card);
 
@@ -410,86 +374,16 @@
        LOAD NEWS
     =============================== */
 
-    a 
-    async function loadGames() 
-
-  const list = document.getElementById("gamesList");
-
-  list.innerHTML = `
-    <div class="loading">
-      Loading games...
-    </div>
-  `;
-
-  const { data, error } = await supabaseClient
-    .from("game")
-    .select("*")
-    .order("created_at", {
-      ascending: false
-    });
-
-  console.log("GAME DATA:", data);
-  console.log("GAME ERROR:", error);
-
-  if (error) {
-
-    list.innerHTML = `
-      <div class="error">
-        ${error.message}
-      </div>
-    `;
-
-    return;
-  }
-
-  if (!data || data.length === 0) {
-
-    list.innerHTML = `
-      <div class="empty">
-        No games available yet.
-      </div>
-    `;
-
-    return;
-  }
-
-  list.innerHTML = "";
-
-  data.forEach(game => {
-
-    const gameName =
-      game.games ||
-      game.name ||
-      game.game_name ||
-      game.title ||
-      "Unnamed Game";
-
-    const card =
-      document.createElement("div");
-
-    card.className = "card";
-
-    card.innerHTML = `
-      <div class="game-icon">🎮</div>
-
-      <h3></h3>
-
-      <p>
-        Play and discover this game on SomCity.
-      </p>
-    `;
-
-    card.querySelector("h3").innerText =
-      gameName;
-
-    list.appendChild(card);
-
-  });
-
-    }
+    async function loadNews() {
 
       const list =
         document.getElementById("newsList");
+
+      list.innerHTML = `
+        <div class="loading">
+          Loading news...
+        </div>
+      `;
 
 
       const { data, error } =
@@ -501,15 +395,17 @@
           });
 
 
+      console.log("NEWS DATA:", data);
+      console.log("NEWS ERROR:", error);
+
+
       if (error) {
 
         list.innerHTML = `
           <div class="error">
-            Could not load news.
+            ${error.message}
           </div>
         `;
-
-        console.error(error);
 
         return;
       }
