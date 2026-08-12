@@ -33,7 +33,7 @@
       display: none !important;
     }
 
-    /* AUTH */
+    /* LOGIN */
 
     #authPage {
       min-height: 100vh;
@@ -120,7 +120,7 @@
       font-size: 14px;
     }
 
-    /* HEADER */
+    /* DASHBOARD */
 
     #dashboard {
       display: none;
@@ -153,8 +153,6 @@
       margin: auto;
       padding: 30px 20px;
     }
-
-    /* WELCOME */
 
     .welcome {
       background: linear-gradient(135deg, #132d4b, #102033);
@@ -197,7 +195,7 @@
       margin-top: 5px;
     }
 
-    /* SECTION */
+    /* SECTIONS */
 
     .section {
       background: #142033;
@@ -307,9 +305,10 @@
       color: #64748b;
     }
 
-    /* RESPONSIVE */
+    /* MOBILE */
 
     @media (max-width: 800px) {
+
       .cards {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -317,9 +316,11 @@
       #gamesList {
         grid-template-columns: 1fr;
       }
+
     }
 
     @media (max-width: 500px) {
+
       header {
         padding: 0 15px;
       }
@@ -343,11 +344,13 @@
       .game {
         gap: 10px;
       }
+
     }
   </style>
 </head>
 
 <body>
+
 
 <!-- ========================= -->
 <!-- LOGIN / SIGN UP -->
@@ -358,12 +361,20 @@
   <div class="auth-box">
 
     <div class="logo">
-      <h1>Som<span>City</span></h1>
 
-      <p class="subtitle" id="subtitle">
+      <h1>
+        Som<span>City</span>
+      </h1>
+
+      <p
+        class="subtitle"
+        id="subtitle"
+      >
         Welcome to SomCity
       </p>
+
     </div>
+
 
     <input
       id="name"
@@ -372,11 +383,13 @@
       class="hidden"
     >
 
+
     <input
       id="email"
       type="email"
       placeholder="Email address"
     >
+
 
     <input
       id="password"
@@ -384,20 +397,31 @@
       placeholder="Password"
     >
 
-    <button id="authButton" onclick="authAction()">
+
+    <button
+      id="authButton"
+      onclick="authAction()"
+    >
       Login
     </button>
 
+
     <div id="message"></div>
 
+
     <div class="switch">
+
       <span id="switchText">
         Don't have an account?
       </span>
 
-      <span id="switchButton" onclick="switchMode()">
+      <span
+        id="switchButton"
+        onclick="switchMode()"
+      >
         Sign Up
       </span>
+
     </div>
 
   </div>
@@ -411,9 +435,13 @@
 
 <div id="dashboard">
 
+
   <header>
 
-    <h1>Som<span>City</span></h1>
+    <h1>
+      Som<span>City</span>
+    </h1>
+
 
     <button
       class="logout-small"
@@ -425,14 +453,20 @@
   </header>
 
 
+
   <main class="container">
+
 
     <!-- WELCOME -->
 
     <div class="welcome">
 
       <h2>
-        Welcome, <span id="userName">Player</span> 👋
+        Welcome,
+        <span id="userName">
+          Player
+        </span>
+        👋
       </h2>
 
       <p>
@@ -442,42 +476,93 @@
     </div>
 
 
+
     <!-- CARDS -->
 
     <div class="cards">
 
-      <div class="card">
-        <div class="card-icon">👤</div>
-        <h3>Profile</h3>
-        <p>Your account</p>
-      </div>
 
       <div class="card">
-        <div class="card-icon">🎮</div>
-        <h3>Games</h3>
-        <p id="gameCount">Loading...</p>
+
+        <div class="card-icon">
+          👤
+        </div>
+
+        <h3>
+          Profile
+        </h3>
+
+        <p>
+          Your account
+        </p>
+
       </div>
 
-      <div class="card">
-        <div class="card-icon">💰</div>
-        <h3>Balance</h3>
-        <p>$0.00</p>
-      </div>
+
 
       <div class="card">
-        <div class="card-icon">🏆</div>
-        <h3>Rank</h3>
-        <p>New Player</p>
+
+        <div class="card-icon">
+          🎮
+        </div>
+
+        <h3>
+          Games
+        </h3>
+
+        <p id="gameCount">
+          Loading...
+        </p>
+
+      </div>
+
+
+
+      <div class="card">
+
+        <div class="card-icon">
+          💰
+        </div>
+
+        <h3>
+          Balance
+        </h3>
+
+        <p>
+          $0.00
+        </p>
+
+      </div>
+
+
+
+      <div class="card">
+
+        <div class="card-icon">
+          🏆
+        </div>
+
+        <h3>
+          Rank
+        </h3>
+
+        <p>
+          New Player
+        </p>
+
       </div>
 
     </div>
+
 
 
     <!-- PROFILE -->
 
     <div class="section">
 
-      <h2>👤 Profile</h2>
+      <h2>
+        👤 Profile
+      </h2>
 
       <p id="profileEmail">
         Loading...
@@ -486,11 +571,15 @@
     </div>
 
 
+
     <!-- GAMES -->
 
     <div class="section">
 
-      <h2>🎮 Games</h2>
+      <h2>
+        🎮 Games
+      </h2>
+
 
       <div id="gamesList">
 
@@ -503,28 +592,35 @@
     </div>
 
 
+
     <!-- SETTINGS -->
 
     <div class="section">
 
-      <h2>⚙️ Settings</h2>
+      <h2>
+        ⚙️ Settings
+      </h2>
 
 
-      <!-- NAME -->
+      <!-- CHANGE NAME -->
 
       <div class="setting-box">
 
-        <h3>👤 Change Name</h3>
+        <h3>
+          👤 Change Name
+        </h3>
 
         <p>
           Change the name shown on your dashboard.
         </p>
+
 
         <input
           id="newName"
           type="text"
           placeholder="New name"
         >
+
 
         <button
           class="small-btn"
@@ -536,21 +632,26 @@
       </div>
 
 
+
       <!-- PASSWORD -->
 
       <div class="setting-box">
 
-        <h3>🔑 Change Password</h3>
+        <h3>
+          🔑 Change Password
+        </h3>
 
         <p>
           Your new password must be at least 6 characters.
         </p>
+
 
         <input
           id="newPassword"
           type="password"
           placeholder="New password"
         >
+
 
         <button
           class="small-btn"
@@ -562,15 +663,19 @@
       </div>
 
 
+
       <!-- THEME -->
 
       <div class="setting-box">
 
-        <h3>🌙 Appearance</h3>
+        <h3>
+          🌙 Appearance
+        </h3>
 
         <p>
           Change website appearance.
         </p>
+
 
         <button
           class="small-btn"
@@ -582,15 +687,19 @@
       </div>
 
 
-      <!-- ACCOUNT -->
+
+      <!-- LOGOUT -->
 
       <div class="setting-box">
 
-        <h3>🚪 Account</h3>
+        <h3>
+          🚪 Account
+        </h3>
 
         <p>
           Sign out from your SomCity account.
         </p>
+
 
         <button
           class="small-btn danger"
@@ -608,519 +717,124 @@
 </div>
 
 
+
 <script>
 
-  // ==============================
-  // SUPABASE
-  // ==============================
 
-  const SUPABASE_URL =
-    "https://ayaaiycdzuzxcouybknc.supabase.co";
+// ========================================
+// SUPABASE
+// ========================================
 
-  const SUPABASE_KEY =
-    "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
+const SUPABASE_URL =
+  "https://ayaaiycdzuzxcouybknc.supabase.co";
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
 
+const SUPABASE_KEY =
+  "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
 
-  let signupMode = false;
 
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  // ==============================
-  // SWITCH LOGIN / SIGN UP
-  // ==============================
 
-  function switchMode() {
 
-    signupMode = !signupMode;
+let signupMode = false;
 
-    const name =
-      document.getElementById("name");
 
-    const subtitle =
-      document.getElementById("subtitle");
 
-    const button =
-      document.getElementById("authButton");
+// ========================================
+// LOGIN / SIGN UP SWITCH
+// ========================================
 
-    const switchText =
-      document.getElementById("switchText");
+function switchMode() {
 
-    const switchButton =
-      document.getElementById("switchButton");
+  signupMode =
+    !signupMode;
 
-    const message =
-      document.getElementById("message");
 
-    message.innerText = "";
+  const name =
+    document.getElementById("name");
 
 
-    if (signupMode) {
+  const subtitle =
+    document.getElementById("subtitle");
 
-      name.classList.remove("hidden");
 
-      subtitle.innerText =
-        "Create your SomCity account";
+  const button =
+    document.getElementById("authButton");
 
-      button.innerText =
-        "Sign Up";
 
-      switchText.innerText =
-        "Already have an account?";
+  const switchText =
+    document.getElementById("switchText");
 
-      switchButton.innerText =
-        "Login";
 
-    } else {
+  const switchButton =
+    document.getElementById("switchButton");
 
-      name.classList.add("hidden");
 
-      subtitle.innerText =
-        "Welcome to SomCity";
+  const message =
+    document.getElementById("message");
 
-      button.innerText =
-        "Login";
 
-      switchText.innerText =
-        "Don't have an account?";
+  message.innerText = "";
 
-      switchButton.innerText =
-        "Sign Up";
-    }
-  }
 
+  if (signupMode) {
 
-  // ==============================
-  // LOGIN / SIGN UP
-  // ==============================
+    name.classList.remove("hidden");
 
-  async function authAction() {
 
-    const name =
-      document.getElementById("name")
-        .value.trim();
+    subtitle.innerText =
+      "Create your SomCity account";
 
-    const email =
-      document.getElementById("email")
-        .value.trim();
 
-    const password =
-      document.getElementById("password")
-        .value;
+    button.innerText =
+      "Sign Up";
 
-    const message =
-      document.getElementById("message");
 
-    message.innerText = "";
+    switchText.innerText =
+      "Already have an account?";
 
 
-    if (!email || !password) {
-
-      message.innerText =
-        "Please enter email and password.";
-
-      return;
-    }
-
-
-    // SIGN UP
-
-    if (signupMode) {
-
-      if (!name) {
-
-        message.innerText =
-          "Please enter your name.";
-
-        return;
-      }
-
-
-      if (password.length < 6) {
-
-        message.innerText =
-          "Password must be at least 6 characters.";
-
-        return;
-      }
-
-
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-
-          email: email,
-
-          password: password,
-
-          options: {
-
-            data: {
-              full_name: name
-            }
-
-          }
-
-        });
-
-
-      if (error) {
-
-        message.innerText =
-          error.message;
-
-        return;
-      }
-
-
-      if (data.session) {
-
-        showDashboard(data.user);
-
-      } else {
-
-        message.innerText =
-          "Account created! Check your email.";
-
-      }
-
-      return;
-    }
-
-
-    // LOGIN
-
-    const { data, error } =
-      await supabaseClient.auth
-        .signInWithPassword({
-
-          email: email,
-
-          password: password
-
-        });
-
-
-    if (error) {
-
-      message.innerText =
-        error.message;
-
-      return;
-    }
-
-
-    showDashboard(data.user);
-  }
-
-
-  // ==============================
-  // SHOW DASHBOARD
-  // ==============================
-
-  async function showDashboard(user) {
-
-    document.getElementById("authPage")
-      .style.display = "none";
-
-    document.getElementById("dashboard")
-      .style.display = "block";
-
-
-    const name =
-      user.user_metadata?.full_name ||
-      "Player";
-
-
-    document.getElementById("userName")
-      .innerText = name;
-
-
-    document.getElementById("profileEmail")
-      .innerText = user.email;
-
-
-    await loadGames();
-  }
-
-
-  // ==============================
-  // LOAD GAMES FROM SUPABASE
-  // ==============================
-
-  async function loadGames() {
-
-    const gamesList =
-      document.getElementById("gamesList");
-
-    const gameCount =
-      document.getElementById("gameCount");
-
-
-    gamesList.innerHTML =
-      '<p class="empty">Loading games...</p>';
-
-
-    const { data, error } =
-      await supabaseClient
-        .from("game")
-        .select("id, created_at, Games")
-        .order("id", { ascending: false });
-
-
-    if (error) {
-
-      console.error(error);
-
-      gamesList.innerHTML =
-        '<p class="empty">Unable to load games.</p>';
-
-      gameCount.innerText =
-        "Error";
-
-      return;
-    }
-
-
-    gameCount.innerText =
-      data.length + " Games";
-
-
-    if (!data.length) {
-
-      gamesList.innerHTML =
-        '<p class="empty">No games available yet.</p>';
-
-      return;
-    }
-
-
-    gamesList.innerHTML = "";
-
-
-    data.forEach(function(game) {
-
-      const gameDiv =
-        document.createElement("div");
-
-      gameDiv.className = "game";
-
-
-      gameDiv.innerHTML = `
-
-        <div class="game-info">
-
-          <strong></strong>
-
-          <p>Game available on SomCity</p>
-
-        </div>
-
-        <button class="play">
-          Play
-        </button>
-
-      `;
-
-
-      gameDiv
-        .querySelector("strong")
-        .innerText =
-        game.Games || "Unnamed Game";
-
-
-      gameDiv
-        .querySelector(".play")
-        .onclick = function() {
-
-          alert(
-            game.Games +
-            " is coming soon!"
-          );
-
-        };
-
-
-      gamesList.appendChild(gameDiv);
-
-    });
+    switchButton.innerText =
+      "Login";
 
   }
 
+  else {
 
-  // ==============================
-  // CHANGE NAME
-  // ==============================
-
-  async function changeName() {
-
-    const newName =
-      document.getElementById("newName")
-        .value.trim();
+    name.classList.add("hidden");
 
 
-    if (!newName) {
-
-      alert("Please enter a new name.");
-
-      return;
-    }
+    subtitle.innerText =
+      "Welcome to SomCity";
 
 
-    const { error } =
-      await supabaseClient.auth
-        .updateUser({
-
-          data: {
-            full_name: newName
-          }
-
-        });
+    button.innerText =
+      "Login";
 
 
-    if (error) {
-
-      alert(error.message);
-
-      return;
-    }
+    switchText.innerText =
+      "Don't have an account?";
 
 
-    document.getElementById("userName")
-      .innerText = newName;
-
-
-    document.getElementById("newName")
-      .value = "";
-
-
-    alert("Name updated successfully!");
-  }
-
-
-  // ==============================
-  // CHANGE PASSWORD
-  // ==============================
-
-  async function changePassword() {
-
-    const newPassword =
-      document.getElementById("newPassword")
-        .value;
-
-
-    if (newPassword.length < 6) {
-
-      alert(
-        "Password must be at least 6 characters."
-      );
-
-      return;
-    }
-
-
-    const { error } =
-      await supabaseClient.auth
-        .updateUser({
-
-          password: newPassword
-
-        });
-
-
-    if (error) {
-
-      alert(error.message);
-
-      return;
-    }
-
-
-    document.getElementById("newPassword")
-      .value = "";
-
-
-    alert(
-      "Password changed successfully!"
-    );
-  }
-
-
-  // ==============================
-  // DARK / LIGHT MODE
-  // ==============================
-
-  function toggleTheme() {
-
-    document.body.classList.toggle("light");
-
-    const light =
-      document.body.classList.contains("light");
-
-    localStorage.setItem(
-      "somcity-theme",
-      light ? "light" : "dark"
-    );
-  }
-
-
-  // Load saved theme
-
-  if (
-    localStorage.getItem("somcity-theme")
-    === "light"
-  ) {
-
-    document.body.classList.add("light");
+    switchButton.innerText =
+      "Sign Up";
 
   }
 
-
-  // ==============================
-  // LOGOUT
-  // ==============================
-
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    document.getElementById("dashboard")
-      .style.display = "none";
-
-    document.getElementById("authPage")
-      .style.display = "flex";
-
-  }
+}
 
 
-  // ==============================
-  // CHECK EXISTING LOGIN
-  // ==============================
 
-  async function checkUser() {
+// ========================================
+// LOGIN / SIGN UP
+// ========================================
 
-    const { data } =
-      await supabaseClient.auth
-        .getSession();
+async function authAction() {
 
 
-    if (data.session) {
-
-      showDashboard(
-        data.session.user
-      );
-
-    }
-
-  }
-
-
-  checkUser();
-
-</script>
-
-</body>
-</html>
+ 
