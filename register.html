@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account | GameZone</title>
+
+  <title>Create Account | SomCity</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -20,17 +21,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #070b12;
+      background: #07111f;
       color: white;
       padding: 20px;
     }
 
     .box {
       width: 100%;
-      max-width: 430px;
-      background: #111827;
+      max-width: 420px;
+      background: #142033;
       padding: 35px;
       border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.35);
     }
 
     .logo {
@@ -41,32 +43,34 @@
     }
 
     .logo span {
-      color: #38bdf8;
+      color: #2f8cff;
     }
 
     .subtitle {
       text-align: center;
-      color: #94a3b8;
+      color: #9caabd;
       margin-bottom: 25px;
     }
 
     label {
       display: block;
       margin: 15px 0 8px;
+      font-weight: bold;
     }
 
     input {
       width: 100%;
       padding: 14px;
-      border: 1px solid #334155;
+      border: 1px solid #35465d;
       border-radius: 9px;
-      background: #0f172a;
+      background: #0b1626;
       color: white;
       outline: none;
+      font-size: 15px;
     }
 
     input:focus {
-      border-color: #38bdf8;
+      border-color: #2f8cff;
     }
 
     button {
@@ -75,15 +79,19 @@
       padding: 15px;
       border: 0;
       border-radius: 9px;
-      background: #2563eb;
+      background: #2f8cff;
       color: white;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
+    button:hover {
+      background: #2478dc;
+    }
+
     button:disabled {
-      background: #475569;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
@@ -97,11 +105,13 @@
       text-align: center;
       margin-top: 20px;
       line-height: 2;
+      color: #9caabd;
     }
 
     a {
-      color: #38bdf8;
+      color: #2f8cff;
       text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -111,47 +121,58 @@
   <div class="box">
 
     <div class="logo">
-      Game<span>Zone</span>
+      🎮 Som<span>City</span>
     </div>
 
     <p class="subtitle">
-      Create your GameZone account
+      Create your SomCity account
     </p>
 
     <form id="registerForm">
 
-      <label for="username">Username</label>
-
-      <input
-        id="username"
-        type="text"
-        placeholder="Choose username"
-        minlength="3"
-        maxlength="30"
-        required
-      >
-
-      <label for="email">Email</label>
+      <label for="email">
+        Email
+      </label>
 
       <input
         id="email"
         type="email"
         placeholder="Enter your email"
+        autocomplete="email"
         required
       >
 
-      <label for="password">Password</label>
+      <label for="password">
+        Password
+      </label>
 
       <input
         id="password"
         type="password"
-        placeholder="Create password"
+        placeholder="Create a password"
+        autocomplete="new-password"
         minlength="6"
         required
       >
 
-      <button id="registerButton" type="submit">
-        CREATE ACCOUNT
+      <label for="confirmPassword">
+        Confirm Password
+      </label>
+
+      <input
+        id="confirmPassword"
+        type="password"
+        placeholder="Confirm your password"
+        autocomplete="new-password"
+        minlength="6"
+        required
+      >
+
+      <button
+        id="registerButton"
+        type="submit"
+      >
+        🚀 CREATE ACCOUNT
       </button>
 
     </form>
@@ -159,22 +180,35 @@
     <div id="message"></div>
 
     <div class="links">
+
       <p>
         Already have an account?
-        <a href="login.html">Login</a>
+        <a href="login.html">
+          Login
+        </a>
       </p>
 
-      <a href="index.html">Back Home</a>
+      <a href="index.html">
+        🏠 Back Home
+      </a>
+
     </div>
 
   </div>
 
+
   <script>
+
+    /* =================================
+       SUPABASE
+    ================================= */
+
     const SUPABASE_URL =
-      "https://alkqucmjfzzdseqegcmg.supabase.co";
+      "https://ayaaiycdzuzxcouybknc.supabase.co";
 
     const SUPABASE_KEY =
-      "YOUR_REAL_SUPABASE_PUBLISHABLE_KEY";
+      "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
+
 
     const supabaseClient =
       window.supabase.createClient(
@@ -182,134 +216,211 @@
         SUPABASE_KEY
       );
 
-    const form =
+
+    /* =================================
+       ELEMENTS
+    ================================= */
+
+    const registerForm =
       document.getElementById("registerForm");
 
-    const button =
-      document.getElementById("registerButton");
+    const emailInput =
+      document.getElementById("email");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const confirmPasswordInput =
+      document.getElementById("confirmPassword");
 
     const message =
       document.getElementById("message");
 
-    form.addEventListener("submit", async function(event) {
+    const registerButton =
+      document.getElementById("registerButton");
 
-      event.preventDefault();
 
-      const username =
-        document.getElementById("username").value.trim();
+    /* =================================
+       REGISTER
+    ================================= */
 
-      const email =
-        document.getElementById("email").value.trim();
+    registerForm.addEventListener(
+      "submit",
+      async function(event) {
 
-      const password =
-        document.getElementById("password").value;
+        event.preventDefault();
 
-      message.textContent = "";
 
-      if (username.length < 3) {
+        const email =
+          emailInput.value.trim();
+
+        const password =
+          passwordInput.value;
+
+        const confirmPassword =
+          confirmPasswordInput.value;
+
+
+        message.style.color =
+          "#9caabd";
+
         message.textContent =
-          "Username must be at least 3 characters.";
-        return;
-      }
+          "Creating account...";
 
-      if (password.length < 6) {
-        message.textContent =
-          "Password must be at least 6 characters.";
-        return;
-      }
 
-      button.disabled = true;
-      button.textContent = "Creating account...";
+        registerButton.disabled = true;
 
-      try {
 
-        const {
-          data: existingUser,
-          error: usernameError
-        } = await supabaseClient
-          .from("profiles")
-          .select("id")
-          .eq("username", username)
-          .maybeSingle();
+        if (!email || !password || !confirmPassword) {
 
-        if (usernameError) {
-          throw usernameError;
-        }
+          message.style.color =
+            "#ff6b6b";
 
-        if (existingUser) {
           message.textContent =
-            "Username already exists.";
+            "Please fill in all fields.";
 
-          button.disabled = false;
-          button.textContent = "CREATE ACCOUNT";
+          registerButton.disabled = false;
+
           return;
         }
 
-        const {
-          data,
-          error
-        } = await supabaseClient.auth.signUp({
-          email: email,
-          password: password
-        });
 
-        if (error) {
-          throw error;
-        }
+        if (password.length < 6) {
 
-        if (!data.user) {
-          throw new Error(
-            "Account could not be created."
-          );
-        }
-
-        const {
-          error: profileError
-        } = await supabaseClient
-          .from("profiles")
-          .insert({
-            id: data.user.id,
-            username: username,
-            role: "player",
-            points: 0
-          });
-
-        if (profileError) {
-          throw profileError;
-        }
-
-        if (data.session) {
+          message.style.color =
+            "#ff6b6b";
 
           message.textContent =
-            "Account created successfully!";
+            "Password must be at least 6 characters.";
 
-          setTimeout(() => {
-            window.location.href =
-              "profile.html";
-          }, 1000);
+          registerButton.disabled = false;
 
-        } else {
-
-          message.textContent =
-            "Account created. Check your email to confirm your account.";
-
-          button.disabled = false;
-          button.textContent = "CREATE ACCOUNT";
+          return;
         }
 
-      } catch (error) {
 
-        console.error(error);
+        if (password !== confirmPassword) {
 
-        message.textContent =
-          error.message || "Something went wrong.";
+          message.style.color =
+            "#ff6b6b";
 
-        button.disabled = false;
-        button.textContent = "CREATE ACCOUNT";
+          message.textContent =
+            "Passwords do not match.";
+
+          registerButton.disabled = false;
+
+          return;
+        }
+
+
+        try {
+
+          const { data, error } =
+            await supabaseClient.auth
+              .signUp({
+
+                email: email,
+
+                password: password
+
+              });
+
+
+          if (error) {
+
+            message.style.color =
+              "#ff6b6b";
+
+            message.textContent =
+              "❌ " + error.message;
+
+            registerButton.disabled = false;
+
+            return;
+          }
+
+
+          if (!data || !data.user) {
+
+            message.style.color =
+              "#ff6b6b";
+
+            message.textContent =
+              "❌ Account could not be created.";
+
+            registerButton.disabled = false;
+
+            return;
+          }
+
+
+          /* =================================
+             EMAIL CONFIRMATION
+          ================================= */
+
+          if (
+            data.user.identities &&
+            data.user.identities.length === 0
+          ) {
+
+            message.style.color =
+              "#ff6b6b";
+
+            message.textContent =
+              "❌ This email may already be registered.";
+
+            registerButton.disabled = false;
+
+            return;
+          }
+
+
+          message.style.color =
+            "#4ade80";
+
+
+          if (data.session) {
+
+            message.textContent =
+              "✅ Account created successfully!";
+
+
+            setTimeout(function() {
+
+              window.location.href =
+                "index.html";
+
+            }, 1000);
+
+          } else {
+
+            message.innerHTML =
+              "✅ Account created!<br>" +
+              "Check your email to confirm your account.";
+
+            registerButton.disabled = false;
+
+          }
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          message.style.color =
+            "#ff6b6b";
+
+          message.textContent =
+            "❌ Something went wrong.";
+
+          registerButton.disabled = false;
+
+        }
+
       }
+    );
 
-    });
   </script>
 
 </body>
-</html>
+  </html>
