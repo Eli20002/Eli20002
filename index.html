@@ -1,32 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>SomCity</title>
+  <meta name="description" content="SomCity">
 
-  <meta
-    name="description"
-    content="SomCity"
-  >
-
-  <meta name="author" content="SomCity">
-
-  <meta name="theme-color" content="#0b1220">
-
-  <link
-    rel="icon"
-    type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b1220'/%3E%3Ctext x='50' y='68' font-size='55' text-anchor='middle' fill='%232f8cff'%3ES%3C/text%3E%3C/svg%3E"
-  >
-
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -39,55 +19,55 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #07111f, #102a43);
+      background: #07111f;
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
-    .box {
-      width: 92%;
-      max-width: 420px;
+    /* AUTH */
+
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 400px;
       background: #142033;
-      padding: 32px;
+      padding: 30px;
       border-radius: 18px;
-      box-shadow: 0 15px 50px rgba(0,0,0,.45);
+      box-shadow: 0 15px 50px rgba(0,0,0,.4);
     }
 
     .logo {
       text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .logo h1 {
-      font-size: 38px;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .logo span {
       color: #2f8cff;
     }
 
-    .sub {
+    .subtitle {
       text-align: center;
       color: #9caabd;
-      margin-top: 8px;
+      margin-bottom: 25px;
     }
 
     input {
       width: 100%;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #35465d;
-      border-radius: 9px;
       background: #0b1626;
       color: white;
+      border: 1px solid #35465d;
+      border-radius: 9px;
       outline: none;
-      font-size: 15px;
-    }
-
-    input:focus {
-      border-color: #2f8cff;
     }
 
     button {
@@ -97,13 +77,9 @@
       border-radius: 9px;
       background: #2f8cff;
       color: white;
-      font-size: 16px;
       font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
-    }
-
-    button:hover {
-      opacity: .9;
     }
 
     .switch {
@@ -112,7 +88,7 @@
       color: #9caabd;
     }
 
-    .switch span:last-child {
+    .switch span {
       color: #2f8cff;
       cursor: pointer;
       font-weight: bold;
@@ -121,49 +97,180 @@
     #message {
       text-align: center;
       margin-top: 15px;
-      color: #dbe7f5;
+      color: #ddd;
+    }
+
+    /* DASHBOARD */
+
+    #dashboard {
+      display: none;
+    }
+
+    .navbar {
+      height: 70px;
+      background: #0d192b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      border-bottom: 1px solid #24344a;
+    }
+
+    .navbar .logo {
+      font-size: 25px;
+      margin: 0;
+    }
+
+    .logout-small {
+      width: auto;
+      padding: 10px 18px;
+      background: #e53935;
       font-size: 14px;
     }
 
-    .dashboard {
-      display: none;
-      text-align: center;
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px;
     }
 
-    .dashboard h2 {
+    .welcome {
+      background: linear-gradient(135deg, #132c4b, #10213a);
+      padding: 30px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #9caabd;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #142033;
+      padding: 22px;
+      border-radius: 15px;
+      border: 1px solid #24344a;
+    }
+
+    .card .icon {
+      font-size: 28px;
       margin-bottom: 12px;
     }
 
-    .email {
-      color: #2f8cff;
-      margin-bottom: 20px;
+    .card h3 {
+      margin-bottom: 8px;
     }
 
-    .logout {
-      background: #e53935;
-      margin-top: 25px;
+    .card p {
+      color: #9caabd;
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .section {
+      background: #142033;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid #24344a;
+    }
+
+    .section h2 {
+      margin-bottom: 15px;
+    }
+
+    .game {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #26374c;
+    }
+
+    .game:last-child {
+      border-bottom: none;
+    }
+
+    .game button {
+      width: auto;
+      padding: 8px 15px;
+      font-size: 13px;
+    }
+
+    .notification {
+      padding: 12px 0;
+      border-bottom: 1px solid #26374c;
+      color: #cbd5e1;
+    }
+
+    .notification:last-child {
+      border-bottom: none;
+    }
+
+    .profile-email {
+      color: #2f8cff;
+      word-break: break-all;
     }
 
     .hidden {
-      display: none;
+      display: none !important;
+    }
+
+    @media (max-width: 800px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sections {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        padding: 0 15px;
+      }
+
+      .container {
+        padding: 20px 15px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="box">
+  <!-- ================= AUTH PAGE ================= -->
 
-    <!-- AUTH -->
-    <div id="authBox">
+  <div id="authPage" class="auth-page">
+
+    <div class="auth-box">
 
       <div class="logo">
-        <h1>Som<span>City</span></h1>
-
-        <p class="sub" id="subtitle">
-          Welcome to SomCity
-        </p>
+        Som<span>City</span>
       </div>
+
+      <p class="subtitle" id="authSubtitle">
+        Welcome to SomCity
+      </p>
 
       <input
         type="text"
@@ -184,71 +291,243 @@
         placeholder="Password"
       >
 
-      <button
-        id="authButton"
-        onclick="authAction()"
-      >
+      <button onclick="authAction()" id="authButton">
         Login
       </button>
 
       <div id="message"></div>
 
       <div class="switch">
-
         <span id="switchText">
           Don't have an account?
         </span>
 
-        <span
-          onclick="switchMode()"
-          id="switchButton"
-        >
+        <span onclick="switchMode()" id="switchButton">
           Sign Up
         </span>
-
       </div>
-
-    </div>
-
-    <!-- DASHBOARD -->
-    <div
-      id="dashboard"
-      class="dashboard"
-    >
-
-      <div class="logo">
-        <h1>Som<span>City</span></h1>
-      </div>
-
-      <h2>
-        Welcome to SomCity 🎮
-      </h2>
-
-      <p
-        class="email"
-        id="userEmail"
-      ></p>
-
-      <p>
-        You are successfully logged in.
-      </p>
-
-      <button
-        class="logout"
-        onclick="logout()"
-      >
-        Logout
-      </button>
 
     </div>
 
   </div>
 
+
+  <!-- ================= DASHBOARD ================= -->
+
+  <div id="dashboard">
+
+    <nav class="navbar">
+
+      <div class="logo">
+        Som<span>City</span>
+      </div>
+
+      <button
+        class="logout-small"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
+    </nav>
+
+
+    <main class="container">
+
+      <!-- Welcome -->
+
+      <div class="welcome">
+
+        <h1>
+          Welcome to SomCity 🎮
+        </h1>
+
+        <p id="welcomeEmail">
+          Loading...
+        </p>
+
+      </div>
+
+
+      <!-- Cards -->
+
+      <div class="cards">
+
+        <div class="card">
+
+          <div class="icon">👤</div>
+
+          <h3>Profile</h3>
+
+          <p id="profileName">
+            Player
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">🎮</div>
+
+          <h3>Games</h3>
+
+          <p>
+            0 Games
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">💰</div>
+
+          <h3>Balance</h3>
+
+          <p>
+            0 Coins
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="icon">🏆</div>
+
+          <h3>Rank</h3>
+
+          <p>
+            New Player
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Sections -->
+
+      <div class="sections">
+
+        <!-- Games -->
+
+        <div class="section">
+
+          <h2>🎮 Games</h2>
+
+          <div class="game">
+
+            <div>
+              <strong>SomCity RP</strong>
+              <p>Roleplay Game</p>
+            </div>
+
+            <button>
+              Play
+            </button>
+
+          </div>
+
+
+          <div class="game">
+
+            <div>
+              <strong>Coming Soon</strong>
+              <p>New game</p>
+            </div>
+
+            <button>
+              Soon
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Notifications -->
+
+        <div class="section">
+
+          <h2>🔔 Notifications</h2>
+
+          <div class="notification">
+            Welcome to SomCity!
+          </div>
+
+          <div class="notification">
+            Your account has been created.
+          </div>
+
+          <div class="notification">
+            More features coming soon.
+          </div>
+
+        </div>
+
+
+        <!-- Profile -->
+
+        <div class="section">
+
+          <h2>👤 Profile</h2>
+
+          <p>
+            Name:
+          </p>
+
+          <p
+            id="profileName2"
+            style="margin:8px 0 15px;color:#2f8cff;"
+          >
+            Player
+          </p>
+
+          <p>
+            Email:
+          </p>
+
+          <p
+            id="profileEmail"
+            class="profile-email"
+            style="margin-top:8px;"
+          >
+            Loading...
+          </p>
+
+        </div>
+
+
+        <!-- Settings -->
+
+        <div class="section">
+
+          <h2>⚙️ Settings</h2>
+
+          <p style="color:#9caabd;margin-bottom:15px;">
+            Account settings
+          </p>
+
+          <button onclick="alert('Settings coming soon!')">
+            Open Settings
+          </button>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
 <script>
 
-  // ==============================
+  // =========================================
   // SUPABASE
-  // ==============================
+  // =========================================
 
   const SUPABASE_URL =
     "https://ayaaiycdzuzxcouybknc.supabase.co";
@@ -263,16 +542,12 @@
     );
 
 
-  // ==============================
-  // MODE
-  // ==============================
+  // =========================================
+  // SIGN UP / LOGIN MODE
+  // =========================================
 
   let signupMode = false;
 
-
-  // ==============================
-  // SWITCH LOGIN / SIGN UP
-  // ==============================
 
   function switchMode() {
 
@@ -282,7 +557,7 @@
       document.getElementById("name");
 
     const subtitle =
-      document.getElementById("subtitle");
+      document.getElementById("authSubtitle");
 
     const button =
       document.getElementById("authButton");
@@ -300,10 +575,10 @@
 
     if (signupMode) {
 
+      name.classList.remove("hidden");
+
       subtitle.innerText =
         "Create your SomCity account";
-
-      name.classList.remove("hidden");
 
       button.innerText =
         "Sign Up";
@@ -316,10 +591,10 @@
 
     } else {
 
+      name.classList.add("hidden");
+
       subtitle.innerText =
         "Welcome to SomCity";
-
-      name.classList.add("hidden");
 
       button.innerText =
         "Login";
@@ -330,12 +605,13 @@
       switchButton.innerText =
         "Sign Up";
     }
+
   }
 
 
-  // ==============================
-  // AUTH
-  // ==============================
+  // =========================================
+  // AUTH ACTION
+  // =========================================
 
   async function authAction() {
 
@@ -366,7 +642,9 @@
     }
 
 
+    // ======================================
     // SIGN UP
+    // ======================================
 
     if (signupMode) {
 
@@ -378,6 +656,7 @@
         return;
       }
 
+
       if (password.length < 6) {
 
         message.innerText =
@@ -385,6 +664,7 @@
 
         return;
       }
+
 
       const { data, error } =
         await supabaseClient.auth.signUp({
@@ -413,14 +693,20 @@
       }
 
 
+      /*
+        If email confirmation is enabled,
+        Supabase may not create a session
+        until the email is confirmed.
+      */
+
       if (data.session) {
 
-        showDashboard(data.user);
+        openDashboard(data.user);
 
       } else {
 
         message.innerText =
-          "Account created successfully!";
+          "Account created successfully! Please check your email.";
 
       }
 
@@ -428,7 +714,9 @@
     }
 
 
+    // ======================================
     // LOGIN
+    // ======================================
 
     const { data, error } =
       await supabaseClient.auth
@@ -450,36 +738,60 @@
     }
 
 
-    showDashboard(data.user);
+    openDashboard(data.user);
+
   }
 
 
-  // ==============================
-  // DASHBOARD
-  // ==============================
+  // =========================================
+  // OPEN DASHBOARD
+  // =========================================
 
-  function showDashboard(user) {
+  function openDashboard(user) {
 
-    document.getElementById("authBox")
+    document.getElementById("authPage")
       .style.display = "none";
 
     document.getElementById("dashboard")
       .style.display = "block";
 
-    document.getElementById("userEmail")
-      .innerText = user.email;
+
+    const email =
+      user.email || "";
+
+
+    const name =
+      user.user_metadata?.full_name ||
+      "Player";
+
+
+    document.getElementById("welcomeEmail")
+      .innerText = email;
+
+
+    document.getElementById("profileName")
+      .innerText = name;
+
+
+    document.getElementById("profileName2")
+      .innerText = name;
+
+
+    document.getElementById("profileEmail")
+      .innerText = email;
 
   }
 
 
-  // ==============================
+  // =========================================
   // LOGOUT
-  // ==============================
+  // =========================================
 
   async function logout() {
 
     const { error } =
       await supabaseClient.auth.signOut();
+
 
     if (error) {
 
@@ -488,40 +800,47 @@
       return;
     }
 
+
     document.getElementById("dashboard")
       .style.display = "none";
 
-    document.getElementById("authBox")
-      .style.display = "block";
+    document.getElementById("authPage")
+      .style.display = "flex";
 
   }
 
 
-  // ==============================
-  // CHECK SESSION
-  // ==============================
+  // =========================================
+  // CHECK EXISTING LOGIN
+  // =========================================
 
   async function checkUser() {
 
     const { data } =
       await supabaseClient.auth.getSession();
 
+
     if (data.session) {
 
-      showDashboard(
+      openDashboard(
         data.session.user
       );
 
     }
+
   }
 
+
+  // =========================================
+  // AUTH STATE
+  // =========================================
 
   supabaseClient.auth.onAuthStateChange(
     (event, session) => {
 
       if (session) {
 
-        showDashboard(
+        openDashboard(
           session.user
         );
 
@@ -536,4 +855,4 @@
 </script>
 
 </body>
-  </html>
+</html>
