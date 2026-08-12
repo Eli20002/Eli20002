@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>SomCity</title>
-  <meta name="description" content="SomCity">
+  <meta name="description" content="SomCity Gaming Platform">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -33,7 +33,7 @@
       display: none !important;
     }
 
-    /* LOGIN */
+    /* AUTH */
 
     #authPage {
       min-height: 100vh;
@@ -49,6 +49,7 @@
       background: #142033;
       padding: 32px;
       border-radius: 18px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.35);
     }
 
     .logo {
@@ -57,10 +58,11 @@
     }
 
     .logo h1 {
-      font-size: 38px;
+      font-size: 40px;
     }
 
-    .logo span {
+    .logo span,
+    header span {
       color: #2f8cff;
     }
 
@@ -81,6 +83,10 @@
       outline: none;
     }
 
+    input:focus {
+      border-color: #2f8cff;
+    }
+
     button {
       width: 100%;
       padding: 14px;
@@ -90,6 +96,10 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
+    }
+
+    button:hover {
+      opacity: .9;
     }
 
     .switch {
@@ -110,7 +120,7 @@
       font-size: 14px;
     }
 
-    /* DASHBOARD */
+    /* HEADER */
 
     #dashboard {
       display: none;
@@ -123,14 +133,13 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 25px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     header h1 {
       font-size: 25px;
-    }
-
-    header span {
-      color: #2f8cff;
     }
 
     .logout-small {
@@ -144,6 +153,8 @@
       margin: auto;
       padding: 30px 20px;
     }
+
+    /* WELCOME */
 
     .welcome {
       background: linear-gradient(135deg, #132d4b, #102033);
@@ -160,6 +171,8 @@
     .welcome p {
       color: #aebdd0;
     }
+
+    /* CARDS */
 
     .cards {
       display: grid;
@@ -184,6 +197,8 @@
       margin-top: 5px;
     }
 
+    /* SECTION */
+
     .section {
       background: #142033;
       padding: 25px;
@@ -195,14 +210,32 @@
       margin-bottom: 18px;
     }
 
+    /* GAMES */
+
+    #gamesList {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
     .game {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px;
+      padding: 18px;
       background: #0b1626;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      border-radius: 12px;
+      border: 1px solid #1e3048;
+    }
+
+    .game-info strong {
+      font-size: 17px;
+    }
+
+    .game-info p {
+      color: #9caabd;
+      margin-top: 5px;
+      font-size: 13px;
     }
 
     .play {
@@ -210,11 +243,12 @@
       padding: 9px 18px;
     }
 
-    /* SETTINGS */
-
-    .settings-btn {
-      margin-top: 15px;
+    .empty {
+      color: #9caabd;
+      padding: 15px 0;
     }
+
+    /* SETTINGS */
 
     .setting-box {
       background: #0b1626;
@@ -232,10 +266,6 @@
       margin-bottom: 12px;
     }
 
-    .setting-box input {
-      margin-bottom: 10px;
-    }
-
     .small-btn {
       width: auto;
       padding: 10px 18px;
@@ -245,15 +275,73 @@
       background: #e53935;
     }
 
+    /* LIGHT MODE */
+
+    body.light header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+    body.light .auth-box,
+    body.light .card,
+    body.light .section {
+      background: white;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    body.light .game,
+    body.light .setting-box,
+    body.light input {
+      background: #f8fafc;
+      color: #111827;
+    }
+
+    body.light .welcome {
+      background: white;
+    }
+
+    body.light .welcome p,
+    body.light .card p,
+    body.light .game-info p,
+    body.light .setting-box p {
+      color: #64748b;
+    }
+
+    /* RESPONSIVE */
+
     @media (max-width: 800px) {
       .cards {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      #gamesList {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 500px) {
+      header {
+        padding: 0 15px;
+      }
+
+      header h1 {
+        font-size: 21px;
+      }
+
+      .container {
+        padding: 20px 15px;
+      }
+
       .cards {
         grid-template-columns: 1fr;
+      }
+
+      .welcome h2 {
+        font-size: 23px;
+      }
+
+      .game {
+        gap: 10px;
       }
     }
   </style>
@@ -262,7 +350,7 @@
 <body>
 
 <!-- ========================= -->
-<!-- LOGIN -->
+<!-- LOGIN / SIGN UP -->
 <!-- ========================= -->
 
 <div id="authPage">
@@ -271,6 +359,7 @@
 
     <div class="logo">
       <h1>Som<span>City</span></h1>
+
       <p class="subtitle" id="subtitle">
         Welcome to SomCity
       </p>
@@ -295,10 +384,7 @@
       placeholder="Password"
     >
 
-    <button
-      id="authButton"
-      onclick="authAction()"
-    >
+    <button id="authButton" onclick="authAction()">
       Login
     </button>
 
@@ -309,10 +395,7 @@
         Don't have an account?
       </span>
 
-      <span
-        id="switchButton"
-        onclick="switchMode()"
-      >
+      <span id="switchButton" onclick="switchMode()">
         Sign Up
       </span>
     </div>
@@ -344,6 +427,8 @@
 
   <main class="container">
 
+    <!-- WELCOME -->
+
     <div class="welcome">
 
       <h2>
@@ -370,7 +455,7 @@
       <div class="card">
         <div class="card-icon">🎮</div>
         <h3>Games</h3>
-        <p>0 Games</p>
+        <p id="gameCount">Loading...</p>
       </div>
 
       <div class="card">
@@ -407,19 +492,11 @@
 
       <h2>🎮 Games</h2>
 
-      <div class="game">
+      <div id="gamesList">
 
-        <div>
-          <strong>SomCity RP</strong>
-
-          <p style="color:#9caabd;">
-            Roleplay Game
-          </p>
-        </div>
-
-        <button class="play">
-          Play
-        </button>
+        <p class="empty">
+          Loading games...
+        </p>
 
       </div>
 
@@ -554,7 +631,7 @@
 
 
   // ==============================
-  // LOGIN / SIGNUP SWITCH
+  // SWITCH LOGIN / SIGN UP
   // ==============================
 
   function switchMode() {
@@ -614,12 +691,11 @@
       switchButton.innerText =
         "Sign Up";
     }
-
   }
 
 
   // ==============================
-  // AUTH ACTION
+  // LOGIN / SIGN UP
   // ==============================
 
   async function authAction() {
@@ -738,7 +814,6 @@
 
 
     showDashboard(data.user);
-
   }
 
 
@@ -746,7 +821,7 @@
   // SHOW DASHBOARD
   // ==============================
 
-  function showDashboard(user) {
+  async function showDashboard(user) {
 
     document.getElementById("authPage")
       .style.display = "none";
@@ -766,6 +841,112 @@
 
     document.getElementById("profileEmail")
       .innerText = user.email;
+
+
+    await loadGames();
+  }
+
+
+  // ==============================
+  // LOAD GAMES FROM SUPABASE
+  // ==============================
+
+  async function loadGames() {
+
+    const gamesList =
+      document.getElementById("gamesList");
+
+    const gameCount =
+      document.getElementById("gameCount");
+
+
+    gamesList.innerHTML =
+      '<p class="empty">Loading games...</p>';
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("game")
+        .select("id, created_at, Games")
+        .order("id", { ascending: false });
+
+
+    if (error) {
+
+      console.error(error);
+
+      gamesList.innerHTML =
+        '<p class="empty">Unable to load games.</p>';
+
+      gameCount.innerText =
+        "Error";
+
+      return;
+    }
+
+
+    gameCount.innerText =
+      data.length + " Games";
+
+
+    if (!data.length) {
+
+      gamesList.innerHTML =
+        '<p class="empty">No games available yet.</p>';
+
+      return;
+    }
+
+
+    gamesList.innerHTML = "";
+
+
+    data.forEach(function(game) {
+
+      const gameDiv =
+        document.createElement("div");
+
+      gameDiv.className = "game";
+
+
+      gameDiv.innerHTML = `
+
+        <div class="game-info">
+
+          <strong></strong>
+
+          <p>Game available on SomCity</p>
+
+        </div>
+
+        <button class="play">
+          Play
+        </button>
+
+      `;
+
+
+      gameDiv
+        .querySelector("strong")
+        .innerText =
+        game.Games || "Unnamed Game";
+
+
+      gameDiv
+        .querySelector(".play")
+        .onclick = function() {
+
+          alert(
+            game.Games +
+            " is coming soon!"
+          );
+
+        };
+
+
+      gamesList.appendChild(gameDiv);
+
+    });
 
   }
 
@@ -789,7 +970,7 @@
     }
 
 
-    const { data, error } =
+    const { error } =
       await supabaseClient.auth
         .updateUser({
 
@@ -817,7 +998,6 @@
 
 
     alert("Name updated successfully!");
-
   }
 
 
@@ -866,7 +1046,6 @@
     alert(
       "Password changed successfully!"
     );
-
   }
 
 
@@ -878,9 +1057,70 @@
 
     document.body.classList.toggle("light");
 
+    const light =
+      document.body.classList.contains("light");
 
-    if (
-      document.body.classList.contains("light")
-    ) {
+    localStorage.setItem(
+      "somcity-theme",
+      light ? "light" : "dark"
+    );
+  }
 
-      localStorage
+
+  // Load saved theme
+
+  if (
+    localStorage.getItem("somcity-theme")
+    === "light"
+  ) {
+
+    document.body.classList.add("light");
+
+  }
+
+
+  // ==============================
+  // LOGOUT
+  // ==============================
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    document.getElementById("dashboard")
+      .style.display = "none";
+
+    document.getElementById("authPage")
+      .style.display = "flex";
+
+  }
+
+
+  // ==============================
+  // CHECK EXISTING LOGIN
+  // ==============================
+
+  async function checkUser() {
+
+    const { data } =
+      await supabaseClient.auth
+        .getSession();
+
+
+    if (data.session) {
+
+      showDashboard(
+        data.session.user
+      );
+
+    }
+
+  }
+
+
+  checkUser();
+
+</script>
+
+</body>
+</html>
