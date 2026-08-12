@@ -28,7 +28,7 @@
     .box {
       width: 92%;
       max-width: 420px;
-      background: rgba(20, 32, 50, 0.96);
+      background: #142033;
       padding: 32px;
       border-radius: 18px;
       box-shadow: 0 15px 50px rgba(0,0,0,.45);
@@ -40,8 +40,7 @@
     }
 
     .logo h1 {
-      font-size: 34px;
-      letter-spacing: 1px;
+      font-size: 36px;
     }
 
     .logo span {
@@ -134,11 +133,13 @@
 
   <div class="box">
 
-    <!-- AUTH -->
+    <!-- LOGIN / SIGN UP -->
+
     <div id="authBox">
 
       <div class="logo">
         <h1>Som<span>City</span></h1>
+
         <p class="sub" id="subtitle">
           Welcome to SomCity
         </p>
@@ -170,34 +171,50 @@
       <div id="message"></div>
 
       <div class="switch">
+
         <span id="switchText">
           Don't have an account?
         </span>
 
-        <span onclick="switchMode()" id="switchButton">
+        <span
+          onclick="switchMode()"
+          id="switchButton"
+        >
           Sign Up
         </span>
+
       </div>
 
     </div>
 
 
     <!-- DASHBOARD -->
+
     <div id="dashboard" class="dashboard">
 
       <div class="logo">
+
         <h1>Som<span>City</span></h1>
+
       </div>
 
-      <h2>Welcome to SomCity 🎮</h2>
+      <h2>
+        Welcome to SomCity 🎮
+      </h2>
 
-      <p class="email" id="userEmail"></p>
+      <p
+        class="email"
+        id="userEmail"
+      ></p>
 
       <p>
         You are successfully logged in.
       </p>
 
-      <button class="logout" onclick="logout()">
+      <button
+        class="logout"
+        onclick="logout()"
+      >
         Logout
       </button>
 
@@ -208,15 +225,16 @@
 
 <script>
 
-  // ==============================
-  // SUPABASE
-  // ==============================
+  // =================================
+  // SUPABASE CONFIG
+  // =================================
 
   const SUPABASE_URL =
-    "https://alkqucmjfzzdseqegcmg.supabase.co";
+    "https://ayaaiycdzuzxcouybknc.supabase.co";
 
   const SUPABASE_KEY =
-    "sb_publishable_jMs8onilE4SFfDZQk1-_ag_imMUIJXj";
+    "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
+
 
   const supabaseClient =
     window.supabase.createClient(
@@ -225,26 +243,26 @@
     );
 
 
-  // ==============================
-  // MODE
-  // ==============================
+  // =================================
+  // LOGIN / SIGN UP MODE
+  // =================================
 
   let signupMode = false;
 
 
-  // ==============================
-  // SWITCH LOGIN / SIGN UP
-  // ==============================
+  // =================================
+  // SWITCH MODE
+  // =================================
 
   function switchMode() {
 
     signupMode = !signupMode;
 
-    const title =
-      document.getElementById("subtitle");
-
     const name =
       document.getElementById("name");
+
+    const subtitle =
+      document.getElementById("subtitle");
 
     const button =
       document.getElementById("authButton");
@@ -258,11 +276,13 @@
     const message =
       document.getElementById("message");
 
+
     message.innerText = "";
+
 
     if (signupMode) {
 
-      title.innerText =
+      subtitle.innerText =
         "Create your SomCity account";
 
       name.classList.remove("hidden");
@@ -278,7 +298,7 @@
 
     } else {
 
-      title.innerText =
+      subtitle.innerText =
         "Welcome to SomCity";
 
       name.classList.add("hidden");
@@ -292,12 +312,13 @@
       switchButton.innerText =
         "Sign Up";
     }
+
   }
 
 
-  // ==============================
+  // =================================
   // LOGIN / SIGN UP
-  // ==============================
+  // =================================
 
   async function authAction() {
 
@@ -316,6 +337,7 @@
     const message =
       document.getElementById("message");
 
+
     message.innerText = "";
 
 
@@ -328,9 +350,9 @@
     }
 
 
-    // ==============================
+    // =================================
     // SIGN UP
-    // ==============================
+    // =================================
 
     if (signupMode) {
 
@@ -341,6 +363,7 @@
 
         return;
       }
+
 
       if (password.length < 6) {
 
@@ -359,9 +382,13 @@
           password: password,
 
           options: {
+
             data: {
+
               full_name: name
+
             }
+
           }
 
         });
@@ -386,21 +413,23 @@
           "Account created successfully!";
 
         switchMode();
+
       }
 
       return;
     }
 
 
-    // ==============================
+    // =================================
     // LOGIN
-    // ==============================
+    // =================================
 
     const { data, error } =
       await supabaseClient.auth
         .signInWithPassword({
 
           email: email,
+
           password: password
 
         });
@@ -416,12 +445,13 @@
 
 
     showDashboard(data.user);
+
   }
 
 
-  // ==============================
-  // DASHBOARD
-  // ==============================
+  // =================================
+  // SHOW DASHBOARD
+  // =================================
 
   function showDashboard(user) {
 
@@ -433,12 +463,13 @@
 
     document.getElementById("userEmail")
       .innerText = user.email;
+
   }
 
 
-  // ==============================
+  // =================================
   // LOGOUT
-  // ==============================
+  // =================================
 
   async function logout() {
 
@@ -451,6 +482,7 @@
       alert(error.message);
 
       return;
+
     }
 
 
@@ -460,6 +492,7 @@
     document.getElementById("authBox")
       .style.display = "block";
 
+
     document.getElementById("email")
       .value = "";
 
@@ -468,12 +501,13 @@
 
     document.getElementById("name")
       .value = "";
+
   }
 
 
-  // ==============================
+  // =================================
   // CHECK SESSION
-  // ==============================
+  // =================================
 
   async function checkUser() {
 
@@ -488,19 +522,22 @@
       );
 
     }
+
   }
 
 
-  // ==============================
+  // =================================
   // AUTH STATE
-  // ==============================
+  // =================================
 
   supabaseClient.auth.onAuthStateChange(
     (event, session) => {
 
       if (session) {
 
-        showDashboard(session.user);
+        showDashboard(
+          session.user
+        );
 
       }
 
@@ -508,6 +545,7 @@
   );
 
 
+  // Start
   checkUser();
 
 </script>
