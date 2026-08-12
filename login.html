@@ -21,9 +21,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
       background: #07111f;
       color: white;
-      padding: 20px;
     }
 
     .box {
@@ -32,7 +32,7 @@
       background: #142033;
       padding: 35px;
       border-radius: 18px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+      box-shadow: 0 15px 40px rgba(0,0,0,.4);
     }
 
     .logo {
@@ -77,7 +77,7 @@
       width: 100%;
       margin-top: 25px;
       padding: 15px;
-      border: 0;
+      border: none;
       border-radius: 9px;
       background: #2f8cff;
       color: white;
@@ -91,14 +91,14 @@
     }
 
     button:disabled {
-      opacity: 0.6;
+      opacity: .6;
       cursor: not-allowed;
     }
 
     #message {
-      text-align: center;
       margin-top: 18px;
-      min-height: 22px;
+      text-align: center;
+      min-height: 24px;
       line-height: 1.5;
     }
 
@@ -113,10 +113,6 @@
       color: #2f8cff;
       text-decoration: none;
       font-weight: bold;
-    }
-
-    a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -133,12 +129,9 @@
       Login to your SomCity account
     </p>
 
-
     <form id="loginForm">
 
-      <label for="email">
-        Email
-      </label>
+      <label for="email">Email</label>
 
       <input
         id="email"
@@ -148,10 +141,7 @@
         required
       >
 
-
-      <label for="password">
-        Password
-      </label>
+      <label for="password">Password</label>
 
       <input
         id="password"
@@ -161,32 +151,22 @@
         required
       >
 
-
-      <button
-        id="loginButton"
-        type="submit"
-      >
+      <button id="loginButton" type="submit">
         🔐 LOGIN
       </button>
 
     </form>
 
-
     <div id="message"></div>
-
 
     <div class="links">
 
       <p>
         Don't have an account?
-        <a href="register.html">
-          Create Account
-        </a>
+        <a href="register.html">Create Account</a>
       </p>
 
-      <a href="index.html">
-        🏠 Back Home
-      </a>
+      <a href="index.html">🏠 Back Home</a>
 
     </div>
 
@@ -195,16 +175,15 @@
 
   <script>
 
-    /* =================================
-       SUPABASE CONNECTION
-    ================================= */
+    // ==============================
+    // SUPABASE
+    // ==============================
 
     const SUPABASE_URL =
       "https://ayaaiycdzuzxcouybknc.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
-
 
     const supabaseClient =
       window.supabase.createClient(
@@ -213,160 +192,222 @@
       );
 
 
-    /* =================================
-       ELEMENTS
-    ================================= */
+    // ==============================
+    // ELEMENTS
+    // ==============================
 
-    const loginForm =
+    const form =
       document.getElementById("loginForm");
 
-    const emailInput =
+    const email =
       document.getElementById("email");
 
-    const passwordInput =
+    const password =
       document.getElementById("password");
+
+    const button =
+      document.getElementById("loginButton");
 
     const message =
       document.getElementById("message");
 
-    const loginButton =
-      document.getElementById("loginButton");
+
+    // ==============================
+    // MESSAGE
+    // ==============================
+
+    function showMessage(text, color) {
+
+      message.textContent = text;
+      message.style.color = color;
+
+    }
 
 
-    /* =================================
-       LOGIN
-    ================================= */
+    // ==============================
+    // LOGIN
+    // ==============================
 
-    loginForm.addEventListener(
-      "submit",
-      async function(event) {
+    form.addEventListener("submit", async function(e) {
 
-        event.preventDefault();
+      e.preventDefault();
+
+      const userEmail =
+        email.value.trim();
+
+      const userPassword =
+        password.value;
+
+      if (!userEmail || !userPassword) {
+
+        showMessage(
+          "❌ Please enter email and password.",
+          "#ff6b6b"
+        );
+
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "⏳ Logging in...";
+
+      showMessage(
+        "Checking your account...",
+        "#9caabd"
+      );
 
 
-        const email =
-          emailInput.value.trim();
+      try {
 
-        const password =
-          passwordInput.value;
+        const result =
+          await supabaseClient.auth.signInWithPassword({
 
+            email: userEmail,
 
-        message.style.color = "#9caabd";
+            password: userPassword
 
-        message.textContent =
-          "Logging in...";
-
-
-        loginButton.disabled = true;
+          });
 
 
-        if (!email || !password) {
+        const data = result.data;
+        const error = result.error;
 
-          message.style.color =
-            "#ff6b6b";
 
-          message.textContent =
-            "Please enter email and password.";
+        // ==============================
+        // ERROR
+        // ==============================
 
-          loginButton.disabled = false;
+        if (error) {
+
+          console.error(
+            "Supabase Login Error:",
+            error
+          );
+
+          showMessage(
+            "❌ " + error.message,
+            "#ff6b6b"
+          );
+
+          button.disabled = false;
+          button.textContent = "🔐 LOGIN";
 
           return;
         }
 
 
-        try {
+        // ==============================
+        // USER CHECK
+        // ==============================
 
-          const { data, error } =
-            await supabaseClient.auth
-              .signInWithPassword({
+        if (!data || !data.user) {
 
-                email: email,
+          showMessage(
+            "❌ Login failed. User not found.",
+            "#ff6b6b"
+          );
 
-                password: password
+          button.disabled = false;
+          button.textContent = "🔐 LOGIN";
 
-              });
-
-
-          if (error) {
-
-            message.style.color =
-              "#ff6b6b";
-
-            message.textContent =
-              "❌ " + error.message;
-
-            loginButton.disabled = false;
-
-            return;
-          }
+          return;
+        }
 
 
-          if (!data || !data.user) {
+        // ==============================
+        // SUCCESS
+        // ==============================
 
-            message.style.color =
-              "#ff6b6b";
+        showMessage(
+          "✅ Login successful!",
+          "#4ade80"
+        );
 
-            message.textContent =
-              "❌ Login failed.";
-
-            loginButton.disabled = false;
-
-            return;
-          }
+        button.textContent = "✅ Logged in";
 
 
-          message.style.color =
-            "#4ade80";
+        // Save basic login state
+        localStorage.setItem(
+          "somcity_logged_in",
+          "true"
+        );
 
-          message.textContent =
-            "✅ Login successful!";
-
-
-          setTimeout(function() {
-
-            window.location.href =
-              "index.html";
-
-          }, 800);
+        localStorage.setItem(
+          "somcity_user_id",
+          data.user.id
+        );
 
 
-        } catch (error) {
+        // Go home
+        setTimeout(() => {
 
-          console.error(error);
+          window.location.href =
+            "index.html";
 
-          message.style.color =
-            "#ff6b6b";
+        }, 800);
 
-          message.textContent =
-            "❌ Something went wrong.";
+      }
 
-          loginButton.disabled = false;
+
+      catch (err) {
+
+        console.error(err);
+
+        showMessage(
+          "❌ Connection error. Please try again.",
+          "#ff6b6b"
+        );
+
+        button.disabled = false;
+        button.textContent = "🔐 LOGIN";
+
+      }
+
+    });
+
+
+    // ==============================
+    // CHECK SESSION
+    // ==============================
+
+    async function checkSession() {
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.getSession();
+
+
+        if (error) {
+
+          console.error(
+            "Session error:",
+            error
+          );
+
+          return;
+        }
+
+
+        if (
+          data &&
+          data.session &&
+          data.session.user
+        ) {
+
+          window.location.href =
+            "index.html";
 
         }
 
       }
-    );
 
+      catch (err) {
 
-    /* =================================
-       CHECK EXISTING SESSION
-    ================================= */
-
-    async function checkSession() {
-
-      const { data } =
-        await supabaseClient.auth
-          .getSession();
-
-
-      if (
-        data &&
-        data.session &&
-        data.session.user
-      ) {
-
-        window.location.href =
-          "index.html";
+        console.error(err);
 
       }
 
