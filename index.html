@@ -1,1212 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SomCity</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
-
-body{
-  min-height:100vh;
-  background:#07111f;
-  color:white;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* LOGIN */
-
-#authPage{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-}
-
-.auth-box{
-  width:100%;
-  max-width:420px;
-  background:#142033;
-  padding:32px;
-  border-radius:20px;
-  box-shadow:0 15px 50px rgba(0,0,0,.35);
-}
-
-.logo{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.logo h1{
-  font-size:40px;
-}
-
-.logo span,
-header span{
-  color:#2f8cff;
-}
-
-.subtitle{
-  color:#9caabd;
-  margin-top:8px;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  margin-bottom:14px;
-  border-radius:9px;
-  border:1px solid #35465d;
-  background:#0b1626;
-  color:white;
-  outline:none;
-}
-
-button{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:9px;
-  background:#2f8cff;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover{
-  opacity:.9;
-}
-
-.switch{
-  text-align:center;
-  margin-top:20px;
-  color:#9caabd;
-}
-
-.switch span{
-  color:#2f8cff;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-#message{
-  text-align:center;
-  margin-top:15px;
-}
-
-/* DASHBOARD */
-
-#dashboard{
-  display:none;
-}
-
-header{
-  height:70px;
-  background:#101b2d;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 25px;
-  position:sticky;
-  top:0;
-  z-index:20;
-}
-
-header h1{
-  font-size:25px;
-}
-
-.logout{
-  width:auto;
-  padding:9px 15px;
-  background:#e53935;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:25px 20px 100px;
-}
-
-/* NAVIGATION */
-
-.nav{
-  display:flex;
-  gap:10px;
-  margin-bottom:25px;
-  overflow:auto;
-}
-
-.nav button{
-  width:auto;
-  padding:10px 18px;
-  white-space:nowrap;
-  background:#142033;
-}
-
-.nav button.active{
-  background:#2f8cff;
-}
-
-/* PAGES */
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-/* HOME */
-
-.welcome{
-  background:linear-gradient(135deg,#132d4b,#102033);
-  padding:30px;
-  border-radius:20px;
-  margin-bottom:25px;
-}
-
-.welcome h2{
-  font-size:28px;
-  margin-bottom:8px;
-}
-
-.welcome p{
-  color:#aebdd0;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.card{
-  background:#142033;
-  padding:22px;
-  border-radius:15px;
-}
-
-.icon{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.card p{
-  color:#9caabd;
-  margin-top:5px;
-}
-
-/* SECTION */
-
-.section{
-  background:#142033;
-  padding:25px;
-  border-radius:16px;
-  margin-bottom:20px;
-}
-
-.section h2{
-  margin-bottom:18px;
-}
-
-/* GAMES */
-
-.games-list{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-
-.game{
-  background:#0b1626;
-  padding:20px;
-  border-radius:14px;
-  border:1px solid #1e3048;
-}
-
-.game h3{
-  margin-bottom:7px;
-}
-
-.game p{
-  color:#9caabd;
-  margin-bottom:15px;
-}
-
-.play{
-  width:auto;
-  padding:9px 18px;
-}
-
-/* PROFILE */
-
-.profile-row{
-  background:#0b1626;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:10px;
-}
-
-.profile-row span{
-  color:#9caabd;
-  display:block;
-  margin-bottom:5px;
-}
-
-/* SETTINGS */
-
-.setting{
-  background:#0b1626;
-  padding:18px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-
-.setting h3{
-  margin-bottom:8px;
-}
-
-.setting p{
-  color:#9caabd;
-  margin-bottom:12px;
-}
-
-.small{
-  width:auto;
-  padding:10px 18px;
-}
-
-.danger{
-  background:#e53935;
-}
-
-.empty{
-  color:#9caabd;
-  padding:15px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .games-list{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:500px){
-
-  header{
-    padding:0 15px;
-  }
-
-  header h1{
-    font-size:21px;
-  }
-
-  .container{
-    padding:20px 15px 100px;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .nav button{
-    padding:9px 14px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SomCity</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #07111f;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      height: 70px;
+      background: #101b2d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #2f8cff;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+    }
+
+    nav a:hover {
+      background: #1d3150;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px;
+    }
+
+    .hero-box {
+      background: linear-gradient(135deg, #132d4b, #102033);
+      padding: 45px 30px;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+      color: #2f8cff;
+    }
+
+    .hero p {
+      color: #9caabd;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 20px 40px;
+    }
+
+    .section {
+      margin-top: 25px;
+    }
+
+    .section h2 {
+      margin-bottom: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: #142033;
+      padding: 22px;
+      border-radius: 14px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #9caabd;
+      line-height: 1.5;
+    }
+
+    .game-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .date {
+      color: #6f829c;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .loading,
+    .empty,
+    .error {
+      background: #142033;
+      padding: 20px;
+      border-radius: 12px;
+      color: #9caabd;
+    }
+
+    footer {
+      background: #101b2d;
+      text-align: center;
+      padding: 25px;
+      margin-top: 30px;
+      color: #718198;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding: 0 15px;
+      }
+
+      nav a {
+        padding: 7px;
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: 30px 15px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .container {
+        padding: 0 15px 30px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+  <!-- HEADER -->
+  <header>
 
-<div id="authPage">
+    <div class="logo">
+      Som<span>City</span>
+    </div>
 
-<div class="auth-box">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </nav>
 
-<div class="logo">
-<h1>Som<span>City</span></h1>
-<p class="subtitle" id="subtitle">
-Welcome to SomCity
-</p>
-</div>
+  </header>
 
-<input
-id="name"
-type="text"
-placeholder="Your name"
-class="hidden">
 
-<input
-id="email"
-type="email"
-placeholder="Email address">
+  <!-- HERO -->
+  <section class="hero">
 
-<input
-id="password"
-type="password"
-placeholder="Password">
+    <div class="hero-box">
 
-<button
-id="authButton"
-onclick="authAction()">
-Login
-</button>
+      <h1>
+        Welcome to <span>SomCity</span>
+      </h1>
 
-<div id="message"></div>
+      <p>
+        Discover games, news and updates from SomCity.
+      </p>
 
-<div class="switch">
-<span id="switchText">
-Don't have an account?
-</span>
+    </div>
 
-<span
-id="switchButton"
-onclick="switchMode()">
-Sign Up
-</span>
-</div>
+  </section>
 
-</div>
 
-</div>
+  <main class="container">
 
+    <!-- GAMES -->
+    <section class="section">
 
-<!-- DASHBOARD -->
+      <h2>🎮 Games</h2>
 
-<div id="dashboard">
+      <div id="gamesList" class="grid">
 
-<header>
+        <div class="loading">
+          Loading games...
+        </div>
 
-<h1>Som<span>City</span></h1>
+      </div>
 
-<button
-class="logout"
-onclick="logout()">
-Logout
-</button>
+    </section>
 
-</header>
 
+    <!-- NEWS -->
+    <section class="section">
 
-<main class="container">
+      <h2>📰 Latest News</h2>
 
-<!-- NAVIGATION -->
+      <div id="newsList">
 
-<div class="nav">
+        <div class="loading">
+          Loading news...
+        </div>
 
-<button
-class="active"
-onclick="showPage('home',this)">
-🏠 Home
-</button>
+      </div>
 
-<button
-onclick="showPage('games',this)">
-🎮 Games
-</button>
+    </section>
 
-<button
-onclick="showPage('profile',this)">
-👤 Profile
-</button>
+  </main>
 
-<button
-onclick="showPage('settings',this)">
-⚙️ Settings
-</button>
 
-</div>
+  <!-- FOOTER -->
+  <footer>
 
+    © 2026 SomCity. All rights reserved.
 
-<!-- HOME -->
+  </footer>
 
-<div
-id="home"
-class="page active">
 
-<div class="welcome">
+  <script>
 
-<h2>
-Welcome, <span id="userName">Player</span> 👋
-</h2>
+    /* ===============================
+       SUPABASE
+    =============================== */
 
-<p>
-Welcome to SomCity Gaming Platform.
-</p>
+    const SUPABASE_URL =
+      "https://ayaaiycdzuzxcouybknc.supabase.co";
 
-</div>
+    const SUPABASE_KEY =
+      "sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
 
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-<div class="cards">
 
-<div class="card">
-<div class="icon">👤</div>
-<h3>Profile</h3>
-<p>Your account</p>
-</div>
+    /* ===============================
+       LOAD GAMES
+    =============================== */
 
-<div class="card">
-<div class="icon">🎮</div>
-<h3>Games</h3>
-<p id="homeGameCount">
-Loading...
-</p>
-</div>
+    async function loadGames() {
 
-<div class="card">
-<div class="icon">💰</div>
-<h3>Balance</h3>
-<p>$0.00</p>
-</div>
+      const list =
+        document.getElementById("gamesList");
 
-<div class="card">
-<div class="icon">🏆</div>
-<h3>Rank</h3>
-<p>New Player</p>
-</div>
+      const { data, error } =
+        await supabaseClient
+          .from("game")
+          .select("*")
+          .order("created_at", {
+            ascending: false
+          });
 
-</div>
 
-</div>
+      if (error) {
 
+        list.innerHTML = `
+          <div class="error">
+            Could not load games.
+          </div>
+        `;
 
-<!-- GAMES -->
+        console.error(error);
 
-<div
-id="games"
-class="page">
+        return;
+      }
 
-<div class="section">
 
-<h2>🎮 SomCity Games</h2>
+      if (!data || data.length === 0) {
 
-<div
-id="gamesList"
-class="games-list">
+        list.innerHTML = `
+          <div class="empty">
+            No games available yet.
+          </div>
+        `;
 
-<p class="empty">
-Loading games...
-</p>
+        return;
+      }
 
-</div>
 
-</div>
+      list.innerHTML = "";
 
-</div>
 
+      data.forEach(game => {
 
-<!-- PROFILE -->
+        const card =
+          document.createElement("div");
 
-<div
-id="profile"
-class="page">
+        card.className = "card";
 
-<div class="section">
 
-<h2>👤 My Profile</h2>
+        card.innerHTML = `
+          <div class="game-icon">🎮</div>
+          <h3></h3>
+          <p>Play and discover this game on SomCity.</p>
+        `;
 
-<div class="profile-row">
 
-<span>Name</span>
+        card.querySelector("h3").innerText =
+          game.games || "Unnamed Game";
 
-<strong id="profileName">
-Loading...
-</strong>
 
-</div>
+        list.appendChild(card);
 
-<div class="profile-row">
+      });
 
-<span>Email</span>
+    }
 
-<strong id="profileEmail">
-Loading...
-</strong>
 
-</div>
+    /* ===============================
+       LOAD NEWS
+    =============================== */
 
-<div class="profile-row">
+    async function loadNews() {
 
-<span>Rank</span>
+      const list =
+        document.getElementById("newsList");
 
-<strong>
-New Player
-</strong>
 
-</div>
+      const { data, error } =
+        await supabaseClient
+          .from("news")
+          .select("*")
+          .order("created_at", {
+            ascending: false
+          });
 
-<div class="profile-row">
 
-<span>Balance</span>
+      if (error) {
 
-<strong>
-$0.00
-</strong>
+        list.innerHTML = `
+          <div class="error">
+            Could not load news.
+          </div>
+        `;
 
-</div>
+        console.error(error);
 
-</div>
+        return;
+      }
 
-</div>
 
+      if (!data || data.length === 0) {
 
-<!-- SETTINGS -->
+        list.innerHTML = `
+          <div class="empty">
+            No news available yet.
+          </div>
+        `;
 
-<div
-id="settings"
-class="page">
+        return;
+      }
 
-<div class="section">
 
-<h2>⚙️ Settings</h2>
+      list.innerHTML = "";
 
 
-<div class="setting">
+      data.forEach(news => {
 
-<h3>👤 Change Name</h3>
+        const card =
+          document.createElement("div");
 
-<p>
-Change your SomCity display name.
-</p>
+        card.className = "card";
 
-<input
-id="newName"
-type="text"
-placeholder="New name">
+        card.style.marginBottom = "12px";
 
-<button
-class="small"
-onclick="changeName()">
-Save Name
-</button>
 
-</div>
+        const title =
+          document.createElement("h3");
 
+        title.innerText =
+          "📰 " + (news.title || "News");
 
-<div class="setting">
 
-<h3>🔑 Change Password</h3>
+        const content =
+          document.createElement("p");
 
-<p>
-Password must contain at least 6 characters.
-</p>
+        content.innerText =
+          news.content || "";
 
-<input
-id="newPassword"
-type="password"
-placeholder="New password">
 
-<button
-class="small"
-onclick="changePassword()">
-Change Password
-</button>
+        const date =
+          document.createElement("div");
 
-</div>
+        date.className = "date";
 
 
-<div class="setting">
+        if (news.created_at) {
 
-<h3>🌙 Appearance</h3>
+          date.innerText =
+            new Date(news.created_at)
+              .toLocaleString();
 
-<p>
-Change between dark and light mode.
-</p>
+        }
 
-<button
-class="small"
-onclick="toggleTheme()">
-Dark / Light
-</button>
 
-</div>
+        card.appendChild(title);
+        card.appendChild(content);
+        card.appendChild(date);
 
+        list.appendChild(card);
 
-<div class="setting">
+      });
 
-<h3>🚪 Account</h3>
+    }
 
-<p>
-Sign out of your SomCity account.
-</p>
 
-<button
-class="small danger"
-onclick="logout()">
-Logout
-</button>
+    /* ===============================
+       START
+    =============================== */
 
-</div>
+    loadGames();
+    loadNews();
 
-</div>
-
-</div>
-
-</main>
-
-</div>
-
-
-<script>
-
-/* =========================
-SUPABASE
-========================= */
-
-const SUPABASE_URL =
-"https://ayaaiycdzuzxcouybknc.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_RGaGCj_L5Mc548GoyJHp-w_0ee65lBC";
-
-const supabaseClient =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-
-let signupMode=false;
-
-
-/* =========================
-LOGIN / SIGNUP SWITCH
-========================= */
-
-function switchMode(){
-
-signupMode=!signupMode;
-
-const name=document.getElementById("name");
-const subtitle=document.getElementById("subtitle");
-const button=document.getElementById("authButton");
-const text=document.getElementById("switchText");
-const switchButton=document.getElementById("switchButton");
-const message=document.getElementById("message");
-
-message.innerText="";
-
-if(signupMode){
-
-name.classList.remove("hidden");
-
-subtitle.innerText=
-"Create your SomCity account";
-
-button.innerText="Sign Up";
-
-text.innerText=
-"Already have an account?";
-
-switchButton.innerText="Login";
-
-}else{
-
-name.classList.add("hidden");
-
-subtitle.innerText=
-"Welcome to SomCity";
-
-button.innerText="Login";
-
-text.innerText=
-"Don't have an account?";
-
-switchButton.innerText="Sign Up";
-
-}
-
-}
-
-
-/* =========================
-AUTH
-========================= */
-
-async function authAction(){
-
-const name=
-document.getElementById("name").value.trim();
-
-const email=
-document.getElementById("email").value.trim();
-
-const password=
-document.getElementById("password").value;
-
-const message=
-document.getElementById("message");
-
-message.innerText="";
-
-
-if(!email || !password){
-
-message.innerText=
-"Please enter email and password.";
-
-return;
-
-}
-
-
-/* SIGN UP */
-
-if(signupMode){
-
-if(!name){
-
-message.innerText=
-"Please enter your name.";
-
-return;
-
-}
-
-if(password.length<6){
-
-message.innerText=
-"Password must be at least 6 characters.";
-
-return;
-
-}
-
-
-const {data,error}=
-await supabaseClient.auth.signUp({
-
-email:email,
-
-password:password,
-
-options:{
-data:{
-full_name:name
-}
-}
-
-});
-
-
-if(error){
-
-message.innerText=
-error.message;
-
-return;
-
-}
-
-
-if(data.session){
-
-showDashboard(data.user);
-
-}else{
-
-message.innerText=
-"Account created! Check your email.";
-
-}
-
-return;
-
-}
-
-
-/* LOGIN */
-
-const {data,error}=
-await supabaseClient.auth.signInWithPassword({
-
-email:email,
-
-password:password
-
-});
-
-
-if(error){
-
-message.innerText=
-error.message;
-
-return;
-
-}
-
-
-showDashboard(data.user);
-
-}
-
-
-/* =========================
-SHOW DASHBOARD
-========================= */
-
-async function showDashboard(user){
-
-document.getElementById("authPage")
-.style.display="none";
-
-document.getElementById("dashboard")
-.style.display="block";
-
-
-const name=
-user.user_metadata?.full_name ||
-"Player";
-
-
-document.getElementById("userName")
-.innerText=name;
-
-document.getElementById("profileName")
-.innerText=name;
-
-document.getElementById("profileEmail")
-.innerText=user.email;
-
-
-await loadGames();
-
-}
-
-
-/* =========================
-NAVIGATION
-========================= */
-
-function showPage(page,button){
-
-document.querySelectorAll(".page")
-.forEach(function(item){
-
-item.classList.remove("active");
-
-});
-
-
-document.getElementById(page)
-.classList.add("active");
-
-
-document.querySelectorAll(".nav button")
-.forEach(function(item){
-
-item.classList.remove("active");
-
-});
-
-
-button.classList.add("active");
-
-}
-
-
-/* =========================
-LOAD GAMES
-========================= */
-
-async function loadGames(){
-
-const list=
-document.getElementById("gamesList");
-
-const count=
-document.getElementById("homeGameCount");
-
-
-list.innerHTML=
-'<p class="empty">Loading games...</p>';
-
-
-const {data,error}=
-await supabaseClient
-.from("game")
-.select("id,created_at,Games")
-.order("id",{ascending:false});
-
-
-if(error){
-
-console.error(error);
-
-list.innerHTML=
-'<p class="empty">Unable to load games.</p>';
-
-count.innerText="Error";
-
-return;
-
-}
-
-
-count.innerText=
-data.length+" Games";
-
-
-if(!data.length){
-
-list.innerHTML=
-'<p class="empty">No games available yet.</p>';
-
-return;
-
-}
-
-
-list.innerHTML="";
-
-
-data.forEach(function(game){
-
-const item=
-document.createElement("div");
-
-item.className="game";
-
-
-const title=
-game.Games || "Unnamed Game";
-
-
-item.innerHTML=`
-
-<h3></h3>
-
-<p>
-Game available on SomCity
-</p>
-
-<button class="play">
-Play
-</button>
-
-`;
-
-
-item.querySelector("h3")
-.innerText=title;
-
-
-item.querySelector(".play")
-.onclick=function(){
-
-alert(
-title+" is coming soon!"
-);
-
-};
-
-
-list.appendChild(item);
-
-});
-
-}
-
-
-/* =========================
-CHANGE NAME
-========================= */
-
-async function changeName(){
-
-const newName=
-document.getElementById("newName")
-.value.trim();
-
-
-if(!newName){
-
-alert("Please enter a new name.");
-
-return;
-
-}
-
-
-const {error}=
-await supabaseClient.auth.updateUser({
-
-data:{
-full_name:newName
-}
-
-});
-
-
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-
-document.getElementById("userName")
-.innerText=newName;
-
-document.getElementById("profileName")
-.innerText=newName;
-
-document.getElementById("newName")
-.value="";
-
-
-alert(
-"Name updated successfully!"
-);
-
-}
-
-
-/* =========================
-CHANGE PASSWORD
-========================= */
-
-async function changePassword(){
-
-const password=
-document.getElementById("newPassword")
-.value;
-
-
-if(password.length<6){
-
-alert(
-"Password must be at least 6 characters."
-);
-
-return;
-
-}
-
-
-const {error}=
-await supabaseClient.auth.updateUser({
-
-password:password
-
-});
-
-
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-
-document.getElementById("newPassword")
-.value="";
-
-
-alert(
-"Password changed successfully!"
-);
-
-}
-
-
-/* =========================
-THEME
-========================= */
-
-function toggleTheme(){
-
-document.body.classList.toggle("light");
-
-const isLight=
-document.body.classList.contains("light");
-
-localStorage.setItem(
-"somcity-theme",
-isLight?"light":"dark"
-);
-
-}
-
-
-if(
-localStorage.getItem("somcity-theme")
-==="light"
-){
-
-document.body.classList.add("light");
-
-}
-
-
-/* =========================
-LOGOUT
-========================= */
-
-async function logout(){
-
-await supabaseClient.auth.signOut();
-
-document.getElementById("dashboard")
-.style.display="none";
-
-document.getElementById("authPage")
-.style.display="flex";
-
-}
-
-
-/* =========================
-CHECK SESSION
-========================= */
-
-async function checkUser(){
-
-const {data}=
-await supabaseClient.auth.getSession();
-
-if(data.session){
-
-showDashboard(
-data.session.user
-);
-
-}
-
-}
-
-
-checkUser();
-
-</script>
+  </script>
 
 </body>
-  </html>
+</html>
