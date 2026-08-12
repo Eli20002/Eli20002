@@ -4,477 +4,505 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GameZone | Official Gaming Website</title>
+  <title>GameZone</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      background: #060912;
-      color: white;
-    }
-
-    /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background: rgba(8, 13, 25, 0.96);
-      backdrop-filter: blur(10px);
-      padding: 18px 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .logo span {
-      color: #38bdf8;
-    }
-
-    nav {
-      display: flex;
-      gap: 22px;
-    }
-
-    nav a {
-      color: #e2e8f0;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #38bdf8;
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 88vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-
-      background:
-        linear-gradient(
-          rgba(2, 6, 23, 0.70),
-          rgba(2, 6, 23, 0.96)
-        ),
-        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=80");
-
-      background-size: cover;
-      background-position: center;
-    }
-
-    .hero-content {
-      max-width: 850px;
-    }
-
-    .hero h1 {
-      font-size: 65px;
-      margin-bottom: 20px;
-      line-height: 1.1;
-    }
-
-    .hero h1 span {
-      color: #38bdf8;
-    }
-
-    .hero p {
-      color: #cbd5e1;
-      font-size: 19px;
-      line-height: 1.7;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    /* BUTTONS */
-    .buttons {
-      margin-top: 35px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 15px 30px;
-      margin: 6px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      color: white;
-      background: #2563eb;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-    }
-
-    .btn-dark {
-      background: #1e293b;
-    }
-
-    .btn-dark:hover {
-      background: #334155;
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 80px 7%;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 38px;
-      margin-bottom: 45px;
-    }
-
-    /* GAMES */
-    .games {
-      max-width: 1150px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-    }
-
-    .game-card {
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 18px;
-      overflow: hidden;
-      transition: 0.3s;
-    }
-
-    .game-card:hover {
-      transform: translateY(-7px);
-      border-color: #2563eb;
-    }
-
-    .game-image {
-      height: 190px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 70px;
-      background: linear-gradient(135deg, #172554, #0f172a);
-    }
-
-    .game-content {
-      padding: 25px;
-    }
-
-    .game-content h3 {
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-
-    .game-content p {
-      color: #94a3b8;
-      line-height: 1.6;
-      margin-bottom: 10px;
-    }
-
-    /* ABOUT */
-    .about {
+      min-height: 100vh;
       background: #0b1220;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      width: 90%;
+      max-width: 400px;
+      background: #151f32;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.4);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .sub {
+      text-align: center;
+      color: #9ca8bb;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid #334158;
+      border-radius: 8px;
+      background: #0d1627;
+      color: white;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #4285ff;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #4285ff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 20px;
+      color: #9ca8bb;
+    }
+
+    .switch span {
+      color: #4285ff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .dashboard {
+      display: none;
       text-align: center;
     }
 
-    .about-content {
-      max-width: 800px;
-      margin: auto;
+    .dashboard h2 {
+      margin-bottom: 15px;
     }
 
-    .about p {
-      color: #94a3b8;
-      font-size: 17px;
-      line-height: 1.8;
+    .user-email {
+      color: #4285ff;
+      margin-bottom: 25px;
     }
 
-    /* DOWNLOAD */
-    .download {
-      text-align: center;
-      background: linear-gradient(135deg, #111827, #172554);
+    .logout {
+      background: #e53935;
     }
 
-    .download p {
-      color: #cbd5e1;
-      margin-bottom: 20px;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #030712;
-      text-align: center;
-      padding: 30px 20px;
-      color: #64748b;
-      border-top: 1px solid #1e293b;
-    }
-
-    /* MOBILE */
-    @media (max-width: 750px) {
-
-      header {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-      }
-
-      nav a {
-        font-size: 13px;
-      }
-
-      .hero h1 {
-        font-size: 43px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      section {
-        padding: 60px 20px;
-      }
-
-      .section-title {
-        font-size: 30px;
-      }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 
-
 <body>
 
-  <!-- NAVIGATION -->
-  <header>
+  <div class="box">
 
-    <div class="logo">
-      🎮 Game<span>Zone</span>
-    </div>
+    <!-- LOGIN / SIGN UP -->
+    <div id="authBox">
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="game.html">Game</a>
-      <a href="news.html">News</a>
-      <a href="missions.html">Missions</a>
-      <a href="download.html">Download</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html">Login</a>
-    </nav>
+      <h1 id="title">Login</h1>
 
-  </header>
-
-
-  <!-- HERO -->
-  <section class="hero" id="home">
-
-    <div class="hero-content">
-
-      <h1>
-        Welcome to <span>GameZone</span>
-      </h1>
-
-      <p>
-        Enter a new world of gaming, adventure,
-        missions and competition. Discover games,
-        complete challenges and become the best player.
+      <p class="sub" id="subtitle">
+        Login to your GameZone account
       </p>
 
-      <div class="buttons">
+      <input
+        type="text"
+        id="name"
+        class="hidden"
+        placeholder="Your name"
+      >
 
-        <a href="game.html" class="btn">
-          🎮 START GAME
-        </a>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email address"
+      >
 
-        <a href="#games" class="btn btn-dark">
-          🔥 EXPLORE GAMES
-        </a>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
 
+      <button id="authButton" onclick="authAction()">
+        Login
+      </button>
+
+      <div id="message"></div>
+
+      <div class="switch">
+        <span id="switchText">
+          Don't have an account?
+        </span>
+
+        <span onclick="switchMode()" id="switchButton">
+          Sign Up
+        </span>
       </div>
 
     </div>
 
-  </section>
 
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="dashboard">
 
-  <!-- FEATURED GAMES -->
-  <section id="games">
+      <h2>Welcome to GameZone 🎮</h2>
 
-    <h2 class="section-title">
-      🔥 Featured Games
-    </h2>
-
-    <div class="games">
-
-      <div class="game-card">
-
-        <div class="game-image">
-          🌍
-        </div>
-
-        <div class="game-content">
-
-          <h3>GameZone Adventure</h3>
-
-          <p>
-            Explore a huge world, discover new
-            locations and complete exciting missions.
-          </p>
-
-          <a href="game.html" class="btn">
-            PLAY NOW
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <div class="game-card">
-
-        <div class="game-image">
-          🚗
-        </div>
-
-        <div class="game-content">
-
-          <h3>Street Racing</h3>
-
-          <p>
-            Drive fast cars, compete with other
-            players and become the best racer.
-          </p>
-
-          <a href="game.html" class="btn">
-            PLAY NOW
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <div class="game-card">
-
-        <div class="game-image">
-          ⚔️
-        </div>
-
-        <div class="game-content">
-
-          <h3>Battle World</h3>
-
-          <p>
-            Complete challenging missions and
-            experience exciting gameplay.
-          </p>
-
-          <a href="game.html" class="btn">
-            PLAY NOW
-          </a>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ABOUT -->
-  <section class="about" id="about">
-
-    <div class="about-content">
-
-      <h2 class="section-title">
-        🌍 About GameZone
-      </h2>
+      <p class="user-email" id="userEmail"></p>
 
       <p>
-        GameZone is a gaming platform created for
-        players who love adventure, competition
-        and exciting gaming experiences.
+        You are successfully logged in.
       </p>
 
       <br>
 
-      <p>
-        Explore games, complete missions, follow
-        updates and compete on the leaderboard.
-      </p>
-
-      <a href="about.html" class="btn">
-        LEARN MORE
-      </a>
+      <button class="logout" onclick="logout()">
+        Logout
+      </button>
 
     </div>
 
-  </section>
+  </div>
 
 
-  <!-- DOWNLOAD -->
-  <section class="download" id="download">
+<script>
 
-    <h2 class="section-title">
-      📱 Download GameZone
-    </h2>
+  // =====================================
+  // SUPABASE
+  // =====================================
 
-    <p>
-      Ready to start your adventure?
-      Download GameZone and start playing.
-    </p>
+  const SUPABASE_URL =
+    "https://alkqucmjfzzdseqegcmg.supabase.co";
 
-    <a href="download.html" class="btn">
-      📥 DOWNLOAD GAME
-    </a>
+  const SUPABASE_KEY =
+    "sb_publishable_jMs8onilE4SFfDZQk1-_ag_imMUIJXj";
 
-  </section>
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
 
-  <!-- FOOTER -->
-  <footer>
+  // =====================================
+  // LOGIN / SIGN UP MODE
+  // =====================================
 
-    <p>
-      © 2026 GameZone — All Rights Reserved.
-    </p>
+  let signupMode = false;
 
-  </footer>
+
+  // =====================================
+  // SWITCH
+  // =====================================
+
+  function switchMode() {
+
+    signupMode = !signupMode;
+
+    const title =
+      document.getElementById("title");
+
+    const subtitle =
+      document.getElementById("subtitle");
+
+    const name =
+      document.getElementById("name");
+
+    const button =
+      document.getElementById("authButton");
+
+    const switchText =
+      document.getElementById("switchText");
+
+    const switchButton =
+      document.getElementById("switchButton");
+
+    const message =
+      document.getElementById("message");
+
+    message.innerText = "";
+
+    if (signupMode) {
+
+      title.innerText = "Create Account";
+
+      subtitle.innerText =
+        "Create your GameZone account";
+
+      name.classList.remove("hidden");
+
+      button.innerText = "Sign Up";
+
+      switchText.innerText =
+        "Already have an account?";
+
+      switchButton.innerText =
+        "Login";
+
+    } else {
+
+      title.innerText = "Login";
+
+      subtitle.innerText =
+        "Login to your GameZone account";
+
+      name.classList.add("hidden");
+
+      button.innerText = "Login";
+
+      switchText.innerText =
+        "Don't have an account?";
+
+      switchButton.innerText =
+        "Sign Up";
+    }
+  }
+
+
+  // =====================================
+  // AUTH
+  // =====================================
+
+  async function authAction() {
+
+    const name =
+      document.getElementById("name").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const message =
+      document.getElementById("message");
+
+    message.innerText = "";
+
+    if (!email || !password) {
+
+      message.innerText =
+        "Please enter email and password.";
+
+      return;
+    }
+
+
+    // =====================================
+    // SIGN UP
+    // =====================================
+
+    if (signupMode) {
+
+      if (!name) {
+
+        message.innerText =
+          "Please enter your name.";
+
+        return;
+      }
+
+      if (password.length < 6) {
+
+        message.innerText =
+          "Password must be at least 6 characters.";
+
+        return;
+      }
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+
+          email: email,
+
+          password: password,
+
+          options: {
+
+            data: {
+              full_name: name
+            }
+
+          }
+
+        });
+
+
+      if (error) {
+
+        message.innerText =
+          error.message;
+
+        return;
+      }
+
+
+      // User already logged in
+      if (data.session) {
+
+        showDashboard(data.user);
+
+      } else {
+
+        message.innerText =
+          "Account created successfully!";
+
+        switchMode();
+      }
+
+      return;
+    }
+
+
+    // =====================================
+    // LOGIN
+    // =====================================
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email: email,
+
+        password: password
+
+      });
+
+
+    if (error) {
+
+      message.innerText =
+        error.message;
+
+      return;
+    }
+
+
+    showDashboard(data.user);
+
+  }
+
+
+  // =====================================
+  // DASHBOARD
+  // =====================================
+
+  function showDashboard(user) {
+
+    document.getElementById("authBox")
+      .style.display = "none";
+
+    document.getElementById("dashboard")
+      .style.display = "block";
+
+    document.getElementById("userEmail")
+      .innerText = user.email;
+
+  }
+
+
+  // =====================================
+  // LOGOUT
+  // =====================================
+
+  async function logout() {
+
+    const { error } =
+      await supabaseClient.auth.signOut();
+
+
+    if (error) {
+
+      alert(error.message);
+
+      return;
+    }
+
+
+    document.getElementById("dashboard")
+      .style.display = "none";
+
+    document.getElementById("authBox")
+      .style.display = "block";
+
+    document.getElementById("email")
+      .value = "";
+
+    document.getElementById("password")
+      .value = "";
+
+    document.getElementById("name")
+      .value = "";
+
+  }
+
+
+  // =====================================
+  // CHECK SESSION
+  // =====================================
+
+  async function checkUser() {
+
+    const { data } =
+      await supabaseClient.auth.getSession();
+
+
+    if (data.session) {
+
+      showDashboard(
+        data.session.user
+      );
+
+    }
+
+  }
+
+
+  // =====================================
+  // AUTH STATE CHANGE
+  // =====================================
+
+  supabaseClient.auth.onAuthStateChange(
+    (event, session) => {
+
+      if (session) {
+
+        showDashboard(session.user);
+
+      }
+
+    }
+  );
+
+
+  // Start
+  checkUser();
+
+</script>
 
 </body>
 </html>
-<nav>
-  <a href="index.html">🏠 Home</a>
-  <a href="game.html">🎮 Game</a>
-  <a href="news.html">📰 News</a>
-  <a href="missions.html">🏆 Missions</a>
-  <a href="download.html">📱 Download</a>
-  <a href="login.html">🔐 Login</a>
-  <a href="profile.html">👤 Profile</a>
-</nav>
