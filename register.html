@@ -63,6 +63,11 @@
       border-radius: 9px;
       background: #0f172a;
       color: white;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #38bdf8;
     }
 
     button {
@@ -78,15 +83,21 @@
       cursor: pointer;
     }
 
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
+    }
+
     #message {
       text-align: center;
       margin-top: 18px;
-      color: #38bdf8;
+      line-height: 1.5;
     }
 
     .links {
       text-align: center;
       margin-top: 20px;
+      line-height: 2;
     }
 
     a {
@@ -116,6 +127,8 @@
         id="username"
         type="text"
         placeholder="Choose username"
+        minlength="3"
+        maxlength="30"
         required
       >
 
@@ -124,7 +137,7 @@
       <input
         id="email"
         type="email"
-        placeholder="Enter email"
+        placeholder="Enter your email"
         required
       >
 
@@ -138,7 +151,7 @@
         required
       >
 
-      <button type="submit">
+      <button id="registerButton" type="submit">
         🚀 CREATE ACCOUNT
       </button>
 
@@ -147,14 +160,14 @@
     <div id="message"></div>
 
     <div class="links">
+
       <p>
         Already have an account?
         <a href="login.html">Login</a>
       </p>
 
-      <br>
-
       <a href="index.html">🏠 Back Home</a>
+
     </div>
 
   </div>
@@ -166,6 +179,7 @@
 
     const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
 
+
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
@@ -173,39 +187,122 @@
       );
 
 
-    document
-      .getElementById("registerForm")
-      .addEventListener("submit", async function(event) {
+    const form =
+      document.getElementById("registerForm");
+
+    const button =
+      document.getElementById("registerButton");
+
+    const message =
+      document.getElementById("message");
+
+
+    form.addEventListener(
+      "submit",
+      async function(event) {
 
         event.preventDefault();
 
+
         const username =
-          document.getElementById("username").value.trim();
+          document
+            .getElementById("username")
+            .value
+            .trim();
 
         const email =
-          document.getElementById("email").value.trim();
+          document
+            .getElementById("email")
+            .value
+            .trim();
 
         const password =
-          document.getElementById("password").value;
-
-        const message =
-          document.getElementById("message");
-
-
-        message.textContent = "Creating account...";
+          document
+            .getElementById("password")
+            .value;
 
 
-        const { data, error } =
-          await supabaseClient.auth.signUp({
-            email: email,
-            password: password
-          });
+        if (username.length < 3) {
+
+          message.textContent =
+            "❌ Username must be at least 3 characters.";
+
+          return;
+        }
+
+
+        button.disabled = true;
+
+        button.textContent =
+          "Creating account...";
+
+        message.textContent = "";
+
+
+        /*
+          Check whether username already exists.
+        */
+
+        const {
+          data: existingUser,
+          error: usernameError
+        } = await supabaseClient
+          .from("profiles")
+          .select("id")
+          .eq("username", username)
+          .maybeSingle();
+
+
+        if (usernameError) {
+
+          message.textContent =
+            "❌ " + usernameError.message;
+
+          button.disabled = false;
+
+          button.textContent =
+            "🚀 CREATE ACCOUNT";
+
+          return;
+        }
+
+
+        if (existingUser) {
+
+          message.textContent =
+            "❌ Username already exists.";
+
+          button.disabled = false;
+
+          button.textContent =
+            "🚀 CREATE ACCOUNT";
+
+          return;
+        }
+
+
+        /*
+          Create Supabase Auth account.
+        */
+
+        const {
+          data,
+          error
+        } = await supabaseClient.auth.signUp({
+          email: email,
+          password: password
+        });
 
 
         if (error) {
 
           message.textContent =
             "❌ " + error.message;
+
+          button.disabled = false;
+
+          button.textContent =
+            "🚀 CREATE ACCOUNT";
 
           return;
         }
@@ -216,41 +313,77 @@
           message.textContent =
             "❌ Account could not be created.";
 
+          button.disabled = false;
+
+          button.textContent =
+            "🚀 CREATE ACCOUNT";
+
           return;
         }
 
 
-        const { error: profileError } =
-          await supabaseClient
-            .from("profiles")
-            .insert({
-              id: data.user.id,
-              username: username
-            });
+        /*
+          Create player profile.
+        */
+
+        const {
+          error: profileError
+        } = await supabaseClient
+          .from("profiles")
+          .insert({
+            id: data.user.id,
+            username: username,
+            role: "player",
+            points: 0
+          });
 
 
         if (profileError) {
 
           message.textContent =
-            "Account created, but profile failed: "
+            "❌ Profile error: "
             + profileError.message;
+
+          button.disabled = false;
+
+          button.textContent =
+            "🚀 CREATE ACCOUNT";
 
           return;
         }
 
 
-        message.textContent =
-          "✅ Account created successfully!";
+        /*
+          Account successfully created.
+        */
 
+        if (data.session) {
 
-        document
-          .getElementById("registerForm")
-          .reset();
+          message.textContent =
+            "✅ Account created successfully!";
 
-      });
+          setTimeout(function() {
+
+            window.location.href =
+              "profile.html";
+
+          }, 1000);
+
+        } else {
+
+          message.textContent =
+            "✅ Account created! Check your email to confirm your account.";
+
+          button.disabled = false;
+
+          button.textContent =
+            "🚀 CREATE ACCOUNT";
+        }
+
+      }
+    );
 
   </script>
 
 </body>
 </html>
-      
