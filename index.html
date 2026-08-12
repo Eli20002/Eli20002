@@ -355,7 +355,83 @@
        LOAD NEWS
     =============================== */
 
-    async function loadNews() {
+    a 
+    async function loadGames() 
+
+  const list = document.getElementById("gamesList");
+
+  list.innerHTML = `
+    <div class="loading">
+      Loading games...
+    </div>
+  `;
+
+  const { data, error } = await supabaseClient
+    .from("game")
+    .select("*")
+    .order("created_at", {
+      ascending: false
+    });
+
+  console.log("GAME DATA:", data);
+  console.log("GAME ERROR:", error);
+
+  if (error) {
+
+    list.innerHTML = `
+      <div class="error">
+        ${error.message}
+      </div>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML = `
+      <div class="empty">
+        No games available yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(game => {
+
+    const gameName =
+      game.games ||
+      game.name ||
+      game.game_name ||
+      game.title ||
+      "Unnamed Game";
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="game-icon">🎮</div>
+
+      <h3></h3>
+
+      <p>
+        Play and discover this game on SomCity.
+      </p>
+    `;
+
+    card.querySelector("h3").innerText =
+      gameName;
+
+    list.appendChild(card);
+
+  });
+
+    }
 
       const list =
         document.getElementById("newsList");
