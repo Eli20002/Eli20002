@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Creator Dashboard | GameZone</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #070b12;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #111827;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    .creator {
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 50px 7%;
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 35px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #1e293b;
+      border-radius: 15px;
+      padding: 25px;
+    }
+
+    .card h2 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    #message {
+      margin-top: 25px;
+      padding: 15px;
+      background: #111827;
+      border-radius: 10px;
+      color: #38bdf8;
+    }
+
+    .logout {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background: #dc2626;
+      border: 0;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    🎮 Game<span>Zone</span>
+  </div>
+
+  <div class="creator">
+    👑 Creator Dashboard
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <h1>Welcome, Creator 👑</h1>
+
+  <p class="subtitle">
+    Manage your GameZone website from here.
+  </p>
+
+
+  <section class="grid">
+
+    <div class="card">
+
+      <h2>📰 News</h2>
+
+      <p>
+        Create and manage GameZone news
+        and announcements.
+      </p>
+
+      <a href="news.html" class="btn">
+        Manage News
+      </a>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>🏆 Missions</h2>
+
+      <p>
+        Manage missions and player rewards.
+      </p>
+
+      <a href="missions.html" class="btn">
+        Manage Missions
+      </a>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>👥 Players</h2>
+
+      <p>
+        View the player system and
+        leaderboard.
+      </p>
+
+      <a href="profile.html" class="btn">
+        View Players
+      </a>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>🎮 Game</h2>
+
+      <p>
+        Open the GameZone game page
+        and check your website.
+      </p>
+
+      <a href="game.html" class="btn">
+        Open Game
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <div id="message">
+    Checking creator permission...
+  </div>
+
+
+  <button class="logout" id="logout">
+    🚪 Logout
+  </button>
+
+</main>
+
+
+<script>
+
+  const SUPABASE_URL = "YOUR_PROJECT_URL";
+
+  const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  async function checkCreator() {
+
+    const {
+      data: {
+        user
+      }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+      window.location.href =
+        "login.html";
+
+      return;
+    }
+
+
+    const {
+      data: profile,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("username, role")
+      .eq("id", user.id)
+      .single();
+
+
+    if (error || !profile) {
+
+      document.getElementById("message")
+        .textContent =
+        "❌ Profile not found.";
+
+      return;
+    }
+
+
+    if (profile.role !== "creator") {
+
+      document.getElementById("message")
+        .textContent =
+        "🚫 Access denied. Creator permission required.";
+
+      setTimeout(function() {
+
+        window.location.href =
+          "index.html";
+
+      }, 2000);
+
+      return;
+    }
+
+
+    document.getElementById("message")
+      .textContent =
+      "✅ Creator permission verified. Welcome "
+      + profile.username
+      + "!";
+
+  }
+
+
+  document
+    .getElementById("logout")
+    .addEventListener("click", async function() {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+    });
+
+
+  checkCreator();
+
+</script>
+
+</body>
+</html>
